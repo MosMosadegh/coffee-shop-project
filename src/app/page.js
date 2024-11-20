@@ -5,15 +5,15 @@ import Banner from "@/components/templates/index/banner/Banner";
 import Latest from "@/components/templates/index/latest/Latest";
 import Promote from "@/components/templates/index/promote/Promote";
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <Navbar />
       <Banner />
       <Latest />
-      <Promote/>
-      <Articles/>
-      <Footer/>
+      <Promote />
+      <Articles />
+      <Footer />
     </>
   );
 }

@@ -2,6 +2,7 @@ import AOSInit from "@/utils/aos";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import ScrollToTop from "@/utils/ScrollToTop";
+import Navbar from "@/components/modules/navbar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 

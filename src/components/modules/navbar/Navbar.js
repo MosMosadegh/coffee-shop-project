@@ -7,7 +7,25 @@ import { FaShoppingCart, FaRegHeart } from "react-icons/fa";
 
 function Navbar() {
   const [fixTop, setFixTop] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState({});
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const response = await fetch("/api/auth/isLogin", {
+        method: "GET",
+        credentials: "include", // برای ارسال کوکی‌ها
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setIsLoggedIn(data.isAuthenticated);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
 
   useEffect(() => {
     const fixNavbarToTop = () => {
@@ -22,7 +40,7 @@ function Navbar() {
     return () => window.removeEventListener("scroll", fixNavbarToTop);
   }, []);
   return (
-    <div className="">
+    <div className="sticky top-0 z-50">
       <nav className={fixTop ? styles.navbar_fixed : styles.navbar}>
         <main>
           <div>
@@ -50,7 +68,7 @@ function Navbar() {
             <li>
               <Link href="/rules">قوانین</Link>
             </li>
-            {!isLogin ? (
+            {!isLoggedIn ? (
               <li>
                 <Link href="/login-register">ورود / عضویت</Link>
               </li>
@@ -60,7 +78,8 @@ function Navbar() {
                 <div className={styles.dropdown}>
                   <Link href="/p-user">
                     <IoIosArrowDown className={styles.dropdown_icons} />
-                    حساب کاربری
+                    {isLoggedIn.name} - حساب کاربری
+                    {/* حساب کاربری  */}
                   </Link>
                   <div className={styles.dropdown_content}>
                     <Link href="/p-user/orders">سفارشات</Link>
