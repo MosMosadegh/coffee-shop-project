@@ -13,7 +13,7 @@ export default async function Home() {
       <Latest />
       <Promote />
       <Articles />
-      <Footer />
+      
     </>
   );
 }

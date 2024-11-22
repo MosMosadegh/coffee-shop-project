@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import ScrollToTop from "@/utils/ScrollToTop";
 import Navbar from "@/components/modules/navbar/Navbar";
+import Footer from "@/components/modules/footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,8 +20,10 @@ export default function RootLayout({ children }) {
     <html lang="fa">
       <body className={inter.className}>
         <AOSInit />
+        <Navbar />
         {children}
         <ScrollToTop />
+        <Footer />
       </body>
     </html>
   );

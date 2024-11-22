@@ -17,22 +17,19 @@ function Baner() {
       <Swiper
         rewind={true}
         loop={true}
-        autoplay={{delay: 1500}}
+        autoplay={{ delay: 1500 }}
         navigation={true}
         modules={[Navigation, Autoplay]}
         className="mySwiper home-slider"
       >
         <SwiperSlide className="swiper-slide-contents animated fadeInDown">
-          <img src="images/blog-1.png" alt="" />
+          <img src="images/fall.jpg" alt="" />
         </SwiperSlide>
         <SwiperSlide className="swiper-slide-contents animated fadeInDown">
-          <img src="images/blog-2.png" alt="" />
+          <img src="images/slide.jpg" alt="" />
         </SwiperSlide>
         <SwiperSlide className="swiper-slide-contents animated fadeInDown">
-          <img src="images/blog-3.png" alt="" />
-        </SwiperSlide>
-        <SwiperSlide className="swiper-slide-contents animated fadeInDown">
-          <img src="images/blog-4.png" alt="" />
+          <img src="images/winter.jpg" alt="" />
         </SwiperSlide>
       </Swiper>
     </div>

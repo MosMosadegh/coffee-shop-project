@@ -4,29 +4,12 @@ import styles from "./Nabvar.module.css";
 import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaShoppingCart, FaRegHeart } from "react-icons/fa";
+// import { isLogin } from "@/utils/isLogin";
 
 function Navbar() {
   const [fixTop, setFixTop] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState({});
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const response = await fetch("/api/auth/isLogin", {
-        method: "GET",
-        credentials: "include", // برای ارسال کوکی‌ها
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setIsLoggedIn(data.isAuthenticated);
-      } else {
-        setIsLoggedIn(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
-
+  // const isLoggedIn = isLogin();
+  const isLoggedIn= true
   useEffect(() => {
     const fixNavbarToTop = () => {
       const currentScroll = window.scrollY;
@@ -78,7 +61,7 @@ function Navbar() {
                 <div className={styles.dropdown}>
                   <Link href="/p-user">
                     <IoIosArrowDown className={styles.dropdown_icons} />
-                    {isLoggedIn.name} - حساب کاربری
+                    {isLoggedIn} - حساب کاربری
                     {/* حساب کاربری  */}
                   </Link>
                   <div className={styles.dropdown_content}>

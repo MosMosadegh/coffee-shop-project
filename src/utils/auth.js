@@ -1,9 +1,6 @@
 import { compare, hash } from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
 
-
-
-
 const hashPassword = async (password) => {
   const hashedPassword = await hash(password, 12);
   return hashedPassword;
@@ -55,9 +52,6 @@ const validatePassword = (password) => {
   return pattern.test(password);
 };
 
- 
-
-
 export {
   hashPassword,
   generateAccessToken,
@@ -67,5 +61,4 @@ export {
   validateEmail,
   validatePhone,
   validatePassword,
- 
 };
