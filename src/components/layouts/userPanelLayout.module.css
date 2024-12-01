@@ -1,0 +1,16 @@
+.layout {
+  background: rgb(255, 255, 255);
+  width: 100%;
+  direction: rtl;
+  height: 615px;
+  color: black;
+
+  margin-bottom: 250px;
+}
+
+.contents {
+  width: 100%;
+}
+.section {
+  display: flex;
+}

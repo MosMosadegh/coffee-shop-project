@@ -4,12 +4,14 @@ import styles from "./Nabvar.module.css";
 import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaShoppingCart, FaRegHeart } from "react-icons/fa";
-// import { isLogin } from "@/utils/isLogin";
 
-function Navbar() {
+function Navbar({ userName }) {
   const [fixTop, setFixTop] = useState(false);
-  // const isLoggedIn = isLogin();
-  const isLoggedIn= true
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(null);
+  useEffect(() => {
+    if (userName) setIsUserLoggedIn(true);
+  }, []);
+
   useEffect(() => {
     const fixNavbarToTop = () => {
       const currentScroll = window.scrollY;
@@ -22,6 +24,7 @@ function Navbar() {
     window.addEventListener("scroll", fixNavbarToTop);
     return () => window.removeEventListener("scroll", fixNavbarToTop);
   }, []);
+
   return (
     <div className="sticky top-0 z-50">
       <nav className={fixTop ? styles.navbar_fixed : styles.navbar}>
@@ -51,7 +54,7 @@ function Navbar() {
             <li>
               <Link href="/rules">قوانین</Link>
             </li>
-            {!isLoggedIn ? (
+            {!isUserLoggedIn ? (
               <li>
                 <Link href="/login-register">ورود / عضویت</Link>
               </li>
@@ -61,7 +64,7 @@ function Navbar() {
                 <div className={styles.dropdown}>
                   <Link href="/p-user">
                     <IoIosArrowDown className={styles.dropdown_icons} />
-                    {isLoggedIn} - حساب کاربری
+                    {userName} - حساب کاربری
                     {/* حساب کاربری  */}
                   </Link>
                   <div className={styles.dropdown_content}>

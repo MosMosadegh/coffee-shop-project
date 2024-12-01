@@ -6,7 +6,11 @@ import Sms from "./Sms";
 import { showSwal } from "@/utils/helpers";
 import { validateEmail, validatePassword } from "@/utils/auth";
 
+
+
+
 const Login = ({ showRegisterForm }) => {
+
   const [isLoginWithOtp, setIsLoginWithOtp] = useState(false);
   const [phoneOrEmail, SetPhoneOrEmail] = useState("");
   const [password, SetPassword] = useState("");
@@ -46,11 +50,14 @@ const Login = ({ showRegisterForm }) => {
     if (res.status === 200) {
       SetPhoneOrEmail("");
       SetPassword("");
-      showSwal(
-        "شما با موفقیت وارد حساب خود شدید",
-        "success",
-        "ورود به پنل کاربری"
-      );
+      swal({
+        title: "شما با موفقیت وارد حساب خود شدید",
+        icon: "success",
+        buttons: "ورود به پنل کاربری",
+      }).then(()=>{
+        location.replace("/p-user")
+      })
+      
     } else if (res.status === 422 || res.status === 401) {
       showSwal("کاربری با این اطلاعت یافت نشد", "error", "تلاش مجدد");
     } else if (res.status === 419) {

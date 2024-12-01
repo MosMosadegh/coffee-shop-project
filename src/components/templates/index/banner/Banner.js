@@ -29,7 +29,7 @@ function Baner() {
           <img src="images/slide.jpg" alt="" />
         </SwiperSlide>
         <SwiperSlide className="swiper-slide-contents animated fadeInDown">
-          <img src="images/winter.jpg" alt="" />
+          <img src="images/winter-slie.jpg" alt="" />
         </SwiperSlide>
       </Swiper>
     </div>

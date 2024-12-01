@@ -15,7 +15,7 @@ const commentSchema = Joi.object({
 
 export async function POST(req) {
   try {
-    await connectToDb();
+    connectToDb();
     const regBody = await req.json();
 
     const { error } = commentSchema.validate(regBody);
@@ -43,7 +43,7 @@ export async function POST(req) {
         $push: {
             comments: comment._id
         }
-    })
+    }).lean()
 
     return Response.json(
       { message: "Comment Create successfully", data: comment },
@@ -55,7 +55,7 @@ export async function POST(req) {
 }
 
 export async function GET() {
- const comments = await CommentModel.find({}, '-__v')
+ const comments = await CommentModel.find({}, '-__v').lean()
  return Response.json(comments)
 
 }

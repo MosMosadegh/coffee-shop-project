@@ -4,7 +4,7 @@
   justify-content: center;
   flex-direction: row-reverse;
   gap: 6px;
-  padding-bottom: 3.8rem;
+  padding-bottom: 1.0rem;
 }
 .active_step {
   opacity: 1 !important;
@@ -13,9 +13,9 @@
   background-image: url(https://set-coffee.com/wp-content/uploads/2022/06/back1.jpg);
   background-size: cover;
   background-position: center center;
-  margin-bottom: 40px;
+  margin-bottom: 0px;
   padding: 0 60px;
-  padding-top: 182px;
+  padding-top: 132px;
 }
 .breadcrumb div p,
 .breadcrumb div a {

@@ -21,7 +21,7 @@ const CommentForm = ({ productID }) => {
       score,
       productID,
     };
-    console.log("first", comment)
+  
     const res = await fetch("/api/comment", {
       method: "POST",
       headers: {
@@ -29,7 +29,7 @@ const CommentForm = ({ productID }) => {
       },
       body: JSON.stringify(comment),
     });
-    console.log("RES", res)
+  
     if (res.status === 201) {
       setUserName("");
       setEmail("");

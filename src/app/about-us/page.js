@@ -70,7 +70,6 @@ const page = async () => {
         </main>
       </div>
 
-      <Footer />
     </>
   );
 };

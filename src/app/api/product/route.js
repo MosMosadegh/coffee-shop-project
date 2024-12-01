@@ -3,7 +3,7 @@ import ProductModel from "@/models/Product";
 
 export async function POST(req) {
   try {
-    await connectToDb();
+    connectToDb();
     const body = await req.json();
     const {
       name,
@@ -37,7 +37,7 @@ export async function POST(req) {
 }
 
 export async function GET() {
- const products = await ProductModel.find({}, '-__v').populate("comments")
+ const products = await ProductModel.find({}, '-__v').populate("comments").lean()
  return Response.json(products)
 
 }

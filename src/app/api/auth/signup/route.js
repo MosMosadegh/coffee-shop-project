@@ -9,7 +9,7 @@ import { rolls } from "@/utils/constants";
 
 export async function POST(req) {
   try {
-    await connectToDb();
+    connectToDb();
     const body = await req.json();
 
     const { name, phone,email, password } = body;
@@ -40,7 +40,7 @@ export async function POST(req) {
 
     const isUserExist = await UserModel.findOne({
         $or: [{ name }, { phone }],
-    });
+    }).lean();
     
     if (isUserExist) {
       return Response.json(
@@ -49,7 +49,7 @@ export async function POST(req) {
       );
     }
     if (email) {
-        const isEmailExist = await UserModel.findOne({ email });
+        const isEmailExist = await UserModel.findOne({ email }).lean();
         if (isEmailExist) {
             return Response.json(
                 { message: "This email already exists" },
@@ -62,7 +62,7 @@ export async function POST(req) {
     const accessToken = generateAccessToken({ phone });
     
     //first user is admin
-    const users = await UserModel.find({});
+    const users = await UserModel.find({}).lean();
     
     await UserModel.create({
         name,

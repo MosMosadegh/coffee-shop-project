@@ -31,7 +31,7 @@ const schema = new mongoose.Schema(
       immutable: false,
     },
     productID: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: "Product",
     },
   },

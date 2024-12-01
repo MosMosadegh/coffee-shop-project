@@ -4,6 +4,7 @@ import { FaRegStar, FaStar } from "react-icons/fa";
 import { CiSearch, CiHeart } from "react-icons/ci";
 
 const Card = ({ name, price, score }) => {
+
   return (
     <div className={styles.card}>
       <div className={styles.details_container}>
@@ -27,12 +28,14 @@ const Card = ({ name, price, score }) => {
       <div className={styles.details}>
         <Link href={"/"}>{name}</Link>
         <div className="flex justify-center">
-          {score && new Array(score).fill(0).map((item, index) => (
-            <FaStar key={index} />
-          ))}
-          {score && new Array(5 - score).fill(0).map((item, index) => (
-            <FaRegStar key={index} />
-          ))}
+          {score &&
+            new Array(score)
+              .fill(0)
+              .map((item, index) => <FaStar key={index} />)}
+          {score &&
+            new Array(5 - score)
+              .fill(0)
+              .map((item, index) => <FaRegStar key={index} />)}
         </div>
         <span>{price?.toLocaleString()} تومان</span>
       </div>

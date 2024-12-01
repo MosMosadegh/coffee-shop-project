@@ -1,28 +1,20 @@
-"use client";
+import { cookies } from "next/headers";
+import UserModel from "@/models/User";
 import connectToDb from "@/configs/db";
-import React, { useEffect, useState } from "react";
+import { verifyAccessToken } from "./auth";
 
-export const isLogin = async () => {
-  await connectToDb
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+export const authUser = async () => {
+  connectToDb();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const response = await fetch("/api/auth/isLogin", {
-        method: "GET",
-        credentials: "include", // برای ارسال کوکی‌ها
-      });
+  const token = cookies().get("token");
+  let user = null;
 
-      if (response.ok) {
-        const data = await response.json();
-        setIsLoggedIn(data.isAuthenticated.name);
-      } else {
-        setIsLoggedIn(false);
-      }
-    };
+  if (token) {
+    const tokenPayload = verifyAccessToken(token.value);
+    if (tokenPayload) {
+      user = await UserModel.findOne({ email: tokenPayload.email });
+    }
+  }
 
-    checkAuth();
-  }, []);
-
-  return isLoggedIn;
+  return user;
 };

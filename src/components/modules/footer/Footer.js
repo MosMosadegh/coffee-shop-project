@@ -89,7 +89,7 @@ const Footer = () => {
         </div>
       </main>
       <hr />
-      <div className="container text-white">
+      <div className="container flex justify-end items-center  text-white h-13">
         <p className={styles.copyRight}>
           {" "}
           2023

@@ -10,7 +10,7 @@ import {
 
 export async function POST(req) {
   try {
-    await connectToDb();
+    connectToDb();
     const body = await req.json();
     const { email, password } = body;
 
@@ -29,7 +29,7 @@ export async function POST(req) {
     //3-Generation Token
     //4-login
 
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }).lean();
 
     if (!user) {
       return Response.json({ message: "User not found" }, { status: 422 });
@@ -52,7 +52,7 @@ export async function POST(req) {
       $set:{
         refreshToken
       }
-    })
+    }).lean()
 
     return Response.json(
       { message: "User Logged In successfully" },
