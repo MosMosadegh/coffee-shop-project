@@ -13,6 +13,53 @@ export default function DataTable({ comments, title }) {
     showSwal(body, undefined, "بستن");
   };
 
+  const editComment = (comment) => {
+    swal({
+      title: "ویرایش کامنت",
+      content: {
+        element: "textarea",
+        attributes: {
+          placeholder: "کامنت جدید را وارد کنید",
+          value: comment.body,
+        },
+      },
+      buttons: ["لغو", "ذخیره"],
+    }).then(async (value) => {
+      if (value) {
+        const updateComment = {
+          id: comment._id,
+          body: value,
+        };
+        console.log('newCommentBody=>', value)
+        const res = await fetch("/api/comment/edit", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updateComment),
+        });
+
+        if (res.status === 200) {
+          swal({
+            title: "کامنت با موفقیت ویرایش شد",
+            icon: "success",
+            buttons: "فهمیدم",
+          }).then(() => {
+            router.refresh(); // بارگذاری مجدد صفحه برای نمایش تغییرات
+          });
+        } else {
+          swal({
+            title: "خطا در ویرایش کامنت",
+            icon: "error",
+            buttons: "فهمیدم",
+          });
+        }
+      }
+    });
+  };
+
+  const deleteComment = (commentID) => {};
+
   const acceptComment = async (commentID) => {
     const res = await fetch("/api/comment/accept", {
       method: "PUT",
@@ -61,10 +108,10 @@ export default function DataTable({ comments, title }) {
         const answer = {
           ...comment,
           body: answerText,
-          ticketID: ticket._id,
+          commentID: comment._id,
         };
-        console.log("ANSWERTICKET=>>", answer);
-        const res = await fetch("/api/ticket/answer", {
+
+        const res = await fetch("/api/comment/answer", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -139,7 +186,9 @@ export default function DataTable({ comments, title }) {
           <tbody>
             {comments.map((comment, index) => (
               <tr key={comment._id}>
-                <td className={comment.isAccept && styles.accept_btn}>{index + 1}</td>
+                <td className={comment.isAccept && styles.accept_btn}>
+                  {index + 1}
+                </td>
                 <td>{comment.userName}</td>
                 <td>{comment.email}</td>
                 <td>{comment.score}</td>
@@ -160,12 +209,24 @@ export default function DataTable({ comments, title }) {
                   </button>
                 </td>
                 <td>
-                  <button type="button" className={styles.edit_btn}>
+                  <button
+                    type="button"
+                    className={styles.edit_btn}
+                    onClick={() => {
+                      editComment(comment);
+                    }}
+                  >
                     ویرایش
                   </button>
                 </td>
                 <td>
-                  <button type="button" className={styles.delete_btn}>
+                  <button
+                    type="button"
+                    className={styles.delete_btn}
+                    onClick={() => {
+                      deleteComment(comment._id);
+                    }}
+                  >
                     حذف
                   </button>
                 </td>

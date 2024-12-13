@@ -9,11 +9,9 @@ const page = async () => {
   await connectToDb();
   const comments = await CommentModel.find({})
     .sort({ _id: -1 })
-    .populate("user")
+    .populate("user", "email, phone")
     .populate("productID", "name")
     .lean();
-
-  console.log("comments=>>", comments);
 
   return (
     <Layout>
