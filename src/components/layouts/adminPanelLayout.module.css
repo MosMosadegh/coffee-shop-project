@@ -1,0 +1,15 @@
+.layout {
+  background: white;
+  width: 100%;
+  direction: rtl;
+  height: auto;
+  color: black;
+}
+
+.contents {
+  width: 100%;
+}
+.section {
+  display: flex;
+  height: 100%;
+}

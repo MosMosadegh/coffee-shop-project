@@ -6,12 +6,12 @@ import Tickets from "@/components/templates/p-user/tickets/Tickets";
 import connectToDb from "@/configs/db";
 
 const page = async () => {
-  connectToDb();
+  await connectToDb();
   const user = await authUser();
-  const tickets = await TicketModel.find({ userID: user._id }).populate(
+  const tickets = await TicketModel.find({ user: user._id, isAnswer: false }).populate(
     "department",
     "title"
-  );
+  ).sort({_id: -1});
  
   return (
     <Layout>

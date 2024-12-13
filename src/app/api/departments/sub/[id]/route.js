@@ -4,7 +4,7 @@ import { isValidObjectId } from "mongoose";
 
 export async function GET(req, { params }) {
   try {
-    connectToDb();
+    await connectToDb();
     const id = params.id;
     if (!isValidObjectId(id)) {
       return Response.json({ message: "ID is not valid !!" }, { status: 422 });

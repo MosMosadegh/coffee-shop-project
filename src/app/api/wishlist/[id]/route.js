@@ -4,9 +4,9 @@ import connectToDb from "@/configs/db";
 
 export async function DELETE(req, { params }) {
   try {
-    await connectToDb();
+     await connectToDb();
     const user = await authUser();
-    console.log("User=>", user);
+    
     if (!user) {
       return Response.json({ message: "Please login first" }, { status: 401 });
     }

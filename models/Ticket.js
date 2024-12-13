@@ -1,4 +1,5 @@
 
+
 const mongoose = require("mongoose");
 require("./Department");
 require("./SubDepartment");
@@ -14,7 +15,7 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    userID: {
+    user: {
       type: mongoose.Types.ObjectId,
       ref: "User",
       required: true,
@@ -42,9 +43,9 @@ const schema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    isAnswer: {
+    mainTicket: {
       type: mongoose.Types.ObjectId,
-      default: false,
+      ref: "Ticket",
       required: false,
     },
   },

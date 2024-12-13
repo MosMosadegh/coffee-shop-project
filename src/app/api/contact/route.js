@@ -13,7 +13,7 @@ const contactSchema = Joi.object({
 
 export async function POST(req) {
   try {
-    connectToDb();
+    await connectToDb();
     const regBody = await req.json();
 
     const { error } = contactSchema.validate(regBody);

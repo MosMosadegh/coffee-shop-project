@@ -6,6 +6,7 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import { MdOutlineDelete } from "react-icons/md";
 import Joi from "joi";
 
+
 function AccountDetails() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

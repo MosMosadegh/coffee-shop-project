@@ -1,6 +1,6 @@
 import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
 import Product from "@/components/modules/product/Product";
-import connectToDB from "@/configs/db";
+import connectToDb from "@/configs/db";
 import styles from "@/styles/wishlist.module.css";
 import { authUser } from "@/utils/isLogin";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import WishlistModel from "@/models/Wishlist";
 
 const page = async () => {
   let wishes = [];
-  connectToDB();
+  await connectToDb();
   const user = await authUser();
   if (user) {
     wishes = await WishlistModel.find({ user: user._id })

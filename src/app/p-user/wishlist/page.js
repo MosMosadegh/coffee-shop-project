@@ -7,7 +7,7 @@ import WishlistModel from "@/models/Wishlist";
 import { string } from "joi";
 
 const page = async () => {
-  connectToDb();
+  await connectToDb();
   const user = await authUser();
 
   const wishlist = await WishlistModel.find({ user: user._id }).populate(

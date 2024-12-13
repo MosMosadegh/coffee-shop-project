@@ -5,7 +5,7 @@ import validateTicket from "@/validations/tickets";
 
 export async function POST(req, res) {
   try {
-    connectToDb();
+    await connectToDb();
     const user = await authUser();
     const regBody = await req.json();
 
@@ -23,7 +23,7 @@ export async function POST(req, res) {
       department,
       subDepartment,
       priority,
-      userID: user._id,
+      user: user._id,
     });
 
     return Response.json(
@@ -36,7 +36,7 @@ export async function POST(req, res) {
 }
 
 export async function GET() {
-  connectToDb();
+  await connectToDb();
   const ticket = await TicketModel.find({}, "-__v").lean();
   return Response.json(ticket);
 }

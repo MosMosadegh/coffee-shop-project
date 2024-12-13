@@ -8,6 +8,7 @@ import { FaShoppingCart, FaRegHeart } from "react-icons/fa";
 function Navbar({ userName }) {
   const [fixTop, setFixTop] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(null);
+ 
   useEffect(() => {
     if (userName) setIsUserLoggedIn(true);
   }, []);

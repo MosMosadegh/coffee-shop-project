@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
 
 const Layout = async ({ children }) => {
+  
   const user = await authUser();
   if (!user) {
     redirect('/login-register')

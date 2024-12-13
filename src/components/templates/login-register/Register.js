@@ -2,9 +2,12 @@ import { useState } from "react";
 import styles from "./register.module.css";
 import Sms from "./Sms";
 import { showSwal } from "@/utils/helpers";
+import swal from "sweetalert";
 import { validateEmail, validatePassword, validatePhone } from "@/utils/auth";
+import { useRouter } from "next/navigation";
 
 const Register = ({ showLoginForm }) => {
+  const router = useRouter()
   const [isRegisterWithPassword, setIsRegisterWithPassword] = useState(false);
   const [isRegisterWithOtp, setIsRegisterWithOtp] = useState(false);
 
@@ -44,8 +47,14 @@ const Register = ({ showLoginForm }) => {
       setPhone("");
       setEmail("");
       setPassword("");
-      showSwal("ثبت نام با موفقیت انجام شد", "success", "ورود به پنل کاربری");
-    }
+      swal({
+        title: "ثبت نام با موفقیت انجام شد",
+        icon: "success",
+        buttons: "ورود به پنل کاربری",
+      }).then(() => {
+        router.replace('/')
+      });
+          }
     if (res.status === 422) {
       return showSwal("کاربر دیگری با این مشخصات موجود میباشد", "error", "تلاش مجدد");
   };

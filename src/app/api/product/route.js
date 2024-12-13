@@ -3,7 +3,7 @@ import ProductModel from "@/models/Product";
 
 export async function POST(req) {
   try {
-    connectToDb();
+    await connectToDb();
     const body = await req.json();
     const {
       name,

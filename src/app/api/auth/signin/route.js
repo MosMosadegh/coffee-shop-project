@@ -10,7 +10,7 @@ import {
 
 export async function POST(req) {
   try {
-    connectToDb();
+    await connectToDb();
     const body = await req.json();
     const { email, password } = body;
 

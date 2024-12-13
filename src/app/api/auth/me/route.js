@@ -5,7 +5,7 @@ import connectToDb from "@/configs/db";
 
 
 export async function GET() {
-    connectToDb(); 
+    await connectToDb(); 
 
     const token = cookies().get("token"); 
     let user = null;

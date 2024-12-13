@@ -1,9 +1,10 @@
-import Ticket from "./Ticket";
+import Ticket from "../tickets/Ticket";
+// import Ticket from "./Ticket";
 import styles from "./tickets.module.css";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 
-const Tickets = () => {
+const Tickets = ({ ticket }) => {
   return (
     <div className={styles.content}>
       <div className={styles.content_details}>
@@ -12,11 +13,11 @@ const Tickets = () => {
           همه تیکت ها <FaArrowLeft />
         </Link>
       </div>
-      <Ticket />
-      <Ticket />
-      <Ticket />
+      {ticket.map((item) => (
+        <Ticket key={item._id} {...item} />
+      ))}
 
-      {/* <p className={styles.empty}>تیکتی ثبت نشده</p> */}
+      {!ticket.length && <p className={styles.empty}>تیکتی ثبت نشده</p>}
     </div>
   );
 };

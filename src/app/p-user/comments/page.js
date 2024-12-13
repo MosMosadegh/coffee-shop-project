@@ -1,13 +1,13 @@
 import DataTable from "@/components/templates/p-user/comments/DataTable";
 import Layout from "@/components/layouts/UserPanelLayout";
 import React from "react";
-import connectToDB from "@/configs/db";
+import connectToDb from "@/configs/db";
 import CommentModel from "@/models/Comment";
 import { authUser } from "@/utils/isLogin";
 import styles from "@/styles/p-user/dataTable.module.css";
 
 const page = async () => {
-  connectToDB();
+  await connectToDb();
   const user = await authUser();
   const comments = await CommentModel.find(
     { user: String(user._id) },

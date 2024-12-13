@@ -2,6 +2,7 @@
 
 const mongoose = require("mongoose");
 require("./Product");
+require("./User");
 
 const schema = new mongoose.Schema(
   {
@@ -33,6 +34,11 @@ const schema = new mongoose.Schema(
     productID: {
       type: mongoose.Types.ObjectId,
       ref: "Product",
+    },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   {

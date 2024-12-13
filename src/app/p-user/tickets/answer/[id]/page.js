@@ -2,17 +2,18 @@ import Layout from "@/components/layouts/UserPanelLayout";
 import styles from "@/styles/p-user/answerTicket.module.css";
 import Link from "next/link";
 import Answer from "@/components/templates/p-user/tickets/Answer";
-import connectToDB from "@/configs/db";
+import connectToDb from "@/configs/db";
 import TicketModel from "@/models/Ticket";
 
 const page = async ({ params }) => {
   const ticketID = params.id;
-  connectToDB();
+  await connectToDb();
 
-  const ticket = await TicketModel.findOne({ _id: ticketID });
+  const ticket = await TicketModel.findOne({ _id: ticketID }).populate('user').lean();
+  const answerTicket = await TicketModel.findOne({ mainTicket: ticketID }).populate('user').lean();
 
   console.log("Tikcet=>>", ticket);
-  
+  console.log("AnswerTicket=>>", answerTicket);
 
   return (
     <Layout>
@@ -23,12 +24,14 @@ const page = async ({ params }) => {
         </h1>
 
         <div>
-          <Answer type="user" />
-          <Answer type="admin" />
+          <Answer type="user" {...ticket} />
+          {answerTicket && <Answer type="admin" {...answerTicket} />}
 
-          {/* <div className={styles.empty}>
-            <p>هنوز پاسخی دریافت نکردید</p>
-          </div> */}
+          {!answerTicket && (
+            <div className={styles.empty}>
+              <p>هنوز پاسخی دریافت نکردید</p>
+            </div>
+          )}
         </div>
       </main>
     </Layout>

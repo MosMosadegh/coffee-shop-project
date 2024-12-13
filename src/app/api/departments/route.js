@@ -10,7 +10,7 @@ const DepartmentSchema = Joi.object({
 
 export async function POST(req) {
   try {
-    connectToDb();
+    await connectToDb();
 
     const body = await req.json();
 
@@ -38,7 +38,7 @@ export async function POST(req) {
 }
 
 export async function GET() {
-    connectToDb()
+    await connectToDb()
     const department = await DepartmentModel.find({}, "-__v").lean();
     return Response.json(department);
   }

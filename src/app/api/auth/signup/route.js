@@ -9,7 +9,7 @@ import { rolls } from "@/utils/constants";
 
 export async function POST(req) {
   try {
-    connectToDb();
+    await connectToDb();
     const body = await req.json();
 
     const { name, phone,email, password } = body;

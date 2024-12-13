@@ -5,11 +5,10 @@ import Link from "next/link";
 import Sms from "./Sms";
 import { showSwal } from "@/utils/helpers";
 import { validateEmail, validatePassword } from "@/utils/auth";
-
-
-
+import { useRouter } from "next/navigation";
 
 const Login = ({ showRegisterForm }) => {
+  const router = useRouter();
 
   const [isLoginWithOtp, setIsLoginWithOtp] = useState(false);
   const [phoneOrEmail, SetPhoneOrEmail] = useState("");
@@ -54,10 +53,9 @@ const Login = ({ showRegisterForm }) => {
         title: "شما با موفقیت وارد حساب خود شدید",
         icon: "success",
         buttons: "ورود به پنل کاربری",
-      }).then(()=>{
-        location.replace("/p-user")
-      })
-      
+      }).then(() => {
+        router.replace("p-user");
+      });
     } else if (res.status === 422 || res.status === 401) {
       showSwal("کاربری با این اطلاعت یافت نشد", "error", "تلاش مجدد");
     } else if (res.status === 419) {

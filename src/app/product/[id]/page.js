@@ -8,7 +8,7 @@ import connectToDb from "@/configs/db";
 import mongoose from "mongoose";
 
 const product = async ({ params }) => {
-  connectToDb();
+  await connectToDb();
   const productID = params.id;
 
   if (!mongoose.Types.ObjectId.isValid(productID)) {

@@ -4,7 +4,7 @@ import connectToDb from "@/configs/db";
 import { verifyAccessToken } from "./auth";
 
 export const authUser = async () => {
-  connectToDb();
+  await connectToDb();
 
   const token = cookies().get("token");
   let user = null;

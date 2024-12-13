@@ -18,16 +18,16 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  connectToDb()
+  await connectToDb();
   const user = await authUser();
 
-  const userName = user && user.name ? user.name : null
-  
+  const userName = user && user.name ? user.name : null;
+
   return (
     <html lang="fa">
       <body className={inter.className}>
         <AOSInit />
-        <Navbar  userName={userName} />
+        <Navbar userName={userName} />
         {children}
         <ScrollToTop />
         <Footer />

@@ -134,6 +134,7 @@ a {
 
 .swal-title {
   color: #000000 !important;
+  direction: rtl;
 }
 
 .swal-button--confirm {
@@ -162,6 +163,7 @@ a {
 
 .swal-content__input {
   color: black !important;
+  direction: rtl;
 }
 
 .swal-button:focus {
