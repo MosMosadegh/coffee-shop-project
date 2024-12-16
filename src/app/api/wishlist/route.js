@@ -5,10 +5,10 @@ import Joi from "joi";
 const wishlistSchema = Joi.object({
   user: Joi.string()
     .pattern(/^[0-9a-fA-F]{24}$/)
-    .required(), // الگوی ObjectId
+    .required(), 
   product: Joi.string()
     .pattern(/^[0-9a-fA-F]{24}$/)
-    .required(), // الگوی ObjectId
+    .required(),
 });
 
 export async function POST(req) {

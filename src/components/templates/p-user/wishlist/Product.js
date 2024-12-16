@@ -55,7 +55,7 @@ const Card = ({ price, score, name, productID }) => {
         <span>{price.toLocaleString()} تومان</span>
       </div>
       <button onClick={removeProduct} className={styles.delete_btn}>
-        حذف محصول{" "}
+        حذف محصول
       </button>
     </div>
   );

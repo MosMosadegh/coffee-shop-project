@@ -4,6 +4,26 @@ const mongoose = require("mongoose");
 require("./Product");
 require("./User");
 
+const AnswerSchema = new mongoose.Schema({
+  body: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  userName: {
+    type: String,
+    required: true,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', 
+  },
+  replies: [this], // زیرپاسخ‌ها
+});
+
 const schema = new mongoose.Schema(
   {
     userName: {
@@ -27,8 +47,8 @@ const schema = new mongoose.Schema(
       default: false,
     },
     date: {
-      type: Date, // تغییر نوع به Date
-      default: Date.now, // بدون تابع
+      type: Date,
+      default: Date.now, 
       immutable: false,
     },
     productID: {
@@ -40,6 +60,7 @@ const schema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    answers: [AnswerSchema],
   },
   {
     timestamps: true,

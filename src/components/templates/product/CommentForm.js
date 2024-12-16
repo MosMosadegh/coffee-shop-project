@@ -7,6 +7,7 @@ const CommentForm = ({ productID }) => {
   const [email, setEmail] = useState("");
   const [body, setBody] = useState("");
   const [score, setScore] = useState(5);
+  const [isSaveUserInfo, setIsSaveUserInfo] = useState(false);
 
   const setCommentScore = (score) => {
     setScore(score);
@@ -14,6 +15,15 @@ const CommentForm = ({ productID }) => {
   };
 
   const submitComment = async () => {
+
+    if(isSaveUserInfo){
+      const userInfo = {
+        userName,
+        email
+      }
+      localStorage.setItem("userInfo", JSON.stringify(userInfo))
+    }
+
     const comment = {
       userName,
       body,
@@ -21,6 +31,8 @@ const CommentForm = ({ productID }) => {
       score,
       productID,
     };
+
+    
   
     const res = await fetch("/api/comment", {
       method: "POST",
@@ -43,7 +55,7 @@ const CommentForm = ({ productID }) => {
     <div className={styles.form}>
       <p className={styles.title}>دیدگاه خود را بنویسید</p>
       <p>
-        نشانی ایمیل شما منتشر نخواهد شد. بخش‌های موردنیاز علامت‌گذاری شده‌اند{" "}
+        نشانی ایمیل شما منتشر نخواهد شد. بخش‌های موردنیاز علامت‌گذاری شده‌اند
         <span style={{ color: "red" }}>*</span>
       </p>
       <div className={styles.rate}>
@@ -97,9 +109,9 @@ const CommentForm = ({ productID }) => {
         </div>
       </div>
       <div className={styles.checkbox}>
-        <input type="checkbox" defaultChecked={true} name="" id="" />
+        <input type="checkbox" value={isSaveUserInfo} onClick={(e)=>setIsSaveUserInfo((prevValue)=>!prevValue)} />
         <p>
-          {" "}
+          
           ذخیره نام، ایمیل و وبسایت من در مرورگر برای زمانی که دوباره دیدگاهی
           می‌نویسم.
         </p>

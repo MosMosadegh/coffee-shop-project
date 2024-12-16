@@ -13,8 +13,6 @@ const page = async () => {
   .populate("department", "title")
   .lean();
 
-  console.log("TICKET=>>",tickets)
-
   return (
     <Layout>
       <main>

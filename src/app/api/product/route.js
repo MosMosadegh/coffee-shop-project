@@ -36,8 +36,3 @@ export async function POST(req) {
   }
 }
 
-export async function GET() {
- const products = await ProductModel.find({}, '-__v').populate("comments").lean()
- return Response.json(products)
-
-}

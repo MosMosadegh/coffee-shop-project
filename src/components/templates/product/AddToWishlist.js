@@ -20,7 +20,6 @@ useEffect(()=>{
 },[])
 
   const addToWishlist = async (event) => {
-    event.preventDefault();
 if(!user._id){
     showSwal("برای اضافه به لیست علاقه مندی ها ابتدا وارد حساب خود شوید","error","متوجه شدم")
 }

@@ -91,11 +91,11 @@ const Footer = () => {
       <hr />
       <div className="container flex justify-end items-center  text-white h-13">
         <p className={styles.copyRight}>
-          {" "}
+          
           2023
           <MdOutlineCopyright /> تمام حقوق متعلق است به <strong>
             قهوه ست
-          </strong>{" "}
+          </strong>
           | طراحی و اجرا <strong>نیلامارکتینگ</strong>
         </p>
       </div>

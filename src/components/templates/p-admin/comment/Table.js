@@ -5,6 +5,7 @@ import swal from "sweetalert";
 
 import { useRouter } from "next/navigation";
 import { showSwal } from "@/utils/helpers";
+import Swal from "sweetalert2";
 
 export default function DataTable({ comments, title }) {
   const router = useRouter();
@@ -13,52 +14,75 @@ export default function DataTable({ comments, title }) {
     showSwal(body, undefined, "بستن");
   };
 
-  const editComment = (comment) => {
-    swal({
-      title: "ویرایش کامنت",
-      content: {
-        element: "textarea",
-        attributes: {
-          placeholder: "کامنت جدید را وارد کنید",
-          value: comment.body,
-        },
+  const editComment = async (commentID, commentBody) => {
+    const { value: text } = await Swal.fire({
+      input: "textarea",
+      inputLabel: "ویرایش کامنت",
+      inputPlaceholder: "کامنت جدید را وارد کنید",
+      inputValue: commentBody,
+      inputAttributes: {
+        "aria-label": "Type your message here",
       },
-      buttons: ["لغو", "ذخیره"],
-    }).then(async (value) => {
-      if (value) {
-        const updateComment = {
-          id: comment._id,
-          body: value,
-        };
-        console.log('newCommentBody=>', value)
-        const res = await fetch("/api/comment/edit", {
-          method: "PUT",
+      showCancelButton: true,
+    });
+    if (text) {
+      const updateComment = {
+        id: commentID,
+        body: text,
+      };
+      const res = await fetch("/api/comment/edit", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateComment),
+      });
+
+      if (res.status === 200) {
+        Swal.fire({
+          title: "کامنت با موفقیت ویرایش شد",
+          icon: "success",
+          buttons: "فهمیدم",
+        });
+        router.refresh();
+      } else {
+        Swal.fire({
+          title: "خطا در ویرایش کامنت",
+          icon: "error",
+          buttons: "فهمیدم",
+        });
+      }
+    }
+  };
+
+  const deleteComment = (commentID) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await fetch("/api/comment/delete", {
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(updateComment),
-        });
 
-        if (res.status === 200) {
-          swal({
-            title: "کامنت با موفقیت ویرایش شد",
-            icon: "success",
-            buttons: "فهمیدم",
-          }).then(() => {
-            router.refresh(); // بارگذاری مجدد صفحه برای نمایش تغییرات
-          });
-        } else {
-          swal({
-            title: "خطا در ویرایش کامنت",
-            icon: "error",
-            buttons: "فهمیدم",
-          });
-        }
+          body: JSON.stringify({ id: commentID }),
+        });
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+        router.refresh();
       }
     });
   };
-
-  const deleteComment = (commentID) => {};
 
   const acceptComment = async (commentID) => {
     const res = await fetch("/api/comment/accept", {
@@ -98,34 +122,74 @@ export default function DataTable({ comments, title }) {
     }
   };
 
-  const answerComment = (comment) => {
-    swal({
-      title: "لطفا پاسخ مورد نظر را وارد کنید",
-      content: "input",
-      buttons: "ثبت پاسخ",
-    }).then(async (answerText) => {
-      if (answerText) {
-        const answer = {
-          ...comment,
-          body: answerText,
-          commentID: comment._id,
-        };
+  const answerComment = async (commentID) => {
+    const { value: text } = await Swal.fire({
+      input: "textarea",
+      inputLabel: "پاسخ به کامنت",
+      inputPlaceholder: "پاسخ جدید را وارد کنید",
+      inputAttributes: {
+        "aria-label": "Type your message here",
+      },
+      showCancelButton: true,
+    });
+    if (text) {
+      const answerComment = {
+        id: commentID,
+        body: text,
+      };
+      const res = await fetch("/api/comment/answer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(answerComment),
+      });
 
-        const res = await fetch("/api/comment/answer", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(answer),
+      if (res.status === 200) {
+        Swal.fire({
+          title: "کامنت با موفقیت پاسخ داده شد",
+          icon: "success",
+          buttons: "فهمیدم",
         });
-        if (res.status === 201) {
-          swal({
-            title: "پاسخ مورد نظر ثبت شد",
-            icon: "success",
-            buttons: "فهمیدم",
-          });
-        }
+        router.refresh();
+      } else {
+        Swal.fire({
+          title: "خطا در پاسخ به کامنت",
+          icon: "error",
+          buttons: "فهمیدم",
+        });
       }
+    }
+  };
+  const showAnswersComment = (comment) => {
+    if (!comment.answers || comment.answers.length === 0) {
+      Swal.fire({
+        title: "پاسخ‌ها",
+        text: "هیچ پاسخی برای این کامنت وجود ندارد.",
+        icon: "info",
+        confirmButtonText: "فهمیدم",
+      });
+      return;
+    }
+
+    const answersHtml = comment.answers
+      .map(
+        (answer) => `
+      <div>
+        <p><strong>پاسخ:</strong> ${answer.body}</p>
+        <p><small>تاریخ: ${new Date(answer.createdAt).toLocaleDateString(
+          "fa-IR"
+        )}</small></p>
+      </div>
+    `
+      )
+      .join("");
+
+      Swal.fire({
+      title: "پاسخ‌ها",
+      html: answersHtml,
+      icon: "info",
+      confirmButtonText: "فهمیدم",
     });
   };
 
@@ -186,7 +250,7 @@ export default function DataTable({ comments, title }) {
           <tbody>
             {comments.map((comment, index) => (
               <tr key={comment._id}>
-                <td className={comment.isAccept && styles.accept_btn}>
+                <td className={comment.isAccept ? styles.accept_btn : ""}>
                   {index + 1}
                 </td>
                 <td>{comment.userName}</td>
@@ -213,7 +277,7 @@ export default function DataTable({ comments, title }) {
                     type="button"
                     className={styles.edit_btn}
                     onClick={() => {
-                      editComment(comment);
+                      editComment(comment._id, comment.body);
                     }}
                   >
                     ویرایش
@@ -254,15 +318,27 @@ export default function DataTable({ comments, title }) {
                   )}
                 </td>
                 <td>
-                  <button
-                    type="button"
-                    className={styles.delete_btn}
-                    onClick={() => {
-                      answerComment(comment);
-                    }}
-                  >
-                    پاسخ
-                  </button>
+                  {comment.answers && comment.answers.length > 0 ? (
+                    <button
+                      type="button"
+                      className={styles.accept_btn}
+                      onClick={() => {
+                        showAnswersComment(comment);
+                      }}
+                    >
+                      نمایش پاسخ
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className={styles.delete_btn}
+                      onClick={() => {
+                        answerComment(comment._id);
+                      }}
+                    >
+                      پاسخ
+                    </button>
+                  )}
                 </td>
                 <td>
                   <button
