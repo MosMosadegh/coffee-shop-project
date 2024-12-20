@@ -21,7 +21,7 @@ const AnswerSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', 
   },
-  replies: [this], // زیرپاسخ‌ها
+  replies: [this]
 });
 
 const schema = new mongoose.Schema(

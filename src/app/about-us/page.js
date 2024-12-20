@@ -1,6 +1,4 @@
 import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
-import Footer from "@/components/modules/footer/Footer";
-import Navbar from "@/components/modules/navbar/Navbar";
 import styles from "@/styles/aboutUs.module.css";
 
 const page = async () => {

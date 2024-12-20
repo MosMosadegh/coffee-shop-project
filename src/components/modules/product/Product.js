@@ -3,15 +3,11 @@ import styles from "./product.module.css";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { CiSearch, CiHeart } from "react-icons/ci";
 
-const Card = ({ name, price, score }) => {
-
+const Card = ({ _id, name, price, score, img }) => {
   return (
     <div className={styles.card}>
       <div className={styles.details_container}>
-        <img
-          src="https://set-coffee.com/wp-content/uploads/2021/10/041-430x430.png"
-          alt=""
-        />
+        <img src={img} alt="" />
         <div className={styles.icons}>
           <Link href="/">
             <CiSearch />
@@ -26,12 +22,13 @@ const Card = ({ name, price, score }) => {
       </div>
 
       <div className={styles.details}>
-        <Link href={"/"}>{name}</Link>
+        <Link href={`/product/${_id}`}>{name}</Link>
         <div className="flex justify-center">
           {score &&
             new Array(score)
               .fill(0)
               .map((item, index) => <FaStar key={index} />)}
+
           {score &&
             new Array(5 - score)
               .fill(0)

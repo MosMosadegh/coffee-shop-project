@@ -3,7 +3,8 @@ import styles from "./latest.module.css";
 import { FaChevronLeft } from "react-icons/fa6";
 import Product from "@/components/modules/product/Product";
 
-const Latest = () => {
+const Latest = ({ product }) => {
+
   return (
     <div className={styles.container}>
       <section className={styles.title}>
@@ -21,14 +22,9 @@ const Latest = () => {
         data-aos-duration="2500"
         className={styles.products}
       >
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
+        {product.map((item) => (
+          <Product key={item._id} {...item} />
+        ))}
       </main>
     </div>
   );

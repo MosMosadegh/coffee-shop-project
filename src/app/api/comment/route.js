@@ -1,7 +1,8 @@
 import connectToDb from "@/configs/db";
 import CommentModel from "@/models/Comment";
 import ProductModel from "@/models/Product";
-import Joi from 'joi';
+import { authUser } from "@/utils/isLogin";
+// import Joi from 'joi';
 
 //schema for validation
 // const commentSchema = Joi.object({
@@ -16,6 +17,7 @@ import Joi from 'joi';
 export async function POST(req) {
   try {
     await connectToDb();
+    const user = await authUser();
     const regBody = await req.json();
 
     // const { error } = commentSchema.validate(regBody);
@@ -30,16 +32,18 @@ export async function POST(req) {
         score,
         productID,
     } = regBody;
+   
     
-console.log('regBody=>', regBody)
-    const comment = await CommentModel.create({
-        userName,
-        body,
-        email,
-        score,
-        productID,
-    });
 
+    const comment = await CommentModel.create({
+      userName,
+      body,
+      email,
+      score,
+      productID,
+      user: user._id,
+    });
+    
     const updateProduct = await ProductModel.findOneAndUpdate({_id: productID},{
         $push: {
             comments: comment._id
@@ -51,12 +55,13 @@ console.log('regBody=>', regBody)
       { status: 201 }
     );
   } catch (error) {
+    console.error("Error while creating comment:", error);
     return Response.json({ message: error }, { status: 500 });
   }
 }
 
-export async function GET() {
- const comments = await CommentModel.find({}, '-__v').lean()
- return Response.json(comments)
+// export async function GET() {
+//  const comments = await CommentModel.find({}, '-__v').lean()
+//  return Response.json(comments)
 
-}
+// }

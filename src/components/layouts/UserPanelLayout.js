@@ -9,6 +9,7 @@ import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
 const Layout = async ({ children }) => {
   
   const user = await authUser();
+  
   if (!user) {
     redirect('/login-register')
   }
@@ -20,7 +21,7 @@ const Layout = async ({ children }) => {
       <section className={styles.section}>
         <Sidebar />
         <div className={styles.contents}>
-          <Topbar />
+          <Topbar userName={user.name} role={user.role} />
           {children}
         </div>
       </section>

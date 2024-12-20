@@ -4,7 +4,7 @@ import Link from "next/link";
 import { IoMdStar, IoMdStarOutline } from "react-icons/io";
 import swal from "sweetalert";
 
-const Card = ({ price, score, name, productID }) => {
+const Card = ({ price, score, name, productID, img }) => {
 
 
   const removeProduct = () => {
@@ -34,11 +34,11 @@ const Card = ({ price, score, name, productID }) => {
 
   return (
     <div className={styles.card}>
-      <Link href={"/product/123"}>
+      <Link href={`/product/${productID}`}>
         <img
           width={283}
           height={283}
-          src="https://set-coffee.com/wp-content/uploads/2022/03/ethiopia-430x430.png"
+          src={img}
           alt=""
         />
       </Link>

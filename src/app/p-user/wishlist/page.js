@@ -4,7 +4,6 @@ import Product from "@/components/templates/p-user/wishlist/Product";
 import connectToDb from "@/configs/db";
 import { authUser } from "@/utils/isLogin";
 import WishlistModel from "@/models/Wishlist";
-import { string } from "joi";
 
 const page = async () => {
   await connectToDb();
@@ -29,6 +28,7 @@ const page = async () => {
                 price={wish.product.price}
                 score={wish.product.score}
                 productID={String(wish.product._id)}
+                img={wish.product.img}
               />
             ))}
         </div>

@@ -1,8 +1,10 @@
 import { IoMdStar } from "react-icons/io";
 import styles from "./commentForm.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { showSwal } from "@/utils/helpers";
 const CommentForm = ({ productID }) => {
+
+
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [body, setBody] = useState("");
@@ -14,14 +16,20 @@ const CommentForm = ({ productID }) => {
     showSwal("امتیاز شما با موفیت ثبت شد", "success", "ادامه ثبت کامنت");
   };
 
-  const submitComment = async () => {
+  useEffect(() => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+    setUserName(userInfo.userName)
+    setEmail(userInfo.email)
+  }, [])
+  
 
-    if(isSaveUserInfo){
+  const submitComment = async () => {
+    if (isSaveUserInfo) {
       const userInfo = {
         userName,
-        email
-      }
-      localStorage.setItem("userInfo", JSON.stringify(userInfo))
+        email,
+      };
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
     }
 
     const comment = {
@@ -32,8 +40,6 @@ const CommentForm = ({ productID }) => {
       productID,
     };
 
-    
-  
     const res = await fetch("/api/comment", {
       method: "POST",
       headers: {
@@ -41,13 +47,16 @@ const CommentForm = ({ productID }) => {
       },
       body: JSON.stringify(comment),
     });
-  
+
     if (res.status === 201) {
       setUserName("");
       setEmail("");
       setBody("");
-      setScore("");
+      setScore(5);
       showSwal("نظر شما با موفقیت ثبت شد", "success", "ادامه");
+    } else {
+      const errorData = await res.json(); 
+      showSwal("خطا در ثبت نظر: " + errorData.message, "error", "تلاش مجدد");
     }
   };
 
@@ -109,9 +118,12 @@ const CommentForm = ({ productID }) => {
         </div>
       </div>
       <div className={styles.checkbox}>
-        <input type="checkbox" value={isSaveUserInfo} onClick={(e)=>setIsSaveUserInfo((prevValue)=>!prevValue)} />
+        <input
+          type="checkbox"
+          value={isSaveUserInfo}
+          onClick={(e) => setIsSaveUserInfo((prevValue) => !prevValue)}
+        />
         <p>
-          
           ذخیره نام، ایمیل و وبسایت من در مرورگر برای زمانی که دوباره دیدگاهی
           می‌نویسم.
         </p>
