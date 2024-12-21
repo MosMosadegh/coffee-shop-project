@@ -1,5 +1,3 @@
-
-
 const mongoose = require("mongoose");
 require("./Product");
 require("./User");
@@ -19,9 +17,9 @@ const AnswerSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', 
+    ref: "User",
   },
-  replies: [this]
+  replies: [this],
 });
 
 const schema = new mongoose.Schema(
@@ -48,7 +46,7 @@ const schema = new mongoose.Schema(
     },
     date: {
       type: Date,
-      default: Date.now, 
+      default: Date.now,
       immutable: false,
     },
     productID: {

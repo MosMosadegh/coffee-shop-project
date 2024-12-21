@@ -4,15 +4,16 @@ import styles from "./login.module.css";
 import Link from "next/link";
 import Sms from "./Sms";
 import { showSwal } from "@/utils/helpers";
-import { validateEmail, validatePassword } from "@/utils/auth";
+import { validateEmail, validatePassword, validatePhone } from "@/utils/auth";
 import { useRouter } from "next/navigation";
 
 const Login = ({ showRegisterForm }) => {
   const router = useRouter();
 
   const [isLoginWithOtp, setIsLoginWithOtp] = useState(false);
-  const [phoneOrEmail, SetPhoneOrEmail] = useState("");
-  const [password, SetPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
 
   const hideOtpForm = () => {
     setIsLoginWithOtp(false);
@@ -63,6 +64,35 @@ const Login = ({ showRegisterForm }) => {
     }
   };
 
+  const sendOtp = async () => {
+    if (phone) {
+       const isValidPhone = validatePhone(phone);
+       if (!isValidPhone) {
+         return showSwal("شماره تماس صحیح نمیباشد", "error", "تلاش مجدد");
+       }
+
+       const res = await fetch("/api/auth/sms/send", {
+         method: "POST",
+         headers: {
+           "Content-Type": "application/json",
+         },
+         body: JSON.stringify(phone),
+       });
+       if (res.status === 201) {
+         swal({
+           title: "کد ورود با موفقیت ارسال شد",
+           icon: "success",
+           buttons: "وارد کردن کد",
+         }).then(() => {
+           setIsLoginWithOtp(true);
+         });
+       }
+    } else {
+      return showSwal("لطفا شماره تماس را وارد نمائید", "error", "تلاش مجدد");
+     }
+     
+   };
+
   return (
     <>
       {!isLoginWithOtp ? (
@@ -71,15 +101,22 @@ const Login = ({ showRegisterForm }) => {
             <input
               className={styles.input}
               type="text"
-              value={phoneOrEmail}
-              onChange={(e) => SetPhoneOrEmail(e.target.value)}
-              placeholder="ایمیل/شماره موبایل"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="ایمیل"
+            />
+            <input
+              className={styles.input}
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="شماره موبایل"
             />
             <input
               className={styles.input}
               type="password"
               value={password}
-              onChange={(e) => SetPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="رمز عبور"
             />
             <div className={styles.checkbox}>
@@ -94,7 +131,7 @@ const Login = ({ showRegisterForm }) => {
             </Link>
             <button
               className={styles.btn}
-              onClick={(e) => setIsLoginWithOtp(true)}
+              onClick={sendOtp}
             >
               ورود با کد یکبار مصرف
             </button>
@@ -108,7 +145,7 @@ const Login = ({ showRegisterForm }) => {
           </Link>
         </>
       ) : (
-        <Sms hideOtpForm={hideOtpForm} />
+        <Sms hideOtpForm={hideOtpForm} phone={phone} />
       )}
     </>
   );
