@@ -1,6 +1,5 @@
 import connectToDb from "@/configs/db";
 import OtpModel from "@/models/Otp";
-const request = require("request");
 import UserModel from "@/models/User";
 import { generateAccessToken, validatePhone } from "@/utils/auth";
 import { rolls } from "@/utils/constants";
@@ -19,19 +18,19 @@ export async function POST(req) {
       return Response.json({ message: "Phone is not valid" }, { status: 422 });
     }
 
-    const otp = await OtpModel.findOne({ phone, code });
+    const otpEntry = await OtpModel.findOne({ phone, code });
 
-    if (!otp) {
-      otp.times += 1;
-      await otp.save();
+    if (!otpEntry) {
+      otpEntry.attempts += 1;
+      await otpEntry.save();
       return Response.json({ message: "Code is not correct" }, { status: 409 });
     } else {
-      if (otp.times >= 3) {
+      if (otpEntry.attempts >= 3) {
         return Response.json({ message: "You try over" }, { status: 403 });
       }
       const date = new Date();
       const now = date.getTime();
-      if (otp.expTime > now) {
+      if (otpEntry.expTime > now) {
         const accessToken = generateAccessToken({ email });
 
         //first user is admin

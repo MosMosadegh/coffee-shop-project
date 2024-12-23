@@ -81,7 +81,7 @@ const Register = ({ showLoginForm }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({phone, }),
+      body: JSON.stringify({phone}),
     });
     if (res.status === 201) {
       swal({

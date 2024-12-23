@@ -5,6 +5,7 @@ const schema = new mongoose.Schema(
     phone: {
       type: String,
       required: true,
+      unique: true
     },
     code: {
       type: String,
@@ -14,10 +15,30 @@ const schema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    times: {
-      type: Number,
-      default: 0, //3
+    isUsed: {
+      type: Boolean,
+      default: false
     },
+    ipAddress: {
+      type: String,
+      required: true
+    },
+    deviceInfo: {
+      type: String,
+      required: true
+    },
+    attempts: {
+      type: Number,
+      default: 0
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false
+    },
+    blockedUntil: {
+      type: Date,
+      default: null
+    }
   },
   {
     timestamps: true,
