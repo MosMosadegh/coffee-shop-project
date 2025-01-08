@@ -7,25 +7,25 @@ import { redirect } from "next/navigation";
 import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
 
 const Layout = async ({ children }) => {
-  
   const user = await authUser();
-  
+
   if (!user) {
-    redirect('/login-register')
+   
+    redirect("/login-register");
   }
 
   return (
     <>
-    <Breadcrumb route={"پنل کاربری"} />
-    <div className={styles.layout}>
-      <section className={styles.section}>
-        <Sidebar />
-        <div className={styles.contents}>
-          <Topbar userName={user.name} role={user.role} />
-          {children}
-        </div>
-      </section>
-    </div>
+      <Breadcrumb route={"پنل کاربری"} />
+      <div className={styles.layout}>
+        <section className={styles.section}>
+          <Sidebar />
+          <div className={styles.contents}>
+            <Topbar userName={user.name} role={user.role} />
+            {children}
+          </div>
+        </section>
+      </div>
     </>
   );
 };

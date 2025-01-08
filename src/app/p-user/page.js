@@ -7,22 +7,26 @@ import { authUser } from "@/utils/isLogin";
 import TicketModel from "@/models/Ticket";
 import CommentModel from "@/models/Comment";
 import WishlistModel from "@/models/Wishlist";
+import { redirect } from "next/navigation";
+
 
 const page = async () => {
-
   const user = await authUser();
+  if (!user) {
+    redirect("/login-register");
+  }
 
-  console.log("Usere=>", user);
+  console.log("🚀 ~ page-> p-user ~ user:", user);
+
   const ticket = await TicketModel.find({ user: user._id })
     .populate("department", "title")
     .sort({ _id: -1 })
     .limit(3)
     .lean();
- 
-    const allTicket = await TicketModel.find({ user: user._id })
-    const allComment = await CommentModel.find({ user:String (user._id) })
-    const allWishlist = await WishlistModel.find({ user: user._id })
 
+  const allTicket = await TicketModel.find({ user: user._id });
+  const allComment = await CommentModel.find({ user: String(user._id) });
+  const allWishlist = await WishlistModel.find({ user: user._id });
 
   return (
     <>

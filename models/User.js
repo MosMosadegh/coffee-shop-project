@@ -12,10 +12,7 @@ const schema = new mongoose.Schema(
       unique: true,
       trim: true,
       lowercase: true,
-      // match: /^(?:.+\@.+\..+)$/ //email
-      // match: /^(?:.+\@.+\..+|[]|[0-9a-fA-F]{24})$/ //email+objectId mongoos
-      match:
-        /^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|)$/g, //email+uuidv4+null;
+      match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     },
     phone: {
       type: String,

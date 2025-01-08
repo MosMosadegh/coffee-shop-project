@@ -1,10 +1,15 @@
 import connectToDb from "@/configs/db";
 import TicketModel from "@/models/Ticket";
-import { authUser } from "@/utils/isLogin";
+import { authAdmin, authUser } from "@/utils/isLogin";
 // import validateTicket from "@/validations/tickets";
 
 export async function POST(req) {
   try {
+    const isAdmin = await authAdmin()
+    if(!isAdmin){
+      throw new Error("This Api is protected")
+    }
+    
     await connectToDb();
 
     const regBody = await req.json();

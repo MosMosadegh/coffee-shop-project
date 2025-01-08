@@ -1,8 +1,13 @@
 import connectToDb from "@/configs/db";
 import DiscountModel from "@/models/Discount";
+import { authAdmin } from "@/utils/isLogin";
 
 export async function DELETE(req) {
     try {
+      const isAdmin = await authAdmin()
+    if(!isAdmin){
+      throw new Error("This Api is protected")
+    }
       await connectToDb();
       const body = await req.json();
       const { id } = body;

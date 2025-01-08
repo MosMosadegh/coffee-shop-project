@@ -5,6 +5,7 @@ import {
   generateRefreshToken,
   validateEmail,
   validatePassword,
+  validatePhone,
   verifyPassword,
 } from "@/utils/auth";
 
@@ -12,15 +13,16 @@ export async function POST(req) {
   try {
     await connectToDb();
     const body = await req.json();
-    const { email, password } = body;
+    const { email, phone, password } = body;
 
     //Validation
-    const isValidEmail = validateEmail(email);
-    const isValidPassword = validatePassword(password);
+    const isValidEmail = email ? validateEmail(email) : true;
+    const isValidPhone = phone ? validatePhone(phone) : true;
+    const isValidPassword = password ? validatePassword(password) : true;
 
-    if (!isValidEmail || !isValidPassword) {
+    if (!isValidEmail && !isValidPhone) {
       return Response.json(
-        { message: "Email or Password is invalid" },
+        { message: "Email or Phone is invalid" },
         { status: 419 }
       );
     }
@@ -29,10 +31,25 @@ export async function POST(req) {
     //3-Generation Token
     //4-login
 
-    const user = await UserModel.findOne({ email }).lean();
+    let user;
+    if (email) {
+      user = await UserModel.findOne({ email }).lean();
+    }
+
+    if (!user && phone) {
+      user = await UserModel.findOne({ phone }).lean();
+    }
 
     if (!user) {
       return Response.json({ message: "User not found" }, { status: 422 });
+    }
+
+    // check This user registered with OTP
+    if (!user.password) {
+      return Response.json(
+        { message: "This user registered with OTP. Please log in using OTP." },
+        { status: 403 }
+      );
     }
 
     const isCorrectPasswordWithHash = await verifyPassword(
@@ -45,22 +62,29 @@ export async function POST(req) {
         { status: 401 }
       );
     }
-    const accessToken = generateAccessToken({ email: user.email });
-    const refreshToken = generateRefreshToken({ email: user.email });
 
-    await UserModel.findOneAndUpdate({email},{
-      $set:{
-        refreshToken
-      }
-    }).lean()
+    const payload = phone ? { phone: user.phone } : { email: user.email };
+    const accessToken = generateAccessToken(payload);
+    const refreshToken = generateRefreshToken(payload);
+
+    await UserModel.findOneAndUpdate(payload, {
+      $set: {
+        refreshToken,
+      },
+    }).lean();
+
+    const headers = new Headers();
+    headers.append("Set-Cookie", `token=${accessToken}; path=/; httpOnly=true`);
+    headers.append(
+      "Set-Cookie",
+      `refresh-token=${refreshToken}; path=/; httpOnly=true`
+    );
 
     return Response.json(
       { message: "User Logged In successfully" },
       {
         status: 200,
-        headers: {
-          "Set-Cookie": `token=${accessToken}; path=/; httpOnly=true`,
-        },
+        headers,
       }
     );
   } catch (error) {

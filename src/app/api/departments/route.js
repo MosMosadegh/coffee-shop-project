@@ -1,5 +1,6 @@
 import connectToDb from "@/configs/db";
 import DepartmentModel from "@/models/Department";
+import { authAdmin } from "@/utils/isLogin";
 
 import Joi from "joi";
 
@@ -10,6 +11,7 @@ const DepartmentSchema = Joi.object({
 
 export async function POST(req) {
   try {
+
     await connectToDb();
 
     const body = await req.json();

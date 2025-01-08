@@ -1,7 +1,7 @@
 import connectToDb from "@/configs/db";
 import OtpModel from "@/models/Otp";
 import UserModel from "@/models/User";
-import { generateAccessToken, validatePhone } from "@/utils/auth";
+import { generateAccessToken, generateRefreshToken, validatePhone } from "@/utils/auth";
 import { rolls } from "@/utils/constants";
 
 export async function POST(req) {
@@ -9,51 +9,106 @@ export async function POST(req) {
     await connectToDb();
     const regBody = await req.json();
 
-    const { phone, code } = regBody;
+    const { phone, code, name } = regBody;
     const email = `${phone}@gmail.com`;
 
-    //validation must todo
+    //validation phone
     const isValidPhone = validatePhone(phone);
     if (!isValidPhone) {
       return Response.json({ message: "Phone is not valid" }, { status: 422 });
     }
 
-    const otpEntry = await OtpModel.findOne({ phone, code });
+    const otpEntry = await OtpModel.findOne({ phone });
 
     if (!otpEntry) {
-      otpEntry.attempts += 1;
-      await otpEntry.save();
-      return Response.json({ message: "Code is not correct" }, { status: 409 });
-    } else {
-      if (otpEntry.attempts >= 3) {
-        return Response.json({ message: "You try over" }, { status: 403 });
+      return Response.json({ message: "OTP not found" }, { status: 404 });
+    }
+
+    const currentTime = Date.now();
+    if (otpEntry.isBlocked) {
+      if (otpEntry.blockedUntil && currentTime < otpEntry.blockedUntil) {
+        return Response.json(
+          {
+            message:
+              "Your account is temporarily blocked due to too many failed attempts. Please try again later.",
+          },
+          { status: 403 }
+        );
+      } else {
+        // Resetting the blocking status if the block time has expired
+        otpEntry.isBlocked = false;
+        otpEntry.attempts = 0; //Reset attempt
+        otpEntry.blockedUntil = null; // Clear blocked time
       }
-      const date = new Date();
-      const now = date.getTime();
-      if (otpEntry.expTime > now) {
-        const accessToken = generateAccessToken({ email });
+    }
 
-        //first user is admin
-        const users = await UserModel.find({}).lean();
+    // Check if the OTP code matches
+    if (otpEntry.code === code) {
+      if (otpEntry.expTime > currentTime) {
 
-        await UserModel.create({
-          phone,
-          email,
-          role: users.length > 0 ? rolls.USER : rolls.ADMIN,
-        });
+        const payload = phone ?  {phone} :  {email};
+        const accessToken = generateAccessToken(payload);
+        const refreshToken = generateRefreshToken(payload);
+
+        await UserModel.findOneAndUpdate( payload,{
+          $set:{
+            refreshToken
+          }
+        }).lean()
+
+        const headers = new Headers();
+        headers.append("Set-Cookie", `token=${accessToken}; path=/; httpOnly=true`);
+        headers.append(
+          "Set-Cookie",
+          `refresh-token=${refreshToken}; path=/; httpOnly=true`
+        );
+
+        const existingUser = await UserModel.findOne({ phone });
+        if (!existingUser) {
+          // If user is new, create the user
+          //first user is admin
+          const users = await UserModel.find({}).lean();
+
+          await UserModel.create({
+            name,
+            phone,
+            email,
+            role: users.length > 0 ? rolls.USER : rolls.ADMIN,
+          });
+        }
+
+        // Mark OTP as used
+        otpEntry.isUsed = true;
+        await otpEntry.save();
 
         return Response.json(
-          { message: "Code is correct" },
+          { message: "OTP verified successfully" },
           {
             status: 200,
-            headers: {
-              "Set-Cookie": `token=${accessToken};path=/; httpOnly=true`,
-            },
+            headers
           }
         );
       } else {
-        return Response.json({ message: "Code is Expired" }, { status: 410 });
+        return Response.json(
+          { message: "Code is expired !!" },
+          { status: 410 }
+        );
       }
+    } else {
+      // Invalid OTP code
+      otpEntry.attempts += 1;
+
+      // Check number of attempts
+      if (otpEntry.attempts >= 3) {
+        otpEntry.isBlocked = true;
+        otpEntry.blockedUntil = new Date(Date.now() + 15 * 60 * 1000); // Block for 15 minutes
+      }
+
+      await otpEntry.save();
+      return Response.json(
+        { error: "Invalid OTP. Please try again." },
+        { status: 409 }
+      );
     }
   } catch (error) {
     console.error("Error while finding OTP:", error);

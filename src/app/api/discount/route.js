@@ -1,18 +1,22 @@
 import connectToDb from "@/configs/db";
 import DiscountModel from "@/models/Discount";
-import { authUser } from "@/utils/isLogin";
+import { authAdmin } from "@/utils/isLogin";
 
 export async function POST(req) {
   try {
+    const isAdmin = await authAdmin()
+    if(!isAdmin){
+      throw new Error("This Api is protected")
+    }
+    console.log('isAdmin=>', isAdmin)
     await connectToDb();
-    const user = await authUser();
     const body = await req.json();
 
-    const { code, percent, maxUse, product } = body;
+    const { code, percent, maxUse, product, isGlobal } = body;
 
     //validate 
 
-    await DiscountModel.create({ code, percent, maxUse, product, user: user._id, });
+    await DiscountModel.create({ code, percent, maxUse, product, isGlobal, user: isAdmin._id,  });
 
     return Response.json(
       { message: "Discount code created successfully :))" },

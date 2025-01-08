@@ -1,10 +1,16 @@
 import connectToDb from "@/configs/db";
 import ProductModel from "@/models/Product";
+import { authAdmin } from "@/utils/isLogin";
 import { writeFile } from "fs/promises";
 import path from "path";
 
 export async function POST(req) {
   try {
+    const isAdmin = await authAdmin()
+    if(!isAdmin){
+      throw new Error("This Api is protected")
+    }
+
     await connectToDb();
     const formData = await req.formData();
 

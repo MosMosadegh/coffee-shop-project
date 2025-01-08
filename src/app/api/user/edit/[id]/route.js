@@ -1,9 +1,15 @@
 import connectToDb from "@/configs/db";
 import UserModel from "@/models/User";
+import { authAdmin } from "@/utils/isLogin";
 import validateUser from "@/validations/user";
 
 export async function PUT(req, { params }) {
   try {
+    const isAdmin = await authAdmin()
+    if(!isAdmin){
+      throw new Error("This Api is protected")
+    }
+    
     await connectToDb();
     const id = params.id;
     const body = await req.json();

@@ -4,13 +4,17 @@ import styles from "./sms.module.css";
 import { useRouter } from "next/navigation";
 import { showSwal } from "@/utils/helpers";
 
-const Sms = ({ hideOtpForm, phone }) => {
+const Sms = ({ hideOtpForm, phone, name }) => {
   const router = useRouter();
   const [code, setCode] = useState("");
 
   const verifyCode = async () => {
     //Validation todo
-    const body = { phone, code };
+    const body = {
+      phone,
+      code,
+      name: name ? name : undefined,
+    };
     const res = await fetch("/api/auth/sms/verify", {
       method: "POST",
       headers: {
@@ -21,13 +25,20 @@ const Sms = ({ hideOtpForm, phone }) => {
     if (res.status === 409) {
       return showSwal("کد ورود صحیح نمیباشد", "error", "تلاش مجدد");
     } else if (res.status === 403) {
-      return showSwal(
-        "شما بیش از حد تلاش کرده‌اید. لطفاً کد جدید دریافت کنید.",
-        "error",
-        "تلاش مجدد"
-      );
+      return swal({
+        title:
+          "تعداد تلاشهای شما به بیش از حد مجاز رسید حساب شما تا 15 دقیقه مسدود شد",
+        icon: "error",
+        buttons: " متوجه شدم ",
+      });
     } else if (res.status === 410) {
-      return showSwal("کد ورود با منقضی شده", "error", "تلاش مجدد");
+      return swal({
+        title: "کد ورود منقضی شده",
+        icon: "error",
+        buttons: "تلاش مجدد",
+      }).then(() => {
+        router.replace("login-register");
+      });
     } else if (res.status === 200) {
       return swal({
         title: "کد ورود با موفقیت شتاسایی شد",

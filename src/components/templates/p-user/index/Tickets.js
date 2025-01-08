@@ -1,5 +1,4 @@
 import Ticket from "../tickets/Ticket";
-// import Ticket from "./Ticket";
 import styles from "./tickets.module.css";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";

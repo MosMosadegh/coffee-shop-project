@@ -1,61 +1,121 @@
+const request = require("request");
 import connectToDb from "@/configs/db";
 import OtpModel from "@/models/Otp";
-import axios from "axios"
+import UserModel from "@/models/User";
 
 export async function POST(req) {
   try {
     await connectToDb();
-    const regBody = await req.json();
+    const body = await req.json();
+    const { phone, action } = body;
 
-    const { phone } = regBody;
-
+    // جمع‌آوری اطلاعات IP و Device
     const ipAddress =
-      req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+      req.headers["x-forwarded-for"] ||
+      (req.socket ? req.socket.remoteAddress : null);
 
     const deviceInfo = req.headers["user-agent"];
 
-    let otpEntry = await OtpModel.findOne({ phone });
+    const otpCode = Math.floor(Math.random() * 999999);
+    console.log("Generated OTP Code:", otpCode);
 
-    // const now = new Date()
-    // const expTime = now.getTime() + 300_000  //5 min
-    const otpCode = Math.floor(Math.random() * 99999);
+    const isUserExist = await UserModel.findOne({
+      $or: [{ phone }],
+    });
+    console.log("Is user exist:", isUserExist);
 
-    if (otpEntry) {
-      // اگر ورودی وجود دارد، کد جدید تولید کنید و آن را به‌روزرسانی کنید
-      otpEntry.code = otpCode; // به‌روزرسانی کد
-      otpEntry.expTime = Date.now() + 1 * 60 * 1000; // زمان انقضا 1 دقیقه
-      otpEntry.ipAddress = ipAddress; // به‌روزرسانی IP
-      otpEntry.deviceInfo = deviceInfo; // به‌روزرسانی اطلاعات دستگاه
-    } else {
-      // اگر ورودی وجود ندارد، ورودی جدید ایجاد کنید
-      otpEntry = new OtpModel({
+
+    if (action === 'register'){
+      if (isUserExist) {
+        return Response.json(
+          {
+            message: "The username or email or phone exist already !!",
+          },
+          {
+            status: 422,
+          }
+        );
+      }
+
+      const otpEntry = new OtpModel({
         phone,
-        code: otpCode, // تولید کد OTP
-        expTime: Date.now() + 1 * 60 * 1000, // زمان انقضا 1 دقیقه
+        code: otpCode,
+        expTime: Date.now() + 1 * 60 * 1000,
         ipAddress,
         deviceInfo,
       });
-    }
 
-    const response = await axios.post("http://ippanel.com/api/select", {
-      op: "pattern",
-      user: "FREE09127595049",
-      pass: "Faraz@0492685150",
-      fromNum: "3000505",
-      toNum: phone,
-      patternCode: "tt41zwwlms7p06j",
-      inputData: [{ "verification-code": otpCode }], // اصلاح شده به otpCode
-    });
+      await otpEntry.save();
+      console.log('New OTP entry saved:', otpEntry);
 
-    if (response.status === 200) {
-      await otpEntry.save(); // ذخیره کد OTP در پایگاه داده
-      return new Response(JSON.stringify({ message: "Code sent successfully", code: otpEntry.code }), { status: 201 });
+      
+    }else if(action === "login"){
+      if (!isUserExist) {
+        return Response.json(
+          { message: "User not found. Please register first." },
+          { status: 404 }
+        );
+      }
+
+      // بررسی وجود شماره تلفن
+      let otpEntry = await OtpModel.findOne({ phone });
+  
+      if (otpEntry) {
+        // اگر ورودی وجود دارد، کد جدید تولید کنید و آن را به‌روزرسانی کنید
+        otpEntry.code = otpCode; // به‌روزرسانی کد
+        otpEntry.expTime = Date.now() + 1 * 60 * 1000;
+        otpEntry.isUsed = false;
+        otpEntry.ipAddress = ipAddress; // به‌روزرسانی IP
+        otpEntry.deviceInfo = deviceInfo; // به‌روزرسانی اطلاعات دستگاه
+      } else {
+        // اگر ورودی وجود ندارد، ورودی جدید ایجاد کنید
+        otpEntry = new OtpModel({
+          phone,
+          code: otpCode, // تولید کد OTP
+          expTime: Date.now() + 1 * 60 * 1000,
+          ipAddress,
+          deviceInfo,
+        });
+      }
+      await otpEntry.save();
+      console.log('OTP entry saved or updated:', otpEntry);
     } else {
-      console.error("Error sending OTP:", response.data);
-      return new Response(JSON.stringify({ message: "Failed to send OTP" }), { status: 500 });
+      return Response.json(
+        { message: "Invalid action" },
+        { status: 400 }
+      );
     }
-
     
+    //     request.post({
+    //       url: 'http://ippanel.com/api/select',
+    //       body: {
+    // "op":"pattern",
+    // "user":"FREE09127595049",
+    // "pass":"Faraz@0492685150",
+    // "fromNum":"3000505",
+    // "toNum":phone,
+    // "patternCode":"tt41zwwlms7p06j",
+    // "inputData":[
+    // { "verification-code": code }
+    // ]
+    // },
+    //         json: true,
+    //       },
+    //        function (error, response, body) {
+    //         if (!error && response.statusCode === 200) {
+    //           //YOU‌ CAN‌ CHECK‌ THE‌ RESPONSE‌ AND SEE‌ ERROR‌ OR‌ SUCCESS‌ MESSAGE
+   
+    //           console.log(response.body);
+    //         } else {
+    //           console.log("whatever you want");
+    //         }
+    //       }
+    //     );
+
+    return Response.json(
+      { message: "Code sent successfully :))" },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Error while creating OTP:", error);
     return Response.json({ message: error }, { status: 500 });

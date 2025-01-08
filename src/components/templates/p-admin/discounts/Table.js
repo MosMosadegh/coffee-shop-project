@@ -56,7 +56,7 @@ function Table({ discounts }) {
             <td>{discount.percent}</td>
             <td>{discount.maxUse}</td>
             <td>{discount.uses}</td>
-            <td>{discount.product.name}</td>
+            <td>{discount.product?.name}</td>
             <td>{discount.user.name}</td>
             <td>
               <button

@@ -21,11 +21,11 @@ const schema = new mongoose.Schema(
     },
     ipAddress: {
       type: String,
-      required: true
+      default: null
     },
-    deviceInfo: {
+    c: {
       type: String,
-      required: true
+      default: null
     },
     attempts: {
       type: Number,
@@ -45,6 +45,6 @@ const schema = new mongoose.Schema(
   }
 );
 
-const model = mongoose.models.Comment || mongoose.model("Comment", schema);
+const model = mongoose.models.Otp || mongoose.model("Otp", schema);
 
 export default model;

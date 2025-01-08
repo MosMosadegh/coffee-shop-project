@@ -20,17 +20,20 @@ const Login = ({ showRegisterForm }) => {
   };
 
   const loginWithPassword = async () => {
-    if (!phoneOrEmail) {
+    if (!phone.trim() && !email.trim()) {
       return showSwal(
         "لطفا شماره تماس یا ایمیل را وارد کنید",
         "error",
         "تلاش مجدد"
       );
     }
-    const isValidEmail = validateEmail(phoneOrEmail);
-    if (!isValidEmail) {
+    if (email && !validateEmail(email)) {
       return showSwal("ایمیل صحیح نمیباشد", "error", "تلاش مجدد");
     }
+    if (phone && !validatePhone(phone)) {
+      return showSwal("شماره تماس صحیح نمیباشد", "error", "تلاش مجدد");
+    }
+
     if (!password) {
       return showSwal("لطفا پسورد را وارد کنید", "error", "تلاش مجدد");
     }
@@ -38,7 +41,11 @@ const Login = ({ showRegisterForm }) => {
     if (!isValidPassword) {
       return showSwal(" رمز دارای شرایط لازم نمیباشد", "error", "تلاش مجدد");
     }
-    const user = { email: phoneOrEmail, password };
+    const user = {
+      email: email ? email : undefined,
+      phone: phone ? phone : undefined,
+      password,
+    };
 
     const res = await fetch("/api/auth/signin", {
       method: "POST",
@@ -48,8 +55,9 @@ const Login = ({ showRegisterForm }) => {
       body: JSON.stringify(user),
     });
     if (res.status === 200) {
-      SetPhoneOrEmail("");
-      SetPassword("");
+      setEmail("");
+      setPhone("");
+      setPassword("");
       swal({
         title: "شما با موفقیت وارد حساب خود شدید",
         icon: "success",
@@ -61,37 +69,51 @@ const Login = ({ showRegisterForm }) => {
       showSwal("کاربری با این اطلاعت یافت نشد", "error", "تلاش مجدد");
     } else if (res.status === 419) {
       showSwal("ایمیل یا رمزورود صحیح نمی باشد", "error", "تلاش مجدد");
+    }else if (res.status === 403) {
+      showSwal("شما با کد یکبار مصرف ثبت نام کردید. لطفا از گزینه ورود با کد یکبار مصرف استفاده کنید", "error", "تلاش مجدد");
     }
   };
 
   const sendOtp = async () => {
     if (phone) {
-       const isValidPhone = validatePhone(phone);
-       if (!isValidPhone) {
-         return showSwal("شماره تماس صحیح نمیباشد", "error", "تلاش مجدد");
-       }
+      const isValidPhone = validatePhone(phone);
+      if (!isValidPhone) {
+        return showSwal("شماره تماس صحیح نمیباشد", "error", "تلاش مجدد");
+      }
 
-       const res = await fetch("/api/auth/sms/send", {
-         method: "POST",
-         headers: {
-           "Content-Type": "application/json",
-         },
-         body: JSON.stringify(phone),
-       });
-       if (res.status === 201) {
-         swal({
-           title: "کد ورود با موفقیت ارسال شد",
-           icon: "success",
-           buttons: "وارد کردن کد",
-         }).then(() => {
-           setIsLoginWithOtp(true);
-         });
-       }
+      const newUser = {
+        phone,
+        action: "login",
+      };
+
+      const res = await fetch("/api/auth/sms/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+      if (res.status === 201) {
+        swal({
+          title: "کد ورود با موفقیت ارسال شد",
+          icon: "success",
+          buttons: "وارد کردن کد",
+        }).then(() => {
+          setIsLoginWithOtp(true);
+        });
+      } else if (res.status === 404) {
+        swal({
+          title: "با این شماره تماس قبلا ثبت نام نشده",
+          icon: "error",
+          buttons: "ثبت نام می‌کنم",
+        }).then(() => {
+          showRegisterForm();
+        });
+      }
     } else {
       return showSwal("لطفا شماره تماس را وارد نمائید", "error", "تلاش مجدد");
-     }
-     
-   };
+    }
+  };
 
   return (
     <>
@@ -129,10 +151,7 @@ const Login = ({ showRegisterForm }) => {
             <Link href={"/forget-password"} className={styles.forgot_pass}>
               رمز عبور را فراموش کرده اید؟
             </Link>
-            <button
-              className={styles.btn}
-              onClick={sendOtp}
-            >
+            <button className={styles.btn} onClick={sendOtp}>
               ورود با کد یکبار مصرف
             </button>
             <span>ایا حساب کاربری ندارید؟</span>

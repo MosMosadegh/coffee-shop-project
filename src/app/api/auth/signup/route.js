@@ -62,6 +62,7 @@ export async function POST(req) {
       }
     }
     const hashedPassword = await hashPassword(password);
+    
 
     const accessToken = generateAccessToken({ phone });
 
@@ -79,8 +80,10 @@ export async function POST(req) {
     return Response.json(
       { message: "User Join successfully" },
       {
-        status: 201,
-        headers: { "Set-Cookie": `token=${accessToken};path=/; httpOnly=true` },
+        status: 200,
+        headers: {
+          "Set-Cookie": `token=${accessToken};path=/; httpOnly=true`,
+        },
       }
     );
   } catch (error) {

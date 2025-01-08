@@ -13,14 +13,14 @@ const schema = new mongoose.Schema(
       required: true,
     },
     maxUse: {
-        //5
+      //5
       type: Number,
       required: true,
     },
     uses: {
-        //1
+      //1
       type: Number,
-      default: 0
+      default: 0,
     },
     user: {
       type: mongoose.Types.ObjectId,
@@ -30,8 +30,12 @@ const schema = new mongoose.Schema(
     product: {
       type: mongoose.Types.ObjectId,
       ref: "Product",
-      required: true,
+      required: false,
     },
+    isGlobal: { 
+      type: Boolean,
+      default: false
+      },
   },
   {
     timestamps: true,

@@ -19,6 +19,18 @@ export async function POST(req) {
 
     const { name, email, phone } = body;
 
+    const payload = phone ? { phone: user.phone } : { email: user.email };
+    const accessToken = generateAccessToken(payload);
+    const refreshToken = generateRefreshToken(payload);
+
+    await UserModel.findOneAndUpdate( payload,{
+      $set:{
+        refreshToken
+      }
+    }).lean()
+
+   
+
     await UserModel.findOneAndUpdate(
       { _id: user._id },
       {
@@ -30,9 +42,13 @@ export async function POST(req) {
       }
     );
 
+
+
     return Response.json(
       { message: "User updated successfully :))" },
-      { status: 200 }
+      {
+        status: 200,
+      }
     );
   } catch (err) {
     return Response.json({ message: err }, { status: 500 });

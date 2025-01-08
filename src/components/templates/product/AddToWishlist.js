@@ -9,6 +9,18 @@ const [user, setUser] = useState({})
 useEffect(()=>{
     const authUser = async () => {
       const res = await fetch ("/api/auth/me")
+
+      if(res.status === 401){
+        const response = await fetch('/api/auth/refresh', {
+          method: 'POST',
+          credentials: 'include', // برای ارسال کوکی‌ها
+        });
+        if (!response.ok) {
+          console.error("Failed to refresh token");
+          return null; // در صورت ناموفق بودن تولید Access Token جدید
+        }
+        res = await fetch ("/api/auth/me")
+      }
       
       if(res.status === 200) {
         const data = await res.json()

@@ -17,7 +17,12 @@ const Register = ({ showLoginForm }) => {
   const [password, setPassword] = useState("");
 
   const signup = async () => {
-    const user = { name, phone, email, password };
+    const user = {
+      name,
+      phone,
+      email: email ? email : `${phone}@gmail.com`,
+      password,
+    };
     if (!name.trim()) {
       return showSwal("نام را وارد کنید", "error", "تلاش مجدد");
     }
@@ -45,7 +50,23 @@ const Register = ({ showLoginForm }) => {
       },
       body: JSON.stringify(user),
     });
-    if (res.status === 201) {
+
+    if (res.status === 422) {
+      return showSwal(
+        "اطلاعات ورودی صحیح نمیباشد",
+        "error",
+        "تلاش مجدد"
+      );
+    }
+    if (res.status === 409) {
+      return showSwal(
+        "کاربر دیگری با این مشخصات موجود میباشد",
+        "error",
+        "تلاش مجدد"
+      );
+    }
+  
+    if (res.status === 200) {
       setName("");
       setPhone("");
       setEmail("");
@@ -55,17 +76,11 @@ const Register = ({ showLoginForm }) => {
         icon: "success",
         buttons: "ورود به پنل کاربری",
       }).then(() => {
-        router.replace("/p-user");
+        router.replace("p-user");
       });
     }
-    if (res.status === 422) {
-      return showSwal(
-        "کاربر دیگری با این مشخصات موجود میباشد",
-        "error",
-        "تلاش مجدد"
-      );
-    }
   };
+
   const hideOtpForm = () => {
     setIsRegisterWithOtp(false);
   };
@@ -75,13 +90,17 @@ const Register = ({ showLoginForm }) => {
     if (!isValidPhone) {
       return showSwal("شماره تماس صحیح نمیباشد", "error", "تلاش مجدد");
     }
+    const newUser = {
+      phone,
+      action: "register"
+    }
 
     const res = await fetch("/api/auth/sms/send", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({phone}),
+      body: JSON.stringify(newUser),
     });
     if (res.status === 201) {
       swal({
@@ -89,10 +108,17 @@ const Register = ({ showLoginForm }) => {
         icon: "success",
         buttons: "وارد کردن کد",
       }).then(() => {
-        setIsRegisterWithOtp(true)
+        setIsRegisterWithOtp(true);
       });
-     }
-
+    } else if (res.status === 422) {
+      swal({
+        title: "این شماره تماس قبلا ثبت نام شده",
+        icon: "error",
+        buttons: "لاگین می‌کنم",
+      }).then(() => {
+        showLoginForm();
+      });
+    }
   };
 
   return (
@@ -157,7 +183,7 @@ const Register = ({ showLoginForm }) => {
           <p className={styles.redirect_to_home}>لغو</p>
         </>
       ) : (
-        <Sms hideOtpForm={hideOtpForm} phone={phone} />
+        <Sms hideOtpForm={hideOtpForm} phone={phone} name={name} />
       )}
     </>
   );
