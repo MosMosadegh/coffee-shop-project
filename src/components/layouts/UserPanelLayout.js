@@ -8,11 +8,11 @@ import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
 
 const Layout = async ({ children }) => {
   const user = await authUser();
-
-  if (!user) {
-   
-    redirect("/login-register");
-  }
+if (!user) {
+  console.log("User not authenticated");
+} else {
+  console.log("Authenticated user:", user);
+}
 
   return (
     <>

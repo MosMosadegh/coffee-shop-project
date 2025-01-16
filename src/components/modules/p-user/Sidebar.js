@@ -11,7 +11,7 @@ import Link from "next/link";
 import swal from "sweetalert";
 import { useRouter } from "next/navigation";
 import { refresh } from "aos";
-import { cookies } from "next/headers";
+
 
 
 const Sidebar = () => {
@@ -42,38 +42,13 @@ const Sidebar = () => {
 
   };
 
-  const newTokenHandler = async () => {
-    const refreshToken = cookies().get("refresh-token")?.value;
-    const res = await fetch('/api/auth/refresh', {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({refreshToken}),
-    })
-    if(res.status === 200){
-      swal({
-        title: "توکن شما با موفقیت ریفرش شد.",
-        icon: "success",
-        buttons: "متوجه شدم",
-      })
-    }else{  
-      swal({
-        title: "خطا در ریفرش توکن",
-        icon: "error",
-        buttons: "متوجه شدم",
-      })
-    }
-  }
+  
 
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebar_header}>
         <p>خوش اومدی شاهین عزیز</p>
-        <button onClick={newTokenHandler}>
-          refresh Token
-        </button>
+        
       </div>
       <ul className={styles.sidebar_main}>
         {path.includes("/p-user") ? (

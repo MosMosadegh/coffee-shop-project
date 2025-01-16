@@ -4,14 +4,29 @@ import styles from "./Nabvar.module.css";
 import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaShoppingCart, FaRegHeart } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
-function Navbar({ userName }) {
+function Navbar({ user }) {
+  console.log("🚀 ~ Navbar ~ user:", user)
+  
+  const router = useRouter();
+
   const [fixTop, setFixTop] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(null);
  
+ useEffect(() => {
+    if (user.name) {
+      setIsUserLoggedIn(true); // اگر کاربر لاگین کرده باشد، وضعیت را به true تغییر دهید
+    }else {
+      setIsUserLoggedIn(false);
+    }
+  }, [user]);
+
   useEffect(() => {
-    if (userName) setIsUserLoggedIn(true);
-  }, []);
+    if (isUserLoggedIn) {
+      router.refresh(); // رفرش صفحه
+    }
+  }, [isUserLoggedIn, router]);
 
   useEffect(() => {
     const fixNavbarToTop = () => {
@@ -65,7 +80,7 @@ function Navbar({ userName }) {
                 <div className={styles.dropdown}>
                   <Link href="/p-user">
                     <IoIosArrowDown className={styles.dropdown_icons} />
-                    {userName} - حساب کاربری
+                    {user.name} - حساب کاربری
                     {/* حساب کاربری  */}
                   </Link>
                   <div className={styles.dropdown_content}>

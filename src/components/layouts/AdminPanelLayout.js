@@ -3,19 +3,20 @@ import styles from "./adminPanelLayout.module.css";
 import Sidebar from "@/components/modules/p-admin/Sidebar";
 import Topbar from "@/components/modules/p-admin/Topbor";
 import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
-import { authUser } from "@/utils/isLogin";
+import { authAdmin } from "@/utils/isLogin";
 import { redirect } from "next/navigation";
 
 const Layout = async ({ children }) => {
-  const user = await authUser();
+
+  const admin = await authAdmin();
+if (!admin) {
+  console.log("User is not an admin");
+  return redirect("/login-register");
+} else {
+  console.log("Authenticated admin:", admin);
+}
   
-  if (user) {
-    if (!user.role === "ADMIN") {
-     return redirect("/login-register");
-    }
-  }else {
-    redirect("/login-register");
-  }
+  
 
   return (
     <>
@@ -24,7 +25,7 @@ const Layout = async ({ children }) => {
         <section className={styles.section}>
           <Sidebar />
           <div className={styles.contents}>
-            <Topbar />
+            <Topbar adminData={admin}/>
             {children}
           </div>
         </section>

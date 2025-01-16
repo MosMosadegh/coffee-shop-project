@@ -11,16 +11,15 @@ export async function POST(req) {
     const body = await req.json();
     console.log("🚀 ~ POST ~ body:", body)
     const { refreshToken } = body;
-    // const refreshToken = cookies().get("refresh-token")?.value;
 
     if (!refreshToken) {
       return Response.json({ message: "No refresh token" }, { status: 401 });
     }
 
     const user = await UserModel.findOne({ refreshToken });
-    console.log("POST ~ user", user);
+    console.log("🚀 ~ POST ~ user:", user)
     if (!user) {
-      console.log("🚀 ~ POST ~ no have refresh Token");
+  
       return Response.json(
         { message: "no have refresh Token" },
         { status: 401 }

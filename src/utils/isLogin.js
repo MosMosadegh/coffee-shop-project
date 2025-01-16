@@ -2,28 +2,27 @@ import { cookies } from "next/headers";
 import UserModel from "@/models/User";
 import connectToDb from "@/configs/db";
 import { verifyAccessToken } from "./auth";
+import { NextResponse } from "next/server";
 
-const authUser = async () => {
-  await connectToDb();
-  const token = cookies().get("token");
-  console.log("🚀 ~ authUser ~ token:", token);
-  const refreshToken = cookies().get("refresh-token")?.value;
-  console.log("🚀 ~ authUser ~ refreshToken:", refreshToken);
-  let user = null;
+// Helper functions
+const getRefreshToken = () => {
+  return cookies().get("refresh-token")?.value;
+};
 
-  if (token) {
-    const tokenPayload = verifyAccessToken(token.value);
-    if (tokenPayload) {
-      // توکن معتبر است
-      user =
-        (await UserModel.findOne({ email: tokenPayload.email })) ||
-        (await UserModel.findOne({ phone: tokenPayload.phone }));
-    } else if (!tokenPayload) {
-      console.log("🚀 ~ authUser ~ Access token is invalid or expired. Attempting to refresh...");
-      console.log("🚀 ~ authUser ~ token2:", token);
-      console.log("🚀 ~ authUser ~ refreshToken2:", refreshToken);
-      
-      const res = await fetch("http://localhost:3000/api/auth/refresh", {
+const validateToken = async (token) => {
+  try {
+    let tokenPayload = await verifyAccessToken(token.value);
+    const refreshToken = getRefreshToken();
+
+    if (!tokenPayload) {
+      console.log("🚀 ~ Access token is invalid or expired. Attempting to refresh...");
+
+      if (!refreshToken) {
+        console.log("🚀 ~ No refresh token found. Redirecting to login.");
+        throw new Error("No refresh token found");
+      }
+
+      const res = await fetch(`${process.env.API_URL}/auth/refresh`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -31,62 +30,81 @@ const authUser = async () => {
         },
         body: JSON.stringify({ refreshToken }),
       });
-      console.log("🚀 ~ authUser ~ res:", res)
 
-      if (res.ok) {
-        const data = await res.json();
-        const newAccessToken = data.newAccessToken;
-        console.log("🚀 ~ authUser ~ newAccessToken:", newAccessToken)
-
-        const newTokenPayload = verifyAccessToken(newAccessToken);
-        if (newTokenPayload) {
-          user =
-            (await UserModel.findOne({ email: newTokenPayload.email })) ||
-            (await UserModel.findOne({ phone: newTokenPayload.phone }));
-        }
-      } else {
+      if (!res.ok) {
         console.error("Failed to refresh token:", res.statusText);
+        throw new Error("Failed to refresh token");
       }
-    }
-  } else {
-    console.log("🚀 ~ authUser ~ No token found.");
-    return null;
-  }
 
-  return user;
+      const data = await res.json();
+      const newAccessToken = data.newAccessToken;
+      console.log("🚀 ~ New access token:", newAccessToken);
+
+      tokenPayload = verifyAccessToken(newAccessToken);
+    }
+
+    return tokenPayload;
+  } catch (error) {
+    console.error("Error in validateToken:", error);
+    throw error;
+  }
 };
 
-const authAdmin = async () => {
+const findUserByTokenPayload = async (tokenPayload) => {
+  try {
+    if (tokenPayload.email) {
+      return await UserModel.findOne({ email: tokenPayload.email });
+    } else if (tokenPayload.phone) {
+      return await UserModel.findOne({ phone: tokenPayload.phone });
+    }
+    return null;
+  } catch (error) {
+    console.error("Error in findUserByTokenPayload:", error);
+    throw error;
+  }
+};
+
+ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+
+// Main function
+const authUser = async (role = null) => {
   try {
     await connectToDb();
-
     const token = cookies().get("token");
+    const refreshToken = getRefreshToken();
 
-    if (!token) {
-      return null;
+    if (!token && !refreshToken) {
+      console.log("🚀 ~ No access token or refresh token found. Redirecting to login.");
+      return NextResponse.redirect(`${baseUrl}/login-register`)
     }
 
-    const tokenPayload = verifyAccessToken(token.value);
+    let tokenPayload;
+    if (token) {
+      tokenPayload = await validateToken(token);
+    } else {
+      console.log("🚀 ~ Access token not found, trying to validate refresh token...");
+      tokenPayload = await validateToken({ value: refreshToken });
+    }
+
     if (!tokenPayload) {
       return null;
     }
 
-    let user;
-    if (tokenPayload.email) {
-      user = await UserModel.findOne({ email: tokenPayload.email });
-    } else if (tokenPayload.phone) {
-      user = await UserModel.findOne({ phone: tokenPayload.phone });
+    const user = await findUserByTokenPayload(tokenPayload);
+
+    if (role && user.role !== role) {
+      return null;
     }
 
-    if (user && user.role === "ADMIN") {
-      return user;
-    }
-
-    return null;
+    return user;
   } catch (error) {
-    console.error("Error in authAdmin:", error);
-    return null;
+    console.error("Error in authUser:", error);
+    return NextResponse.redirect(`${baseUrl}/login-register`)
   }
+};
+
+const authAdmin = async () => {
+  return authUser("ADMIN");
 };
 
 export { authUser, authAdmin };
