@@ -85,7 +85,7 @@ const Details = ({ product }) => {
       </div>
 
       <section className={styles.wishlist}>
-        <AddToWishlist productID={product._id} />
+        <AddToWishlist productID={product._id}/>
         <div>
           <TbSwitch3 />
           <a href="/">مقایسه</a>

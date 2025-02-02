@@ -17,7 +17,7 @@ export async function DELETE(req, { params }) {
       user: user._id,
       product: productID,
     });
-    return Response.json({ message: "Product removed Successfully" });
+    return Response.json({ message: "Product removed Successfully" }, { status: 200 });
   } catch (error) {
     return Response.json({ message: error }, { status: 500 });
   }

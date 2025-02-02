@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import UserModel from "@/models/User";
 import connectToDb from "@/configs/db";
 import { verifyAccessToken } from "./auth";
-import { NextResponse } from "next/server";
+// import { NextResponse } from "next/server";
 
 // Helper functions
 const getRefreshToken = () => {
@@ -64,7 +64,7 @@ const findUserByTokenPayload = async (tokenPayload) => {
   }
 };
 
- const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+//  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
 
 // Main function
 const authUser = async (role = null) => {
@@ -75,7 +75,7 @@ const authUser = async (role = null) => {
 
     if (!token && !refreshToken) {
       console.log("🚀 ~ No access token or refresh token found. Redirecting to login.");
-      return NextResponse.redirect(`${baseUrl}/login-register`)
+      // return NextResponse.redirect(`${baseUrl}/login-register`)
     }
 
     let tokenPayload;
@@ -99,7 +99,7 @@ const authUser = async (role = null) => {
     return user;
   } catch (error) {
     console.error("Error in authUser:", error);
-    return NextResponse.redirect(`${baseUrl}/login-register`)
+    // return NextResponse.redirect(`${baseUrl}/login-register`)
   }
 };
 

@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import ScrollToTop from "@/utils/ScrollToTop";
 import Navbar from "@/components/modules/navbar/Navbar";
 import Footer from "@/components/modules/footer/Footer";
-import Providers from "./providers";
+// import Providers from "./providers";
 
 import connectToDb from "@/configs/db";
 import { authUser } from "@/utils/isLogin";
@@ -34,13 +34,13 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="fa">
       <body className={inter.className}>
-        <Providers>
+        {/* <Providers> */}
           <AOSInit />
           <Navbar user={userData} />
-          {children}
+          {children }
           <ScrollToTop />
           <Footer />
-        </Providers>
+        {/* </Providers> */}
       </body>
     </html>
   );
