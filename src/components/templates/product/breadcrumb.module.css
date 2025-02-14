@@ -1,11 +1,12 @@
 .breadcrumb a {
-  color: rgb(144, 140, 140);
+  color: rgb(138, 76, 76);
 }
 .breadcrumb span {
   position: relative;
   top: 2px;
 }
 .breadcrumb {
+
   display: flex;
   align-items: center;
   direction: rtl;

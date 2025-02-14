@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: product.name,
       description: product.shortDescription,
-      images: product.img, // آدرس تصویر محصول
+      images: product.img,
       url: `${process.env.BASE_URL}/product/${productID}`,
       // type: "product",
       siteName: "فروشگاه ما",
@@ -58,17 +58,15 @@ const product = async ({ params }) => {
   ).populate("comments", "-__v");
   const product = JSON.parse(JSON.stringify(productData));
 
-  //find Related Product that similar to as "Smell"
-
-
   return (
     <div className={styles.container}>
       <div data-aos="fade-up" className={styles.contents}>
         <div className={styles.main}>
           <Details product={product} />
-          <Gallery  productImg={product.img} />
+          <Gallery productImg={product.img} />
         </div>
         <Tabs product={product} />
+        {/* find Related Product that similar to as "Smell" */}
         <MoreProducts smell={product.smell} productID={product._id} />
       </div>
     </div>

@@ -11,7 +11,7 @@ const Footer = () => {
         <section className={styles.descriptions}>
           <img src="/images/logo_light.png" alt="" />
           <p className={styles.descriptions_title}>
-            شرکت فنجان داغ خوارزمی، فروشگاه اینترنتی قهوه ست
+            شرکت و   فروشگاه اینترنتی  مصطفی
           </p>
 
           <div className={styles.description}>
@@ -23,11 +23,11 @@ const Footer = () => {
           </div>
           <div className={styles.description}>
             <FaRegHeart />
-            <p>پیگیری سفارشات : 02188305827</p>
+            <p>پیگیری سفارشات : 09127595049</p>
           </div>
           <div className={styles.description}>
             <FaRegHeart />
-            <p>support [at] set-coffee.com</p>
+            <p>support [at] Mostafa-Mosadegh.com</p>
           </div>
         </section>
 
@@ -91,12 +91,9 @@ const Footer = () => {
       <hr />
       <div className="container flex justify-end items-center  text-white h-13">
         <p className={styles.copyRight}>
-          
           2023
-          <MdOutlineCopyright /> تمام حقوق متعلق است به <strong>
-            قهوه ست
-          </strong>
-          | طراحی و اجرا <strong>نیلامارکتینگ</strong>
+          <MdOutlineCopyright /> تمام حقوق متعلق است به <strong>Mostafa Mosadegh</strong>
+          | طراحی و اجرا <strong>Mostafa</strong>
         </p>
       </div>
     </footer>

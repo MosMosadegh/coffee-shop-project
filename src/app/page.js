@@ -5,7 +5,7 @@ import Promote from "@/components/templates/index/promote/Promote";
 import ProductModel from "@/models/Product";
 
 export default async function Home() {
-  const latestProduct = await ProductModel.find({}).sort({ _id: -1 }).limit(8);
+  const latestProduct = await ProductModel.find({}).sort({ _id: -1 }).limit(4);
 
   return (
     <>
