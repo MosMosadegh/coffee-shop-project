@@ -6,6 +6,10 @@
   line-height: 1.2;
   color: black;
   direction: rtl;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .cart_empty svg {

@@ -4,29 +4,32 @@ import styles from "./Nabvar.module.css";
 import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaShoppingCart, FaRegHeart } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 
 function Navbar({ user }) {
-  console.log("🚀 ~ Navbar ~ user:", user)
-  
-  const router = useRouter();
-
   const [fixTop, setFixTop] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(null);
- 
- useEffect(() => {
-    if (user.name) {
-      setIsUserLoggedIn(true); // اگر کاربر لاگین کرده باشد، وضعیت را به true تغییر دهید
-    }else {
+  // const [cartItem, setCartItem] = useState([]);
+
+  // useEffect(() => {
+  //   const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+  //   setCartItem(localCart);
+  // }, []);
+
+  const { data: wishlist } = useQuery({
+    queryKey: ["wishlist", user?.id],
+    queryFn: () => fetch("/api/wishlist/get").then((res) => res.json()),
+    enabled: !!user,
+  });
+
+
+  useEffect(() => {
+    if (user) {
+      setIsUserLoggedIn(true);
+    } else {
       setIsUserLoggedIn(false);
     }
   }, [user]);
-
-  useEffect(() => {
-    if (isUserLoggedIn) {
-      router.refresh(); // رفرش صفحه
-    }
-  }, [isUserLoggedIn, router]);
 
   useEffect(() => {
     const fixNavbarToTop = () => {
@@ -80,7 +83,7 @@ function Navbar({ user }) {
                 <div className={styles.dropdown}>
                   <Link href="/p-user">
                     <IoIosArrowDown className={styles.dropdown_icons} />
-                    {user.name} - حساب کاربری
+                    {user?.name} - حساب کاربری
                     {/* حساب کاربری  */}
                   </Link>
                   <div className={styles.dropdown_content}>
@@ -100,11 +103,13 @@ function Navbar({ user }) {
           <div className={styles.navbar_icons}>
             <Link href="/cart">
               <FaShoppingCart />
-              <span>1</span>
+              {/* <span>{cartItem?.length || 0}</span> */}
             </Link>
-            <Link href="/wishlist">
+       
+       
+            <Link href={user? "/p-user/wishlist" : "/" }>
               <FaRegHeart />
-              <span>1</span>
+              <span>{wishlist?.length || 0}</span>
             </Link>
           </div>
         </main>

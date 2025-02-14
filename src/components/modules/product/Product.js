@@ -1,40 +1,58 @@
+"use client"
 import Link from "next/link";
 import styles from "./product.module.css";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { CiSearch, CiHeart } from "react-icons/ci";
+import Image from "next/image";
+import AddToWishlist from "@/components/templates/product/AddToWishlist";
+import AddToShoppingBasket from "@/components/templates/product/AddToShoppingBasket";
+import { showSwal } from "@/utils/helpers";
+import Swal from "sweetalert2";
 
-const Card = ({ _id, name, price, score, img }) => {
+const Card = ({ product }) => {
+// const Card = ({ _id, name, price, score, img }) => {
+  const fastShow = (body) => {
+        Swal.fire({
+          title: "توضیحات: ",
+          text: body,
+          icon: "question"
+        });
+    // showSwal(body, undefined, "بستن");
+  };
+
   return (
     <div className={styles.card}>
       <div className={styles.details_container}>
-        <img src={img} alt="" />
+        <Image width={200} height={312} src={product.img} alt="Product" />
+
         <div className={styles.icons}>
-          <Link href="/">
+          <div  onClick={()=>fastShow(product.longDescription)}>
             <CiSearch />
             <p className={styles.tooltip}>مشاهده سریع</p>
-          </Link>
+          </div>
           <div>
-            <CiHeart />
+            <AddToWishlist productID={product._id} />
+            
             <p className={styles.tooltip}>افزودن به علاقه مندی ها </p>
           </div>
         </div>
-        <button>افزودن به سبد خرید</button>
+        <AddToShoppingBasket product={product} />
       </div>
 
       <div className={styles.details}>
-        <Link href={`/product/${_id}`}>{name}</Link>
+        <Link href={`/product/${product._id}`} className="hover:bg-slate-200">{product.name}</Link>
         <div className="flex justify-center">
-          {score &&
-            new Array(score)
+          {product.score &&
+            new Array(product.score)
               .fill(0)
               .map((item, index) => <FaStar key={index} />)}
 
-          {score &&
-            new Array(5 - score)
+          {product.score &&
+            new Array(5 - product.score)
               .fill(0)
               .map((item, index) => <FaRegStar key={index} />)}
         </div>
-        <span>{price?.toLocaleString()} تومان</span>
+        <span>{product.price?.toLocaleString()} تومان</span>
       </div>
     </div>
   );

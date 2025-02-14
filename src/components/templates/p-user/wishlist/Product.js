@@ -1,12 +1,11 @@
 "use client";
+import Image from "next/image";
 import styles from "./product.module.css";
 import Link from "next/link";
 import { IoMdStar, IoMdStarOutline } from "react-icons/io";
 import swal from "sweetalert";
 
 const Card = ({ price, score, name, productID, img }) => {
-
-
   const removeProduct = () => {
     swal({
       title: "آیا از حذف محصول اطمینان دارید؟",
@@ -17,15 +16,14 @@ const Card = ({ price, score, name, productID, img }) => {
         const res = await fetch(`/api/wishlist/${productID}`, {
           method: "DELETE",
         });
-       
+
         if (res.status === 200) {
           swal({
             title: "محصول مورد نظر از علاه مندی ها حذف شد",
             icon: "success",
             buttons: "متوجه شدم",
-          })
-          .then(()=>{
-            location.reload()
+          }).then(() => {
+            location.reload();
           });
         }
       }
@@ -35,12 +33,7 @@ const Card = ({ price, score, name, productID, img }) => {
   return (
     <div className={styles.card}>
       <Link href={`/product/${productID}`}>
-        <img
-          width={283}
-          height={283}
-          src={img}
-          alt=""
-        />
+        <Image width={283} height={283} src={img} alt="" />
       </Link>
       <p dir="rtl">{name}</p>
       <div>
@@ -60,5 +53,6 @@ const Card = ({ price, score, name, productID, img }) => {
     </div>
   );
 };
+
 
 export default Card;

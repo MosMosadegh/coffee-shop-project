@@ -8,45 +8,10 @@ import styles from "./details.module.css";
 import Breadcrumb from "./Breadcrumb";
 import AddToWishlist from "./AddToWishlist";
 import { useState } from "react";
-import { showSwal } from "@/utils/helpers";
+import AddToShoppingBasket from "./AddToShoppingBasket";
 
 const Details = ({ product }) => {
   const [count, setCount] = useState(1);
-
-  const addToCard = () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    const pushToCart = () => {
-      const cardItem = {
-        id: product._id,
-        name: product.name,
-        price: product.price,
-        count,
-      };
-      cart.push(cardItem);
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      showSwal("محصول با موفقیت به سبد خرید اضافه شد", "success", "فهمیدم");
-    };
-
-    if (cart.length) {
-      const isInCart = cart.some((item) => item.id === product._id);
-
-      if (isInCart) {
-        cart.forEach((item) => {
-          if (item.id == product._id) {
-            item.count = item.count + count;
-          }
-        });
-        localStorage.setItem("cart", JSON.stringify(cart));
-        showSwal("محصول با موفقیت به سبد خرید اضافه شد", "success", "فهمیدم");
-      } else {
-        pushToCart();
-      }
-    } else {
-      pushToCart();
-    }
-  };
 
   return (
     <main style={{ width: "63%" }}>
@@ -76,7 +41,7 @@ const Details = ({ product }) => {
       </div>
 
       <div className={styles.cart}>
-        <button onClick={addToCard}>افزودن به سبد خرید</button>
+        <AddToShoppingBasket product={product} count={count}/>
         <div>
           <span onClick={() => setCount(count - 1)}>-</span>
           {count}
@@ -85,7 +50,8 @@ const Details = ({ product }) => {
       </div>
 
       <section className={styles.wishlist}>
-        <AddToWishlist productID={product._id}/>
+        <AddToWishlist productID={product._id} />
+        <p>افزودن به علاقه مندی ها </p>
         <div>
           <TbSwitch3 />
           <a href="/">مقایسه</a>

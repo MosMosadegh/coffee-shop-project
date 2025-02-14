@@ -6,11 +6,13 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { useState } from "react";
+import Image from "next/image";
 
-const Gallery = () => {
+const Gallery = ({ productImg }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const images = [
     "https://set-coffee.com/wp-content/uploads/2020/12/Gold-DG-700x700.jpg",
+    "https://set-coffee.com/wp-content/uploads/2020/12/Gold-box-DG--150x150.jpg",
     "https://set-coffee.com/wp-content/uploads/2020/12/Gold-box-DG--150x150.jpg",
   ];
 
@@ -29,7 +31,8 @@ const Gallery = () => {
       >
         {images.map((img, index) => (
           <SwiperSlide key={index}>
-            <img src={img} />
+            <Image width={600} height={600} src={productImg} alt="Product" />
+            {/* <img src={img} /> */}
           </SwiperSlide>
         ))}
       </Swiper>
@@ -45,7 +48,7 @@ const Gallery = () => {
       >
         {images.map((img, index) => (
           <SwiperSlide key={index}>
-            <img src={img} />
+            <img src={productImg} />
           </SwiperSlide>
         ))}
       </Swiper>

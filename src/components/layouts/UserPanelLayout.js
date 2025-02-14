@@ -19,7 +19,7 @@ if (!user) {
       <Breadcrumb route={"پنل کاربری"} />
       <div className={styles.layout}>
         <section className={styles.section}>
-          <Sidebar />
+          <Sidebar user={user.name} />
           <div className={styles.contents}>
             <Topbar userName={user.name} role={user.role} />
             {children}

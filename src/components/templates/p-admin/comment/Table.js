@@ -185,7 +185,7 @@ export default function DataTable({ comments, title }) {
       )
       .join("");
 
-      Swal.fire({
+    Swal.fire({
       title: "پاسخ‌ها",
       html: answersHtml,
       icon: "info",

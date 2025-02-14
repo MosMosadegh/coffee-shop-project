@@ -4,27 +4,24 @@ import styles from "./table.module.css";
 import totalStyles from "./totals.module.css";
 import { IoMdClose } from "react-icons/io";
 import { useEffect, useState } from "react";
-import stateData from "@/utils/stateData";
-import Select from "react-select";
 import { showSwal } from "@/utils/helpers";
+import Image from "next/image";
+import AddressSelector from "@/components/modules/addressSelector/AddressSelector";
 
-const stateOptions = stateData();
-
-const Table = () => {
-  const [cart, setCart] = useState([]);
+const Table = ({ cart, removeFromCart, increaseCount, decreaseCount }) => {
   const [discount, setDiscount] = useState("");
+  const [discountPercent, setDiscountPercent] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [stateSelectedOption, setStateSelectedOption] = useState(null);
-  const [citySelectedOption, setCitySelectedOption] = useState(null);
-  const [changeAddress, setChangeAddress] = useState(false);
-  const [appliedDiscount, setAppliedDiscount] = useState(null)
+  const [changeAddress, setChangeAddress] = useState(true);
+  const [selectedAddress, setSelectedAddress] = useState({
+    state: null,
+    city: null,
+    postalCode: "",
+  });
 
   console.log("cart=>", cart);
 
-  useEffect(() => {
-    const localCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(localCart);
-  }, []);
 
   useEffect(() => {
     calcTotalPrice();
@@ -38,15 +35,21 @@ const Table = () => {
         (prev, current) => prev + current.price * current.count,
         0
       );
-      setTotalPrice(price);
+      setSubtotal(price);
+    } else {
+      setSubtotal(0);
     }
-    setTotalPrice(price);
   };
+
+  useEffect(() => {
+    const newTotalPrice = subtotal - (subtotal * discountPercent) / 100;
+    setTotalPrice(newTotalPrice);
+  }, [subtotal, discountPercent]);
 
   const checkDiscount = async () => {
     // Validation 👈✍
 
-    if (appliedDiscount) {
+    if (discountPercent > 0) {
       return showSwal("کد تخفیف قبلاً اعمال شده است", "error", "تلاش مجدد");
     }
 
@@ -65,11 +68,15 @@ const Table = () => {
       return showSwal("کد تخفیف وارد شده منقضی شده", "error", "تلاش مجدد");
     } else if (res.status === 200) {
       const discountCode = await res.json();
-      const newPrice = totalPrice-(totalPrice*discountCode.percent)/100
-      setTotalPrice(newPrice)
-      setAppliedDiscount(discount);
+      setDiscountPercent(discountCode.percent);
+
       return showSwal("کد تخفیف باموفقیت اعمال گردید", "success", "فهمیدم");
     }
+  };
+
+  const handleAddressChange = (address) => {
+    setSelectedAddress(address);
+    setChangeAddress(false); // بستن بخش تغییر آدرس
   };
 
   return (
@@ -91,24 +98,24 @@ const Table = () => {
                 <td>{(item.count * item.price).toLocaleString()} تومان</td>
                 <td className={styles.counter}>
                   <div>
-                    <span>-</span>
+                    <span onClick={() => decreaseCount(item.id)}>-</span>
                     <p>{item.count}</p>
-                    <span>+</span>
+                    <span onClick={() => increaseCount(item.id)}>+</span>
                   </div>
                 </td>
                 <td className={styles.price}>
                   {item.price.toLocaleString()} تومان
                 </td>
                 <td className={styles.product}>
-                  <img
-                    src="https://set-coffee.com/wp-content/uploads/2020/12/Red-box-DG--430x430.jpg"
-                    alt=""
-                  />
+                  <Image height={300} width={300} src={item.img} alt="" />
                   <Link href={"/"}>{item.name}</Link>
                 </td>
 
                 <td>
-                  <IoMdClose className={styles.delete_icon} />
+                  <IoMdClose
+                    className={styles.delete_icon}
+                    onClick={() => removeFromCart(item.id)}
+                  />
                 </td>
               </tr>
             ))}
@@ -134,7 +141,7 @@ const Table = () => {
 
         <div className={totalStyles.subtotal}>
           <p>جمع جزء </p>
-          <p>205,000 تومان</p>
+          <p>{subtotal.toLocaleString()} تومان</p>
         </div>
 
         <p className={totalStyles.motor}>
@@ -148,46 +155,16 @@ const Table = () => {
           onClick={() => setChangeAddress((prev) => !prev)}
           className={totalStyles.change_address}
         >
-          تغییر آدرس
+          {selectedAddress.state && selectedAddress.city ? (
+            <>
+              {selectedAddress.state} - {selectedAddress.city}
+            </>
+          ) : (
+            "لطفاً آدرس را انتخاب کنید"
+          )}
         </p>
         {changeAddress && (
-          <div className={totalStyles.address_details}>
-            <Select
-              defaultValue={stateSelectedOption}
-              onChange={(option) => {
-                setStateSelectedOption(option);
-                setCitySelectedOption(null); // Reset city when state changes
-              }}
-              isClearable={true}
-              placeholder={"استان"}
-              isRtl={true}
-              isSearchable={true}
-              options={stateOptions.map((state) => ({
-                label: state.label,
-                value: state.label,
-              }))} // ایجاد گزینه‌ها برای استان
-            />
-            <Select
-              value={citySelectedOption}
-              onChange={setCitySelectedOption}
-              isClearable={true}
-              placeholder={"شهر"}
-              isRtl={true}
-              isSearchable={true}
-              options={
-                stateSelectedOption
-                  ? stateOptions
-                      .find(
-                        (state) => state.label === stateSelectedOption.value
-                      )
-                      .value.map((city) => ({ label: city, value: city }))
-                  : []
-              } // ایجاد گزینه‌ها برای شهر
-              isDisabled={!stateSelectedOption} // Disable if no state is selected
-            />
-            <input type="number" placeholder="کد پستی" />
-            <button onClick={() => setChangeAddress(false)}>بروزرسانی</button>
-          </div>
+          <AddressSelector onAddressChange={handleAddressChange} />
         )}
 
         <div className={totalStyles.total}>

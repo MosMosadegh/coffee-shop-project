@@ -2,7 +2,6 @@ import { cookies } from "next/headers";
 import UserModel from "@/models/User";
 import connectToDb from "@/configs/db";
 import { verifyAccessToken } from "./auth";
-// import { NextResponse } from "next/server";
 
 // Helper functions
 const getRefreshToken = () => {
@@ -15,7 +14,9 @@ const validateToken = async (token) => {
     const refreshToken = getRefreshToken();
 
     if (!tokenPayload) {
-      console.log("🚀 ~ Access token is invalid or expired. Attempting to refresh...");
+      console.log(
+        "🚀 ~ Access token is invalid or expired. Attempting to refresh..."
+      );
 
       if (!refreshToken) {
         console.log("🚀 ~ No refresh token found. Redirecting to login.");
@@ -64,8 +65,6 @@ const findUserByTokenPayload = async (tokenPayload) => {
   }
 };
 
-//  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-
 // Main function
 const authUser = async (role = null) => {
   try {
@@ -74,15 +73,18 @@ const authUser = async (role = null) => {
     const refreshToken = getRefreshToken();
 
     if (!token && !refreshToken) {
-      console.log("🚀 ~ No access token or refresh token found. Redirecting to login.");
-      // return NextResponse.redirect(`${baseUrl}/login-register`)
+      console.log(
+        "🚀 ~ No access token or refresh token found. Redirecting to login."
+      );
     }
 
     let tokenPayload;
     if (token) {
       tokenPayload = await validateToken(token);
     } else {
-      console.log("🚀 ~ Access token not found, trying to validate refresh token...");
+      console.log(
+        "🚀 ~ Access token not found, trying to validate refresh token..."
+      );
       tokenPayload = await validateToken({ value: refreshToken });
     }
 
@@ -99,7 +101,6 @@ const authUser = async (role = null) => {
     return user;
   } catch (error) {
     console.error("Error in authUser:", error);
-    // return NextResponse.redirect(`${baseUrl}/login-register`)
   }
 };
 

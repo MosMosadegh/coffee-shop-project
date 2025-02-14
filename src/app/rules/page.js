@@ -1,6 +1,13 @@
 import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
 import styles from "@/styles/rules.module.css";
 
+export const metadata = {
+  title: " قوانین",
+  description: "coffee poject with next",
+  icons: {
+    icon: "images/Archigraphs-Collection-Coffee.32.png",
+  },
+};
 const page = async () => {
   return (
     <>
@@ -42,7 +49,7 @@ const page = async () => {
           اطلاعات کاربران را محافظت و از دسترسی‌های غیر قانونی جلوگیری
           می‌کند.قهوه ست برای حفاظت و نگهداری اطلاعات و حریم شخصی کاربران همه
           توان خود را به کار می‌گیرد و امیدوار است که تجربه‌ی خریدی امن، راحت و
-          خوشایند را برای همه کاربران فراهم آورد. 66726563 – ۰۲۱09366726563 
+          خوشایند را برای همه کاربران فراهم آورد. 66726563 – ۰۲۱09366726563
           <strong>(پاسخگویی طی ساعات کاری)</strong>
         </p>
         <p>

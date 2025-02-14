@@ -50,7 +50,7 @@ const Tabs = ({ product }) => {
 
       <div className={styles.contents}>
         <section className={styles.tabs_content}>
-          {tab === "description" && <Description />}
+          {tab === "description" && <Description product={product}/>}
         </section>
         <section className={styles.tabs_content}>
           {tab === "moreInfoes" && <MoreInfoes product={product} />}

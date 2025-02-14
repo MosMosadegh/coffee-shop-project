@@ -14,7 +14,7 @@ import { refresh } from "aos";
 
 
 
-const Sidebar = () => {
+const Sidebar = ({user}) => {
   const path = usePathname();
   const router = useRouter()
 
@@ -47,7 +47,7 @@ const Sidebar = () => {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebar_header}>
-        <p>خوش اومدی شاهین عزیز</p>
+        <p>خوش اومدی {user} عزیز</p>
         
       </div>
       <ul className={styles.sidebar_main}>

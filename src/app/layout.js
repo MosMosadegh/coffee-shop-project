@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import ScrollToTop from "@/utils/ScrollToTop";
 import Navbar from "@/components/modules/navbar/Navbar";
 import Footer from "@/components/modules/footer/Footer";
-// import Providers from "./providers";
+import Providers from "./providers";
 
 import connectToDb from "@/configs/db";
 import { authUser } from "@/utils/isLogin";
@@ -13,15 +13,15 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "  صفحه اصلی- فروشگاه قهوه مصطفی ",
-  description: "coffee poject with next 13",
+  description: "coffee poject with next",
   icons: {
     icon: "images/Archigraphs-Collection-Coffee.32.png",
   },
 };
 
 export default async function RootLayout({ children }) {
-  await connectToDb();
   const user = await authUser();
+  console.log("🚀 ~ RootLayout ~ user:", user);
   const userData = user
     ? {
         id: user.id,
@@ -30,17 +30,17 @@ export default async function RootLayout({ children }) {
         role: user.role,
       }
     : null;
-
   return (
     <html lang="fa">
       <body className={inter.className}>
-        {/* <Providers> */}
+        <Providers>
           <AOSInit />
           <Navbar user={userData} />
-          {children }
+
+          {children}
           <ScrollToTop />
           <Footer />
-        {/* </Providers> */}
+        </Providers>
       </body>
     </html>
   );

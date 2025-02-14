@@ -23,7 +23,7 @@ const Latest = ({ product }) => {
         className={styles.products}
       >
         {product.map((item) => (
-          <Product key={item._id} {...item} />
+          <Product key={item._id} product={item} />
         ))}
       </main>
     </div>

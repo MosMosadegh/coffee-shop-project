@@ -6,7 +6,7 @@ import WishlistModel from "@/models/Wishlist";
 // const wishlistSchema = Joi.object({
 //   user: Joi.string()
 //     .pattern(/^[0-9a-fA-F]{24}$/)
-//     .required(), 
+//     .required(),
 //   product: Joi.string()
 //     .pattern(/^[0-9a-fA-F]{24}$/)
 //     .required(),
@@ -42,9 +42,3 @@ export async function POST(req) {
   }
 }
 
-export async function GET() {
-  const wishlist = await WishlistModel.find({}, "-__v")
-    .populate("product user")
-    .lean();
-  return Response.json(wishlist);
-}

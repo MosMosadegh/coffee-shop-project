@@ -11,6 +11,7 @@ import "swiper/css/navigation";
 // import required modules
 import { Autoplay, Navigation } from "swiper/modules";
 
+
 function Baner() {
   return (
     <div className="h-min">
@@ -23,13 +24,13 @@ function Baner() {
         className="mySwiper home-slider"
       >
         <SwiperSlide className="swiper-slide-contents animated fadeInDown">
-          <img src="images/fall.jpg" alt="" />
+          <img  src="/images/fall.jpg" alt="" />
         </SwiperSlide>
         <SwiperSlide className="swiper-slide-contents animated fadeInDown">
-          <img src="images/slide.jpg" alt="" />
+          <img  src="/images/slide.jpg" alt="" />
         </SwiperSlide>
         <SwiperSlide className="swiper-slide-contents animated fadeInDown">
-          <img src="images/winter-slie.jpg" alt="" />
+          <img  src="/images/winter-slie.jpg" alt="" />
         </SwiperSlide>
       </Swiper>
     </div>

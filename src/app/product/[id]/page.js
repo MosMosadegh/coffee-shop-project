@@ -7,6 +7,37 @@ import ProductModel from "@/models/Product";
 import connectToDb from "@/configs/db";
 import mongoose from "mongoose";
 
+//Start MetaData
+export async function generateMetadata({ params }) {
+  await connectToDb();
+  const productID = params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(productID)) {
+    return {
+      title: "محصول یافت نشد",
+      description: "محصول مورد نظر یافت نشد.",
+    };
+  }
+
+  const productData = await ProductModel.findOne({ _id: productID }, "-__v");
+  const product = JSON.parse(JSON.stringify(productData));
+
+  return {
+    title: `${product.name} - فروشگاه ما`,
+    description: product.shortDescription,
+    openGraph: {
+      title: product.name,
+      description: product.shortDescription,
+      images: product.img, // آدرس تصویر محصول
+      url: `${process.env.BASE_URL}/product/${productID}`,
+      // type: "product",
+      siteName: "فروشگاه ما",
+    },
+  };
+}
+//Finish MetaData
+
+//Start Main Function
 const product = async ({ params }) => {
   await connectToDb();
   const productID = params.id;
@@ -28,20 +59,17 @@ const product = async ({ params }) => {
   const product = JSON.parse(JSON.stringify(productData));
 
   //find Related Product that similar to as "Smell"
-  const relatedProductData = await ProductModel.find({
-    smell: product.smell,
-  });
-  const relatedProduct = JSON.parse(JSON.stringify(relatedProductData));
+
 
   return (
     <div className={styles.container}>
       <div data-aos="fade-up" className={styles.contents}>
         <div className={styles.main}>
           <Details product={product} />
-          <Gallery />
+          <Gallery  productImg={product.img} />
         </div>
         <Tabs product={product} />
-        <MoreProducts relatedProduct={relatedProduct} />
+        <MoreProducts smell={product.smell} productID={product._id} />
       </div>
     </div>
   );
