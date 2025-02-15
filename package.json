@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev --turbo --hostname 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-three/drei": "^9.121.5",
+    "@react-three/fiber": "^8.17.14",
     "@tanstack/react-query": "^5.64.1",
     "@tanstack/react-query-devtools": "^5.64.1",
     "aos": "^2.3.4",
@@ -21,11 +23,13 @@
     "framer-motion": "^11.15.0",
     "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
+    "leva": "^0.10.0",
     "mongoose": "^8.8.1",
     "multer": "^1.4.5-lts.1",
     "next": "14.2.23",
     "next-auth": "^4.24.11",
     "postcss": "8.4.49",
+    "r3f-perf": "^7.2.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
@@ -38,6 +42,7 @@
     "swiper": "^11.1.15",
     "tailwind-merge": "^2.6.0",
     "tailwindcss": "3.4.15",
+    "three": "^0.173.0",
     "zod": "^3.23.8"
   }
 }

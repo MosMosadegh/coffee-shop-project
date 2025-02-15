@@ -203,3 +203,7 @@ a {
   left: unset !important;
   top: unset !important;
 }
+
+canvas {
+  touch-action: none;
+}
