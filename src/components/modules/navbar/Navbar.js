@@ -9,12 +9,12 @@ import { useQuery } from "@tanstack/react-query";
 function Navbar({ user }) {
   const [fixTop, setFixTop] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(null);
-  // const [cartItem, setCartItem] = useState([]);
+  const [cartItem, setCartItem] = useState([]);
 
-  // useEffect(() => {
-  //   const localCart = JSON.parse(localStorage.getItem("cart")) || [];
-  //   setCartItem(localCart);
-  // }, []);
+  useEffect(() => {
+    const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartItem(localCart);
+  }, []);
 
   const { data: wishlist } = useQuery({
     queryKey: ["wishlist", user?.id],
@@ -73,6 +73,9 @@ function Navbar({ user }) {
             <li>
               <Link href="/rules">قوانین</Link>
             </li>
+            <li>
+              <Link href="/three">3D</Link>
+            </li>
             {!isUserLoggedIn ? (
               <li>
                 <Link href="/login-register">ورود / عضویت</Link>
@@ -103,7 +106,7 @@ function Navbar({ user }) {
           <div className={styles.navbar_icons}>
             <Link href="/cart">
               <FaShoppingCart />
-              {/* <span>{cartItem?.length || 0}</span> */}
+              <span>{cartItem?.length || 0}</span>
             </Link>
        
        

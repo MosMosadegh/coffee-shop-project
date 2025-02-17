@@ -1,4 +1,6 @@
 import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
+
+
 import styles from "@/styles/rules.module.css";
 
 export const metadata = {

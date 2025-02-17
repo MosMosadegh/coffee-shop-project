@@ -19,7 +19,9 @@ const AnswerSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  replies: [this],
+  replies: {
+    type: String,
+  },
 });
 
 const schema = new mongoose.Schema(

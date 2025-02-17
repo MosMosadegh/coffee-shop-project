@@ -59,6 +59,7 @@ const product = async ({ params }) => {
   const product = JSON.parse(JSON.stringify(productData));
 
   return (
+    <>
     <div className={styles.container}>
       <div data-aos="fade-up" className={styles.contents}>
         <div className={styles.main}>
@@ -70,6 +71,7 @@ const product = async ({ params }) => {
         <MoreProducts smell={product.smell} productID={product._id} />
       </div>
     </div>
+    </>
   );
 };
 

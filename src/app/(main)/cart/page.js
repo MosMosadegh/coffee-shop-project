@@ -49,7 +49,6 @@ const page = () => {
 
   return (
     <>
-     
       <Stepper step="cart" />
 
       {cart.length > 0 ? (

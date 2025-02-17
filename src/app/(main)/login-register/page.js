@@ -6,6 +6,7 @@ import { useState } from "react";
 import { authTypes } from "@/utils/constants";
 import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
 
+
 const login_register = () => {
   const [authType, setAuthType] = useState(authTypes.LOGIN);
 
