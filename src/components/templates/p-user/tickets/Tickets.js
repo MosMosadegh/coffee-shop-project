@@ -9,7 +9,7 @@ function Tickets({ tickets }) {
   return (
     <main className={styles.container}>
       <h1 className={styles.title}>
-        <span>همه تیکت ها</span>
+        <span className="dark:bg-slate-500">همه تیکت ها</span>
         <Link href="/p-user/tickets/sendTicket"> ارسال تیکت جدید </Link>
       </h1>
 

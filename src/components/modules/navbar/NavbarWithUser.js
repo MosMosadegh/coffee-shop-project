@@ -4,13 +4,11 @@ import { authUser } from '@/utils/isLogin';
 
 export default async function NavbarWithUser() {
     const user = await authUser();
-    console.log("🚀 ~ RootLayout ~ user:", user);
+    console.log("🚀 ~ NavbarWithUser ~ user:", user);
     const userData = user
       ? {
           id: user.id,
           name: user.name,
-          email: user.email,
-          role: user.role,
         }
       : null;
   return (

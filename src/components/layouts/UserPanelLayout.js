@@ -19,7 +19,7 @@ const Layout = async ({ children }) => {
     <>
       <NavbarWithUser />
       <Breadcrumb route={"پنل کاربری"} />
-      <div className={styles.layout}>
+      <div className={`${styles.layout}  dark:bg-slate-500`}>
         <section className={styles.section}>
           <Sidebar user={user.name} />
           <div className={styles.contents}>

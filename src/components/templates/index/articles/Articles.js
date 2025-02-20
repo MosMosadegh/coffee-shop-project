@@ -10,7 +10,7 @@ const Articles = () => {
   return (
     <div className={styles.container}>
       <p className={styles.title}>مقالات ما</p>
-      <span className={styles.description}>دانستنی های جذاب دنیای قهوه</span>
+      <span className={`${styles.description}  text-gray-500 dark:text-white`}>دانستنی های جذاب دنیای قهوه</span>
       <main>
         <Swiper
           slidesPerView={3}

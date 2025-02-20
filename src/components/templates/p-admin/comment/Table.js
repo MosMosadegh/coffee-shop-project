@@ -226,12 +226,12 @@ export default function DataTable({ comments, title }) {
     <div>
       <div>
         <h1 className={styles.title}>
-          <span>{title}</span>
+          <span className="dark:bg-slate-500">{title}</span>
         </h1>
       </div>
       <div className={styles.table_container}>
         <table className={styles.table}>
-          <thead>
+          <thead className="dark:bg-slate-500">
             <tr>
               <th>شناسه</th>
               <th> کاربر </th>
@@ -247,7 +247,7 @@ export default function DataTable({ comments, title }) {
               <th>بن</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="dark:bg-slate-500">
             {comments.map((comment, index) => (
               <tr key={comment._id}>
                 <td className={comment.isAccept ? styles.accept_btn : ""}>

@@ -1,15 +1,16 @@
 "use client";
 import React from "react";
 import styles from "./table.module.css";
-import { useRouter } from "next/navigation";
-import swal from "sweetalert";
-import { showSwal } from "@/utils/helpers";
 import Swal from "sweetalert2";
 
 export default function DataTable({ products, title }) {
-  const router = useRouter();
   const showProduct = (body) => {
-    showSwal(body, undefined, "بستن");
+    Swal.fire({
+      title: "  توضیحات کوتاه: ",
+      text: body,
+            icon: "info",
+            confirmButtonText: "فهمیدم",
+          });
   };
 
   const editProduct = async () => {
@@ -28,7 +29,7 @@ export default function DataTable({ products, title }) {
       </div>
       <div className={styles.table_container}>
         <table className={styles.table}>
-          <thead>
+          <thead className="dark:bg-slate-500">
             <tr>
               <th>شناسه</th>
               <th> نام </th>
@@ -39,7 +40,7 @@ export default function DataTable({ products, title }) {
               <th>حذف</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="dark:bg-slate-500">
             {products.map((product, index) => (
               <tr key={product._id}>
                 <td>{index + 1}</td>
@@ -51,7 +52,7 @@ export default function DataTable({ products, title }) {
                     type="button"
                     className={styles.edit_btn}
                     onClick={() => {
-                      showProduct(product.body);
+                      showProduct(product.shortDescription);
                     }}
                   >
                     مشاهده جرئیات

@@ -65,8 +65,16 @@ function SaleChart() {
         data={data}
         margin={{ top: 5, right: 10, left: 0, bottom: 10 }}
       >
-        <XAxis dataKey="date" />
-        <YAxis />
+        <XAxis dataKey="date" 
+        tick={{ fill: "var(--text-color)" }}
+        axisLine={{ stroke: "var(--text-color)" }} // تغییر رنگ خط محور
+        tickLine={{ stroke: "var(--text-color)" }} // تغییر رنگ خطوط کوچک
+        />
+        <YAxis 
+        tick={{ fill: "var(--text-color)" }}
+        axisLine={{ stroke: "var(--text-color)" }} // تغییر رنگ خط محور
+        tickLine={{ stroke: "var(--text-color)" }} // تغییر رنگ خطوط کوچک
+        />
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip />
         <Legend />

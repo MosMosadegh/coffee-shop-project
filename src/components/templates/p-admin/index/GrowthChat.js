@@ -1,6 +1,15 @@
 "use client";
 import React from "react";
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 function GrowthChat() {
   const data = [
@@ -48,7 +57,6 @@ function GrowthChat() {
     },
   ];
   return (
-
     <ResponsiveContainer width="100%" height="92%">
       <LineChart
         width={500}
@@ -56,11 +64,24 @@ function GrowthChat() {
         data={data}
         margin={{ top: 5, right: 10, left: 0, bottom: 10 }}
       >
-        <XAxis dataKey="date" />
-        <YAxis />
+        <XAxis
+          dataKey="date"
+          tick={{ fill: "var(--text-color)" }}
+          axisLine={{ stroke: "var(--text-color)" }} // تغییر رنگ خط محور
+          tickLine={{ stroke: "var(--text-color)" }} // تغییر رنگ خطوط کوچک
+        />
+        <YAxis
+          tick={{ fill: "var(--text-color)" }}
+          axisLine={{ stroke: "var(--text-color)" }} // تغییر رنگ خط محور
+          tickLine={{ stroke: "var(--text-color)" }} // تغییر رنگ خطوط کوچک
+        />
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip />
-        <Legend />
+        <Legend
+          wrapperStyle={{
+            color: "green",
+          }}
+        />
         <Line type="monotone" dataKey="sale" stroke="#8884d8" />
         <Line type="monotone" dataKey="amt" stroke="#82ca9d" />
       </LineChart>

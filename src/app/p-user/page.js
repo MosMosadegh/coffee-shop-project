@@ -9,7 +9,6 @@ import CommentModel from "@/models/Comment";
 import WishlistModel from "@/models/Wishlist";
 import { redirect } from "next/navigation";
 
-
 const page = async () => {
   const user = await authUser();
   if (!user) {
@@ -27,6 +26,7 @@ const page = async () => {
   const allTicket = await TicketModel.find({ user: user._id });
   const allComment = await CommentModel.find({ user: String(user._id) });
   const allWishlist = await WishlistModel.find({ user: user._id });
+  const allOrder = await WishlistModel.find({ user: user._id });
 
   return (
     <>
@@ -40,7 +40,7 @@ const page = async () => {
           </section>
           <section className={styles.contents}>
             <Tickets ticket={ticket} />
-            <Orders />
+            <Orders orders={allOrder} />
           </section>
         </main>
       </Layout>

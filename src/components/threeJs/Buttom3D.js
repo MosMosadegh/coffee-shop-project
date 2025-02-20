@@ -1,10 +1,13 @@
-import { Text } from "@react-three/drei";
+import { Float, Html, Text } from "@react-three/drei";
 import { useState } from "react";
 
 export default function Button3D({ position, onClick }) {
     const [hovered, setHovered] = useState(false);
   
     return (
+        <Float rotationIntensity={1}>
+
+        
       <mesh
         position={position}
         onClick={onClick}
@@ -22,6 +25,8 @@ export default function Button3D({ position, onClick }) {
         >
           Home
         </Text>
+        
       </mesh>
+      </Float>
     );
   }

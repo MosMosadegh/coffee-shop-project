@@ -223,3 +223,8 @@ canvas {
   border-radius: 20px;
   background: #000000;
 }
+
+.dark {
+  --text-color: #fff; /* رنگ متن در حالت تاریک */
+  --bg-color: #1a202c; /* رنگ پس‌زمینه در حالت تاریک */
+}

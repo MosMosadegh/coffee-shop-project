@@ -3,18 +3,18 @@ import styles from "./promote.module.css";
 
 const Promote = () => {
   return (
-    <div className={styles.readable}>
+    <div className={`${styles.readable} dark:bg-slate-500`}>
       <div data-aos="fade-up-right" data-aos-duration="1500" className={styles.container}>
         <main className={styles.main}>
-          <section>
+          <section  >
             <span>خرید قهوه ، به سبک حرفه ای ها</span>
-            <p>زیبایی امروز رو با قهوه “ست” کنید</p>
+            <p className=" text-gray-500 dark:text-white">زیبایی امروز رو با قهوه “ست” کنید</p>
             <img data-aos="fade-left" src="/images/coffee-image-1.jpg" alt="" />
           </section>
           <section className={styles.club}>
             <div>
               <span>باشگاه مشتریان ست</span>
-              <p>برای مشتریان وفادار قهوه ست</p>
+              <p >برای مشتریان وفادار قهوه ست</p>
             </div>
           </section>
         </main>
@@ -24,7 +24,7 @@ const Promote = () => {
             data-aos="fade-up"
             data-aos-easing="linear"
             data-aos-duration="1500"
-            className={styles.why_coffee}
+            className= {styles.why_coffee}
           >
             <img
               className={styles.logo}
@@ -32,7 +32,7 @@ const Promote = () => {
               alt=""
             />
             <p className={styles.title}>چرا قهوه ست</p>
-            <p>
+            <p className=" text-gray-500 dark:text-white" >
               برخورداری از تجربه و قدمت کافی و آگاهی از ذایقه مصرف کنندگان
               راهنمای ما در برآورده ساختن نیاز مشتریان قهوه تخصصی (موج سوم) است
               .تجربه ای به قدمت چهار نسل و ارتباط مستمر با مصرف کنندگان قهوه

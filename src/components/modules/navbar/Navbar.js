@@ -5,6 +5,7 @@ import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaShoppingCart, FaRegHeart } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
+import ThemeToggle from "../theme/ThemeToggle";
 
 function Navbar({ user }) {
   const [fixTop, setFixTop] = useState(false);
@@ -75,6 +76,9 @@ function Navbar({ user }) {
             </li>
             <li>
               <Link href="/three">3D</Link>
+            </li>
+            <li>
+              <ThemeToggle/>
             </li>
             {!isUserLoggedIn ? (
               <li>

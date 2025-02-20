@@ -1,15 +1,22 @@
 "use client";
 
 import { Canvas, useThree } from "@react-three/fiber";
-import { Box, OrbitControls, Sparkles } from "@react-three/drei";
-import { Leva} from "leva";
+import { Suspense } from "react";
+import {
+  Box,
+  Float,
+  Html,
+  OrbitControls,
+  Sparkles,
+  Text3D,
+} from "@react-three/drei";
+import { Leva } from "leva";
 import Laptob from "@/components/threeJs/Laptob";
 import Table from "@/components/threeJs/Table";
 import Portal from "@/components/threeJs/Portal";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Button3D from "@/components/threeJs/Buttom3D";
-
 
 function SceneContent() {
   const { camera } = useThree();
@@ -18,9 +25,8 @@ function SceneContent() {
   const router = useRouter();
 
   const handleButtonClick = () => {
-    router.push("/"); 
+    router.push("/");
   };
-
 
   const handleDoubleClick = () => {
     setCameraZ((prevZ) => (prevZ === 10 ? 0.25 : 10));
@@ -44,7 +50,6 @@ function SceneContent() {
     };
   }, []); // حذف وابستگی به cameraZ
 
-
   return (
     <>
       <OrbitControls
@@ -61,10 +66,17 @@ function SceneContent() {
       />
       <Sparkles scale={9} size={2} count={100} />
       <color args={["#241a1a"]} attach="background" />
-      <Laptob />
+      <Suspense>
+        <Laptob />
+      </Suspense>
       <Table />
       <Portal />
       <Button3D position={[-2, 2, -1]} onClick={handleButtonClick} />
+      {/* <Float>
+        <Html distanceFactor={20} position={[0, 2, 1]} rotation-x={-0.256}>
+          Mostafa Mosadegh
+        </Html>
+      </Float> */}
     </>
   );
 }

@@ -46,8 +46,8 @@ export default function Laptob() {
                   // position={[positionX, positionY, positionZ]} // استفاده از مقادیر کنترل‌شده توسط Leva
                   // rotation={[rotationX, rotationY, rotationZ]} //
                   distanceFactor={1.17} // تغییر اندازه بر اساس state
-                  position={[0, 1.56, -1.4]} // تغییر موقعیت بر اساس state
-                  rotation-x={-0.256} // تغییر چرخش بر اساس state
+                  position={[0, 1.56, -1.4]} 
+                  rotation-x={-0.256} 
                 >
 
                     <iframe src="/" />

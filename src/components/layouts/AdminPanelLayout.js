@@ -21,11 +21,11 @@ const Layout = async ({ children }) => {
     <>
       <NavbarWithUser />
       <Breadcrumb route={"پنل مدیریت"} />
-      <div className={styles.layout}>
+      <div className={`${styles.layout}  dark:bg-slate-500`}>
         <section className={styles.section}>
           <Sidebar />
           <div className={styles.contents}>
-            <Topbar adminData={admin} />
+            <Topbar adminName={admin.name} />
             {children}
           </div>
         </section>

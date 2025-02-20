@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { showSwal } from "@/utils/helpers";
 
 export default function DataTable({ tickets, title }) {
+  console.log("🚀 ~ DataTable ~ tickets:", tickets)
   const router = useRouter();
 
   const showTicket = (body) => {
@@ -74,15 +75,16 @@ export default function DataTable({ tickets, title }) {
   };
 
   return (
-    <div>
+    <div >
+      
       <div>
         <h1 className={styles.title}>
-          <span>{title}</span>
+          <span className="dark:bg-slate-500" >{title}</span>
         </h1>
       </div>
       <div className={styles.table_container}>
         <table className={styles.table}>
-          <thead>
+          <thead className="dark:bg-slate-500">
             <tr>
               <th>شناسه</th>
               <th> کاربر </th>
@@ -94,7 +96,7 @@ export default function DataTable({ tickets, title }) {
               <th>بن</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="dark:bg-slate-500">
             {tickets.map((ticket, index) => (
               <tr key={ticket._id}>
                 <td>{index + 1}</td>

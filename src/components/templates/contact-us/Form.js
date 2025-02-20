@@ -33,7 +33,7 @@ const Form = () => {
 
   return (
     <form className={styles.form}>
-      <span>فرم تماس با ما</span>
+      <span  className="text-gray-500 dark:text-white">فرم تماس با ما</span>
       <p>برای تماس با ما می توانید فرم زیر را تکمیل کنید</p>
       <div className={styles.groups}>
         <div className={styles.group}>

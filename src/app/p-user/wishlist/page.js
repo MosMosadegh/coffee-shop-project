@@ -17,7 +17,7 @@ const page = async () => {
     <UserPanelLayout>
       <main>
         <h1 className={styles.title}>
-          <span>علاقه مندی ها</span>
+          <span className="dark:bg-slate-500">علاقه مندی ها</span>
         </h1>
         <div className={styles.container}>
           {wishlist.length &&

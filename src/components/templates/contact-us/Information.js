@@ -10,9 +10,9 @@ import { BiSolidContact } from "react-icons/bi";
 
 const Information = () => {
   return (
-    <section className={styles.Information}>
-      <span>تماس با ما</span>
-      <p>اطلاعات تماس</p>
+    <section className={`${styles.Information} text-gray-500 dark:text-white `}>
+      <span className="text-gray-500 dark:text-white">تماس با ما</span>
+      <p className="text-black">اطلاعات تماس</p>
       <div>
         <PiCoffeeFill />
         <p>شرکت فنجان داغ خوارزمی (کارخانه قهوه ست )</p>

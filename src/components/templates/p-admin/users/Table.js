@@ -91,12 +91,12 @@ export default function DataTable({ users, title }) {
     <div>
       <div>
         <h1 className={styles.title}>
-          <span>{title}</span>
+          <span className="dark:bg-slate-500">{title}</span>
         </h1>
       </div>
       <div className={styles.table_container}>
         <table className={styles.table}>
-          <thead>
+          <thead className="dark:bg-slate-500">
             <tr>
               <th>شناسه</th>
               <th>نام و نام خانوادگی</th>
@@ -108,7 +108,7 @@ export default function DataTable({ users, title }) {
               <th>بن</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="dark:bg-slate-500">
             {users.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>

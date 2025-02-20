@@ -17,7 +17,7 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   return (
     <html lang="fa">
-      <body className={inter.className}>
+      <body className={`${inter.className} dark:bg-slate-500`}>
         <Providers>
           <AOSInit />
           {children}
