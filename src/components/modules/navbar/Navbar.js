@@ -57,7 +57,7 @@ function Navbar({ user }) {
 
           <ul className={styles.links}>
             <li>
-              <Link href="/">صفحه اصلی</Link>
+              <Link href="/home">صفحه اصلی</Link>
             </li>
             <li>
               <Link href="/category">فروشگاه</Link>
@@ -75,7 +75,7 @@ function Navbar({ user }) {
               <Link href="/rules">قوانین</Link>
             </li>
             <li>
-              <Link href="/three">3D</Link>
+              <Link href="/">3D</Link>
             </li>
             <li>
               <ThemeToggle/>

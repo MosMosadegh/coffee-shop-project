@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/eslint-plugin-next": "^15.1.7",
     "@react-three/drei": "^9.121.5",
     "@react-three/fiber": "^8.17.14",
     "@tanstack/react-query": "^5.64.1",
@@ -19,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
     "cookie": "^1.0.1",
+    "eslint-plugin-import": "^2.31.0",
     "express-useragent": "^1.0.15",
     "framer-motion": "^11.15.0",
     "jsonwebtoken": "^9.0.2",
@@ -45,5 +47,11 @@
     "tailwindcss": "3.4.15",
     "three": "^0.173.0",
     "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "eslint": "^9.20.1",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^16.0.0"
   }
 }

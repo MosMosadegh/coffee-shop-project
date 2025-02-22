@@ -8,7 +8,7 @@ export async function POST(req) {
     if(!isAdmin){
       throw new Error("This Api is protected")
     }
-    console.log('isAdmin=>', isAdmin)
+    //console.log('isAdmin=>', isAdmin)
     await connectToDb();
     const body = await req.json();
 

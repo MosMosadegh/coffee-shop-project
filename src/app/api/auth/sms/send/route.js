@@ -17,12 +17,12 @@ export async function POST(req) {
     const deviceInfo = req.headers["user-agent"];
 
     const otpCode = Math.floor(Math.random() * 999999);
-    console.log("Generated OTP Code:", otpCode);
+    //console.log("Generated OTP Code:", otpCode);
 
     const isUserExist = await UserModel.findOne({
       $or: [{ phone }],
     });
-    console.log("Is user exist:", isUserExist);
+    //console.log("Is user exist:", isUserExist);
 
 
     if (action === 'register'){
@@ -46,7 +46,7 @@ export async function POST(req) {
       });
 
       await otpEntry.save();
-      console.log('New OTP entry saved:', otpEntry);
+      //console.log('New OTP entry saved:', otpEntry);
 
       
     }else if(action === "login"){
@@ -78,7 +78,7 @@ export async function POST(req) {
         });
       }
       await otpEntry.save();
-      console.log('OTP entry saved or updated:', otpEntry);
+      //console.log('OTP entry saved or updated:', otpEntry);
     } else {
       return Response.json(
         { message: "Invalid action" },
@@ -105,9 +105,9 @@ export async function POST(req) {
     //         if (!error && response.statusCode === 200) {
     //           //YOU‌ CAN‌ CHECK‌ THE‌ RESPONSE‌ AND SEE‌ ERROR‌ OR‌ SUCCESS‌ MESSAGE
    
-    //           console.log(response.body);
+    //           //console.log(response.body);
     //         } else {
-    //           console.log("whatever you want");
+    //           //console.log("whatever you want");
     //         }
     //       }
     //     );

@@ -10,9 +10,9 @@ import Footer from "../modules/footer/Footer";
 const Layout = async ({ children }) => {
   const user = await authUser();
   if (!user) {
-    console.log("User not authenticated");
+    //console.log("User not authenticated");
   } else {
-    console.log("Authenticated user:", user);
+    //console.log("Authenticated user:", user);
   }
 
   return (

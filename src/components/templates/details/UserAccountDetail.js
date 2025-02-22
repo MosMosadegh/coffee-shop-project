@@ -20,7 +20,7 @@ function UserAccountDetails({params}) {
     const getUser = async () => {
       const res = await fetch(`/api/user/edit/${id}`);
       const data = await res.json();
-console.log("DATA=>>", data)
+//console.log("DATA=>>", data)
       setName(data.name);
       setEmail(data.email);
       setPhone(data.phone);

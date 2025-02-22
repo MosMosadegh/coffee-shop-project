@@ -1,7 +1,7 @@
 import styles from "./answer.module.css";
 
 const Answer = ({ type, title, body, createdAt, user }) => {
-  console.log("Answer User=>", user)
+  //console.log("Answer User=>", user)
   return (
     <section
       className={type == "user" ? styles.userTicket : styles.adminticket}

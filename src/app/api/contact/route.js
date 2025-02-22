@@ -18,7 +18,7 @@ export async function POST(req) {
 
     const { error } = contactSchema.validate(regBody);
     if (error) {
-        console.log("Validation Error:", error.details);
+        //console.log("Validation Error:", error.details);
       return Response.json({ message: error.details[0].message }, { status: 400 });
     }
 

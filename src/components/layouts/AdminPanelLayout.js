@@ -11,10 +11,10 @@ import Footer from "../modules/footer/Footer";
 const Layout = async ({ children }) => {
   const admin = await authAdmin();
   if (!admin) {
-    console.log("User is not an admin");
+    //console.log("User is not an admin");
     return redirect("/login-register");
   } else {
-    console.log("Authenticated admin:", admin);
+    //console.log("Authenticated admin:", admin);
   }
 
   return (

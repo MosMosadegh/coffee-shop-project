@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 const page = () => {
    const refreshToken = cookies().get("refresh-token")?.value;
-    console.log("🚀 ~ AccountDetails ~ refreshToken:", refreshToken)
+    //console.log("🚀 ~ AccountDetails ~ refreshToken:", refreshToken)
   return (
     <Layout>
       <AccountDetails refreshToken={refreshToken} />

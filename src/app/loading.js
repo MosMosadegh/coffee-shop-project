@@ -8,10 +8,10 @@ export default function Loading() {
 
 // export default function Loading() {
 //   return (
-//     <div className="space-y-4">
-//       <div className="animate-pulse bg-gray-200 h-10 w-full rounded"></div>
-//       <div className="animate-pulse bg-gray-200 h-10 w-full rounded"></div>
-//       <div className="animate-pulse bg-gray-200 h-10 w-full rounded"></div>
+//     <div className="space-y-2">
+//       <div className="animate-pulse bg-gray-500 h-10 w-full rounded"></div>
+//       <div className="animate-pulse bg-gray-500 h-10 w-full rounded"></div>
+//       <div className="animate-pulse bg-gray-500 h-10 w-full rounded"></div>
 //     </div>
 //   );
 // }

@@ -12,7 +12,7 @@ export async function DELETE(req, { params }) {
     }
 
     const productID = params.id;
-    console.log("productID=>", productID);
+    //console.log("productID=>", productID);
     await WishlistModel.findOneAndDelete({
       user: user._id,
       product: productID,

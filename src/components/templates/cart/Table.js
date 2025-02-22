@@ -20,7 +20,7 @@ const Table = ({ cart, removeFromCart, increaseCount, decreaseCount }) => {
     postalCode: "",
   });
 
-  console.log("cart=>", cart);
+  //console.log("cart=>", cart);
 
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const Table = ({ cart, removeFromCart, increaseCount, decreaseCount }) => {
       },
       body: JSON.stringify({ code: discount }),
     });
-    console.log("res Discount=>", res);
+    //console.log("res Discount=>", res);
 
     if (res.status === 404) {
       return showSwal("کد تخفیف وارد شده معتبر نیست", "error", "تلاش مجدد");

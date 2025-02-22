@@ -15,7 +15,7 @@ const page = async () => {
     redirect("/login-register");
   }
 
-  console.log("🚀 ~ page-> p-user ~ user:", user);
+  //console.log("🚀 ~ page-> p-user ~ user:", user);
 
   const ticket = await TicketModel.find({ user: user._id })
     .populate("department", "title")

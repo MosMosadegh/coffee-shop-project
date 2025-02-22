@@ -14,11 +14,11 @@ export async function PUT(req) {
     const body = await req.json();
 
     const { id } = body;
-    console.log("Body=", body);
-    console.log("User ID:", id);
+    //console.log("Body=", body);
+    //console.log("User ID:", id);
 
     const user = await UserModel.findOne({ _id: id }).lean();
-    console.log("user=", user);
+    //console.log("user=", user);
 
     if (!user) {
       return Response.json({ message: "User not found" }, { status: 404 });

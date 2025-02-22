@@ -5,7 +5,7 @@ import { authUser } from "@/utils/isLogin";
 export const getUser = async () => {
   try {
     const user = await authUser();
-    console.log("🚀 ~ getUser ~ user:", user)
+  
 
     if (!user) {
       return null;

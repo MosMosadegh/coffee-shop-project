@@ -1,7 +1,7 @@
 
 // import Scene from "@/components/threeJs/Scene";
 
-import Scene from "./Scene";
+import Scene from "./three/Scene";
 
 export default function page() {
 

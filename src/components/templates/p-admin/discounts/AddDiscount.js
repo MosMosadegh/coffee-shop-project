@@ -17,7 +17,7 @@ function AddDiscount() {
     const getProduct = async () => {
       const res = await fetch("/api/product/get");
       const data = await res.json();
-      console.log('Data=>', data)
+      //console.log('Data=>', data)
       setProducts(data);
     };
     getProduct();

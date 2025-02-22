@@ -88,7 +88,7 @@ export async function POST(req) {
       }
     );
   } catch (error) {
-    console.log("Error", error);
+    //console.log("Error", error);
     return Response.json({ message: "Error Login User" }, { status: 500 });
   }
 }

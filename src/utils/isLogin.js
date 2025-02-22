@@ -14,12 +14,12 @@ const validateToken = async (token) => {
     const refreshToken = getRefreshToken();
 
     if (!tokenPayload) {
-      console.log(
+      //console.log(
         "🚀 ~ Access token is invalid or expired. Attempting to refresh..."
       );
 
       if (!refreshToken) {
-        console.log("🚀 ~ No refresh token found. Redirecting to login.");
+        //console.log("🚀 ~ No refresh token found. Redirecting to login.");
         throw new Error("No refresh token found");
       }
 
@@ -39,7 +39,7 @@ const validateToken = async (token) => {
 
       const data = await res.json();
       const newAccessToken = data.newAccessToken;
-      console.log("🚀 ~ New access token:", newAccessToken);
+      //console.log("🚀 ~ New access token:", newAccessToken);
 
       tokenPayload = verifyAccessToken(newAccessToken);
     }
@@ -73,7 +73,7 @@ const authUser = async (role = null) => {
     const refreshToken = getRefreshToken();
 
     if (!token && !refreshToken) {
-      console.log(
+      //console.log(
         "🚀 ~ No access token or refresh token found. Redirecting to login."
       );
     }
@@ -82,7 +82,7 @@ const authUser = async (role = null) => {
     if (token) {
       tokenPayload = await validateToken(token);
     } else {
-      console.log(
+      //console.log(
         "🚀 ~ Access token not found, trying to validate refresh token..."
       );
       tokenPayload = await validateToken({ value: refreshToken });

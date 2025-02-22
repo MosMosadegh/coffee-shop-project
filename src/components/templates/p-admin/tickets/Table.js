@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { showSwal } from "@/utils/helpers";
 
 export default function DataTable({ tickets, title }) {
-  console.log("🚀 ~ DataTable ~ tickets:", tickets)
+  //console.log("🚀 ~ DataTable ~ tickets:", tickets)
   const router = useRouter();
 
   const showTicket = (body) => {
@@ -26,7 +26,7 @@ export default function DataTable({ tickets, title }) {
           body: answerText,
           ticketID: ticket._id,
         };
-        console.log("ANSWERTICKET=>>", answer);
+        //console.log("ANSWERTICKET=>>", answer);
         const res = await fetch("/api/ticket/answer", {
           method: "POST",
           headers: {
