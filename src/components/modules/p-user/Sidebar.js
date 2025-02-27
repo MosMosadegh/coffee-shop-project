@@ -11,44 +11,39 @@ import Link from "next/link";
 import swal from "sweetalert";
 import { useRouter } from "next/navigation";
 import { refresh } from "aos";
+import { signOut } from "next-auth/react";
 
-
-
-const Sidebar = ({user}) => {
+const Sidebar = ({ user }) => {
   const path = usePathname();
-  const router = useRouter()
+  const router = useRouter();
 
   const logoutHandler = () => {
     swal({
       title: "آیا از خروج اطمینان دارید؟",
       icon: "warning",
       buttons: ["نه", "آره"],
-    }).then(async(result) => {
-      if(result){
-        const res = await fetch('/api/auth/signout', {
-          method: "POST"
-        })
-        if(res.status === 200){
+    }).then(async (result) => {
+      if (result) {
+        const res = await fetch("/api/auth/signout", {
+          method: "POST",
+        });
+        if (res.status === 200) {
           swal({
             title: "شما با موفقیت از حساب کاربری خود خارج شدید.",
             icon: "warning",
             buttons: "متوجه شدم",
-          }).then(()=>{
-            router.replace('/')
-          })
+          }).then(() => {
+            router.replace("/home");
+          });
         }
       }
     });
-
   };
-
-  
 
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebar_header}>
         <p>خوش اومدی {user} عزیز</p>
-        
       </div>
       <ul className={styles.sidebar_main}>
         {path.includes("/p-user") ? (

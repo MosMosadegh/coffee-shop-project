@@ -42,19 +42,19 @@ const Card = () => {
           <div className={styles.share}>
             <IoShareSocialOutline />
             <div className={styles.tooltip}>
-              <Link href={"/"}>
+              <Link href={"/home"}>
                 <FaTelegram />
               </Link>
-              <Link href={"/"}>
+              <Link href={"/home"}>
                 <FaLinkedinIn />
               </Link>
-              <Link href={"/"}>
+              <Link href={"/home"}>
                 <FaPinterest />
               </Link>
-              <Link href={"/"}>
+              <Link href={"/home"}>
                 <FaTwitter />
               </Link>
-              <Link href={"/"}>
+              <Link href={"/home"}>
                 <FaFacebookF />
               </Link>
             </div>

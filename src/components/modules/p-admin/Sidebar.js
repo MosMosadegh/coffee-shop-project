@@ -29,7 +29,7 @@ const Sidebar = () => {
             icon: "warning",
             buttons: "متوجه شدم",
           }).then(()=>{
-            router.replace('/')
+            router.replace('/home')
           })
         }
       }

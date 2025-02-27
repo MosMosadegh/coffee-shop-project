@@ -2,7 +2,8 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import AOSInit from "@/utils/aos";
 import ScrollToTop from "@/utils/ScrollToTop";
-import Providers from "./providers";
+import QueryProviders from "./queryProviders";
+import ProviderSession from "./sessionPovider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +19,13 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="fa">
       <body className={`${inter.className} dark:bg-slate-500`}>
-        <Providers>
-          <AOSInit />
-          {children}
-          <ScrollToTop />
-        </Providers>
+        <ProviderSession>
+          <QueryProviders>
+            <AOSInit />
+            {children}
+            <ScrollToTop />
+          </QueryProviders>
+        </ProviderSession>
       </body>
     </html>
   );

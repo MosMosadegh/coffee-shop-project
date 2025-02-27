@@ -1,13 +1,19 @@
 import Layout from "@/components/layouts/UserPanelLayout";
 import AccountDetails from "@/components/templates/details/AccountDetails";
-import { cookies } from "next/headers";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-const page = () => {
-   const refreshToken = cookies().get("refresh-token")?.value;
+const page = async () => {
+  const session = await getServerSession(authOptions);
+    console.log("🚀 ~ page ~ session:", session)
+    const accessToken = session.user.accessToken;
+    // console.log("🚀 ~ page ~ userId:", accessToken)
+
+  //  const refreshToken = cookies().get("refresh-token")?.value;
     //console.log("🚀 ~ AccountDetails ~ refreshToken:", refreshToken)
   return (
     <Layout>
-      <AccountDetails refreshToken={refreshToken} />
+      <AccountDetails accessToken={accessToken} />
     </Layout>
   );
 };

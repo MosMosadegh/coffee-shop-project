@@ -4,7 +4,7 @@ import styles from "@/styles/p-user/accountDetails.module.css";
 import swal from "sweetalert";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { MdOutlineDelete } from "react-icons/md";
-import Joi from "joi";
+// import Joi from "joi";
 import { useRouter } from "next/navigation";
 
 

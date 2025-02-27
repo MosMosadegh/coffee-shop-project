@@ -1,29 +1,16 @@
 "use client";
-import { getUser } from "@/action/getUser";
+import { useSession } from "next-auth/react";
 import { showSwal } from "@/utils/helpers";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { CiHeart } from "react-icons/ci";
-import styles from "./AddToWishlist.module.css";
 
 function AddToWishlist({ productID }) {
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await getUser();
-        setUser(userData);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
-    fetchUser();
-  }, []);
+  const { data: session } = useSession();
 
   const addToWishlist = async (event) => {
     event.preventDefault();
 
-    if (!user) {
+    if (!session) {
       showSwal(
         "برای اضافه به لیست علاقه مندی ها ابتدا وارد حساب خود شوید",
         "error",
@@ -31,7 +18,7 @@ function AddToWishlist({ productID }) {
       );
     } else {
       const wish = {
-        user: user?._id,
+        user: session.user.id,
         product: productID,
       };
       const res = await fetch("/api/wishlist/post", {
@@ -53,7 +40,7 @@ function AddToWishlist({ productID }) {
 
   return (
     <div onClick={addToWishlist}>
-      <CiHeart  />
+      <CiHeart />
     </div>
   );
 }

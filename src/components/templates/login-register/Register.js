@@ -3,8 +3,14 @@ import styles from "./register.module.css";
 import Sms from "./Sms";
 import { showSwal } from "@/utils/helpers";
 import swal from "sweetalert";
-import { validateEmail, validatePassword, validatePhone } from "@/utils/auth";
+import {
+  validateEmail,
+  validatePassword,
+  validatePhone,
+} from "@/utils/auth/auth";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 const Register = ({ showLoginForm }) => {
   const router = useRouter();
@@ -16,7 +22,8 @@ const Register = ({ showLoginForm }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signup = async () => {
+  const signup = async (e) => {
+    e.preventDefault();
     const user = {
       name,
       phone,
@@ -43,7 +50,7 @@ const Register = ({ showLoginForm }) => {
       );
     }
 
-    const res = await fetch("/api/auth/signup", {
+    const response = await fetch("/api/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,35 +58,50 @@ const Register = ({ showLoginForm }) => {
       body: JSON.stringify(user),
     });
 
-    if (res.status === 422) {
-      return showSwal(
-        "اطلاعات ورودی صحیح نمیباشد",
-        "error",
-        "تلاش مجدد"
-      );
-    }
-    if (res.status === 409) {
-      return showSwal(
-        "کاربر دیگری با این مشخصات موجود میباشد",
-        "error",
-        "تلاش مجدد"
-      );
-    }
-  
-    if (res.status === 200) {
-      setName("");
-      setPhone("");
-      setEmail("");
-      setPassword("");
-      swal({
-        title: "ثبت نام با موفقیت انجام شد",
-        icon: "success",
-        buttons: "ورود به پنل کاربری",
-      }).then(() => {
-        router.replace("p-user");
+    const data = await response.json();
+    if (response.ok) {
+      // ثبت‌نام موفق، کاربر را وارد سیستم کنید
+      const result = await signIn("credentials", {
+        email: data.user.email,
+        password,
+        redirect: false,
       });
+
+      if (result.ok) {
+        // هدایت کاربر به صفحه پنل کاربری
+        router.replace("p-user");
+      } else {
+        alert("Login failed after signup!");
+      }
+    } else {
+      alert(data.message || "Signup failed!");
     }
   };
+
+  // if (res.status === 422) {
+  //   return showSwal("اطلاعات ورودی صحیح نمیباشد", "error", "تلاش مجدد");
+  // }
+  // if (res.status === 409) {
+  //   return showSwal(
+  //     "کاربر دیگری با این مشخصات موجود میباشد",
+  //     "error",
+  //     "تلاش مجدد"
+  //   );
+  // }
+
+  // if (res.status === 201) {
+  //   setName("");
+  //   setPhone("");
+  //   setEmail("");
+  //   setPassword("");
+  //   swal({
+  //     title: "ثبت نام با موفقیت انجام شد",
+  //     icon: "success",
+  //     buttons: "ورود به پنل کاربری",
+  //   }).then(() => {
+  //     router.replace("p-user");
+  //   });
+  // }
 
   const hideOtpForm = () => {
     setIsRegisterWithOtp(false);
@@ -92,8 +114,8 @@ const Register = ({ showLoginForm }) => {
     }
     const newUser = {
       phone,
-      action: "register"
-    }
+      action: "register",
+    };
 
     const res = await fetch("/api/auth/sms/send", {
       method: "POST",
@@ -126,61 +148,68 @@ const Register = ({ showLoginForm }) => {
       {!isRegisterWithOtp ? (
         <>
           <div className={styles.form}>
-            <input
-              className={styles.input}
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="نام"
-            />
-            <input
-              className={styles.input}
-              type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="شماره موبایل  "
-            />
-            <input
-              className={styles.input}
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="ایمیل (دلخواه)"
-            />
-            {isRegisterWithPassword && (
+            <form>
               <input
                 className={styles.input}
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="رمز عبور"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="نام"
               />
-            )}
-            <p
-              onClick={sendOtp}
-              style={{ marginTop: "1rem" }}
-              className={styles.btn}
-            >
-              ثبت نام با کد تایید
-            </p>
-            <button
-              onClick={() => {
-                if (isRegisterWithPassword) {
-                  signup();
-                } else {
-                  setIsRegisterWithPassword(true);
-                }
-              }}
-              style={{ marginTop: ".7rem" }}
-              className={styles.btn}
-            >
-              ثبت نام با رمزعبور
-            </button>
-            <p className={styles.back_to_login} onClick={showLoginForm}>
-              برگشت به ورود
-            </p>
+              <input
+                className={styles.input}
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="شماره موبایل  "
+              />
+              <input
+                className={styles.input}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="ایمیل (دلخواه)"
+              />
+              {isRegisterWithPassword && (
+                <input
+                  className={styles.input}
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="رمز عبور"
+                />
+              )}
+              <p
+                type="submit"
+                onClick={sendOtp}
+                style={{ marginTop: "1rem" }}
+                className={styles.btn}
+              >
+                ثبت نام با کد تایید
+              </p>
+              <button
+                type="submit"
+                onClick={(e) => {
+                  e.preventDefault()
+                  if (isRegisterWithPassword) {
+                    signup(e);
+                  } else {
+                    setIsRegisterWithPassword(true);
+                  }
+                }}
+                style={{ marginTop: ".7rem" }}
+                className={styles.btn}
+              >
+                ثبت نام با رمزعبور
+              </button>
+              <p className={styles.back_to_login} onClick={showLoginForm}>
+                برگشت به ورود
+              </p>
+            </form>
           </div>
-          <p className={styles.redirect_to_home}>لغو</p>
+          <p className={styles.redirect_to_home}>
+            <Link href={"/home"}>لغو</Link>
+          </p>
         </>
       ) : (
         <Sms hideOtpForm={hideOtpForm} phone={phone} name={name} />

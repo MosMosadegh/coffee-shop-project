@@ -1,12 +1,14 @@
 import connectToDb from "@/configs/db";
 import TicketModel from "@/models/Ticket";
-import { authUser } from "@/utils/isLogin";
 import validateTicket from "@/validations/tickets";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(req, res) {
   try {
     await connectToDb();
-    const user = await authUser();
+    const session = await getServerSession(authOptions);
+    const user = session.user;
     const regBody = await req.json();
 
     // validation Zod
@@ -23,7 +25,7 @@ export async function POST(req, res) {
       department,
       subDepartment,
       priority,
-      user: user._id,
+      user: user.id,
     });
 
     return Response.json(

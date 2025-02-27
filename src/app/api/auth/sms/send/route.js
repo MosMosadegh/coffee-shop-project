@@ -8,6 +8,7 @@ export async function POST(req) {
     await connectToDb();
     const body = await req.json();
     const { phone, action } = body;
+    // console.log("🚀 ~ POST ~ body:", body)
 
     // جمع‌آوری اطلاعات IP و Device
     const ipAddress =
@@ -78,7 +79,7 @@ export async function POST(req) {
         });
       }
       await otpEntry.save();
-      //console.log('OTP entry saved or updated:', otpEntry);
+      console.log('OTP entry saved or updated:', otpEntry);
     } else {
       return Response.json(
         { message: "Invalid action" },
@@ -90,11 +91,11 @@ export async function POST(req) {
     //       url: 'http://ippanel.com/api/select',
     //       body: {
     // "op":"pattern",
-    // "user":"FREE09127595049",
-    // "pass":"Faraz@0492685150",
-    // "fromNum":"3000505",
+    // "user":process.env.SMS_API_USER,
+    // "pass":process.env.SMS_API_PASS,
+    // "fromNum": process.env.SMS_API_FROM_NUM,
     // "toNum":phone,
-    // "patternCode":"tt41zwwlms7p06j",
+    // "patternCode":process.env.SMS_API_PATTERN_CODE,
     // "inputData":[
     // { "verification-code": code }
     // ]

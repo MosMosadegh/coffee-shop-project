@@ -38,8 +38,7 @@ const generateRefreshToken = (data) => {
 };
 
 const validateEmail = (email) => {
-  const pattern =
-   /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/g;
+  const pattern = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/g;
   return pattern.test(email);
 };
 const validatePhone = (phone) => {

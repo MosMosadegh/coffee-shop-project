@@ -1,12 +1,15 @@
+
 import connectToDb from "@/configs/db";
 import WishlistModel from "@/models/Wishlist";
-import { authUser } from "@/utils/isLogin";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
+
 
 export async function GET() {
     try {
         await connectToDb();
-        
-        const user = await authUser();
+        const session = await getServerSession(authOptions); 
+        const user = session.user
     if (!user) {
       return Response.json(
         { message: "Unauthorized" },
@@ -14,7 +17,7 @@ export async function GET() {
       );
     }
   
-      const wishlist = await WishlistModel.find({ user: user._id }, "-__v")
+      const wishlist = await WishlistModel.find({ user: user.id }, "-__v")
         .populate("product user")
         .lean();
       return Response.json(

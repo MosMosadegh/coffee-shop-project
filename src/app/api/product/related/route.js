@@ -1,6 +1,9 @@
+
 import { NextResponse } from "next/server";
 import ProductModel from "@/models/Product";
 import connectToDb from "@/configs/db";
+
+export const dynamic = 'force-dynamic'
 
 export async function GET(request) {
   try {
@@ -25,7 +28,7 @@ export async function GET(request) {
       "-__v" // حذف فیلد __v از نتیجه
     ).limit(8); // محدودیت تعداد محصولات مشابه
 
-    // اگر محصولی یافت نشد، پیام مناسب برگردانید
+
     if (relatedProducts.length === 0) {
       return NextResponse.json(
         { message: "محصول مشابهی یافت نشد" },
@@ -33,7 +36,6 @@ export async function GET(request) {
       );
     }
 
-    // برگرداندن محصولات مشابه
     return NextResponse.json(relatedProducts);
   } catch (error) {
     console.error("Error in /api/product/related:", error);

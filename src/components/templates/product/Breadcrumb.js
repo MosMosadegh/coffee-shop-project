@@ -4,7 +4,7 @@ import Link from "next/link";
 const Breadcrumb = ({ title }) => {
   return (
     <section className={styles.breadcrumb}>
-      <Link href="/">خانه </Link>
+      <Link href="/home">خانه </Link>
       <span>/</span>
       <Link href="/category">همه موارد </Link>
       <span>/</span>

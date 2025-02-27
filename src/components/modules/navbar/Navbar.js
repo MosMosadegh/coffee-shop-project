@@ -50,7 +50,7 @@ function Navbar({ user }) {
       <nav className={fixTop ? styles.navbar_fixed : styles.navbar}>
         <main>
           <div>
-            <Link href="/">
+            <Link href="/home">
               <img src="/images/logo.png" alt="Logo" />
             </Link>
           </div>
@@ -114,7 +114,7 @@ function Navbar({ user }) {
             </Link>
        
        
-            <Link href={user? "/p-user/wishlist" : "/" }>
+            <Link href={user? "/p-user/wishlist" : "/home" }>
               <FaRegHeart />
               <span>{wishlist?.length || 0}</span>
             </Link>

@@ -5,7 +5,7 @@ const Breadcrumb = ({ route }) => {
     <div className={styles.breadcrumb}>
       <p className={styles.title}>{route}</p>
       <div className="text-slate-300">
-        <Link href={"/"}>خانه</Link>
+        <Link href={"/home"}>خانه</Link>
         <span>/</span>
         <p>{route}</p>
       </div>

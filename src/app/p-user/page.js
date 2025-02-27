@@ -3,30 +3,31 @@ import styles from "@/styles/p-user/index.module.css";
 import Box from "@/components/modules/infoBox/InfoBox";
 import Tickets from "@/components/templates/p-user/index/Tickets";
 import Orders from "@/components/templates/p-user/index/Orders";
-import { authUser } from "@/utils/isLogin";
 import TicketModel from "@/models/Ticket";
 import CommentModel from "@/models/Comment";
 import WishlistModel from "@/models/Wishlist";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 
 const page = async () => {
-  const user = await authUser();
-  if (!user) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
     redirect("/login-register");
   }
+  const user = session.user;
 
-  //console.log("🚀 ~ page-> p-user ~ user:", user);
-
-  const ticket = await TicketModel.find({ user: user._id })
+  const ticket = await TicketModel.find({ user: user.id })
     .populate("department", "title")
     .sort({ _id: -1 })
     .limit(3)
     .lean();
 
-  const allTicket = await TicketModel.find({ user: user._id });
-  const allComment = await CommentModel.find({ user: String(user._id) });
-  const allWishlist = await WishlistModel.find({ user: user._id });
-  const allOrder = await WishlistModel.find({ user: user._id });
+  const allTicket = await TicketModel.find({ user: user.id });
+  const allComment = await CommentModel.find({ user: user.id });
+  const allWishlist = await WishlistModel.find({ user: user.id });
+  const allOrder = await WishlistModel.find({ user: user.id });
 
   return (
     <>

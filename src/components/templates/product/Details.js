@@ -54,7 +54,7 @@ const Details = ({ product }) => {
         <p>افزودن به علاقه مندی ها </p>
         <div>
           <TbSwitch3 />
-          <a href="/">مقایسه</a>
+          <a href="/home">مقایسه</a>
         </div>
       </section>
 
@@ -73,19 +73,19 @@ const Details = ({ product }) => {
 
       <div className={styles.share}>
         <p>به اشتراک گذاری: </p>
-        <a href="/">
+        <a href="/home">
           <FaTelegram />
         </a>
-        <a href="/">
+        <a href="/home">
           <FaLinkedinIn />
         </a>
-        <a href="/">
+        <a href="/home">
           <FaPinterest />
         </a>
-        <a href="/">
+        <a href="/home">
           <FaTwitter />
         </a>
-        <a href="/">
+        <a href="/home">
           <FaFacebookF />
         </a>
       </div>

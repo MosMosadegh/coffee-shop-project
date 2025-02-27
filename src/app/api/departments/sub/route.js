@@ -1,14 +1,14 @@
 import connectToDb from "@/configs/db";
 import SubDepartmentModel from "@/models/SubDepartment";
 
-import Joi from "joi";
+// import Joi from "joi";
 
 
-//schema for validation
-const SubDepartmentSchema = Joi.object({
-    title: Joi.string().min(3).max(30).required(),
-    departmentID: Joi.string().required(),
-  });
+// //schema for validation
+// const SubDepartmentSchema = Joi.object({
+//     title: Joi.string().min(3).max(30).required(),
+//     departmentID: Joi.string().required(),
+//   });
   
   export async function POST(req) {
     try {
@@ -16,13 +16,13 @@ const SubDepartmentSchema = Joi.object({
   
       const body = await req.json();
   
-      const { error } = SubDepartmentSchema.validate(body);
-      if (error) {
-        return Response.json(
-          { message: error.details[0].message },
-          { status: 400 }
-        );
-      }
+      // const { error } = SubDepartmentSchema.validate(body);
+      // if (error) {
+      //   return Response.json(
+      //     { message: error.details[0].message },
+      //     { status: 400 }
+      //   );
+      // }
   
       const { title, departmentID } = body;
   

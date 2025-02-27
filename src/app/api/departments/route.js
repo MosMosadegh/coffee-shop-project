@@ -2,12 +2,12 @@ import connectToDb from "@/configs/db";
 import DepartmentModel from "@/models/Department";
 import { authAdmin } from "@/utils/isLogin";
 
-import Joi from "joi";
+// import Joi from "joi";
 
-//schema for validation
-const DepartmentSchema = Joi.object({
-  title: Joi.string().min(3).max(30).required(),
-});
+// //schema for validation
+// const DepartmentSchema = Joi.object({
+//   title: Joi.string().min(3).max(30).required(),
+// });
 
 export async function POST(req) {
   try {
@@ -16,13 +16,13 @@ export async function POST(req) {
 
     const body = await req.json();
 
-    const { error } = DepartmentSchema.validate(body);
-    if (error) {
-      return Response.json(
-        { message: error.details[0].message },
-        { status: 400 }
-      );
-    }
+    // const { error } = DepartmentSchema.validate(body);
+    // if (error) {
+    //   return Response.json(
+    //     { message: error.details[0].message },
+    //     { status: 400 }
+    //   );
+    // }
 
     const { title } = body;
 

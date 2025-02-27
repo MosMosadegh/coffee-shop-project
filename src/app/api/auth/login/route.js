@@ -7,7 +7,7 @@ import {
   validatePassword,
   validatePhone,
   verifyPassword,
-} from "@/utils/auth";
+} from "@/utils/auth/auth";
 
 export async function POST(req) {
   try {

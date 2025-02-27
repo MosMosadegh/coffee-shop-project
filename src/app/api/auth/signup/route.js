@@ -1,12 +1,11 @@
 import connectToDb from "@/configs/db";
 import UserModel from "@/models/User";
 import {
-  generateAccessToken,
   hashPassword,
   validateEmail,
   validatePassword,
   validatePhone,
-} from "@/utils/auth";
+} from "@/utils/auth/auth";
 import { rolls } from "@/utils/constants";
 
 export async function POST(req) {
@@ -42,13 +41,14 @@ export async function POST(req) {
     //3-Generation Token
     //4-Create
 
+    // Check if user already exists
     const isUserExist = await UserModel.findOne({
       $or: [{ name }, { phone }],
     }).lean();
 
     if (isUserExist) {
       return Response.json(
-        { message: "This userName Or email or Phone exist already" },
+        { message: "This userName Or email or Phone already exist " },
         { status: 409 }
       );
     }
@@ -61,15 +61,16 @@ export async function POST(req) {
         );
       }
     }
+
+    // Hash password
     const hashedPassword = await hashPassword(password);
-    
 
-    const accessToken = generateAccessToken({ phone });
 
+    // Create user
     //first user is admin
     const users = await UserModel.find({}).lean();
 
-    await UserModel.create({
+    const newUser =  await UserModel.create({
       name,
       phone,
       email: email ? email : `${phone}@gmail.com`,
@@ -78,12 +79,9 @@ export async function POST(req) {
     });
 
     return Response.json(
-      { message: "User Join successfully" },
+      { message: "User registered successfully", user: newUser },
       {
-        status: 200,
-        headers: {
-          "Set-Cookie": `token=${accessToken};path=/; httpOnly=true`,
-        },
+        status: 201,
       }
     );
   } catch (error) {

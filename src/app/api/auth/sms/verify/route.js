@@ -1,7 +1,11 @@
 import connectToDb from "@/configs/db";
 import OtpModel from "@/models/Otp";
 import UserModel from "@/models/User";
-import { generateAccessToken, generateRefreshToken, validatePhone } from "@/utils/auth";
+import {
+  // generateAccessToken,
+  // generateRefreshToken,
+  validatePhone,
+} from "@/utils/auth/auth";
 import { rolls } from "@/utils/constants";
 
 export async function POST(req) {
@@ -45,24 +49,6 @@ export async function POST(req) {
     // Check if the OTP code matches
     if (otpEntry.code === code) {
       if (otpEntry.expTime > currentTime) {
-
-        const payload = phone ?  {phone} :  {email};
-        const accessToken = generateAccessToken(payload);
-        const refreshToken = generateRefreshToken(payload);
-
-        await UserModel.findOneAndUpdate( payload,{
-          $set:{
-            refreshToken
-          }
-        }).lean()
-
-        const headers = new Headers();
-        headers.append("Set-Cookie", `token=${accessToken}; path=/; httpOnly=true`);
-        headers.append(
-          "Set-Cookie",
-          `refresh-token=${refreshToken}; path=/; httpOnly=true`
-        );
-
         const existingUser = await UserModel.findOne({ phone });
         if (!existingUser) {
           // If user is new, create the user
@@ -81,11 +67,21 @@ export async function POST(req) {
         otpEntry.isUsed = true;
         await otpEntry.save();
 
+        // Return user data
+        const user = await UserModel.findOne({ phone }).lean();
         return Response.json(
-          { message: "OTP verified successfully" },
+          {
+            message: "OTP verified successfully",
+            user: {
+              id: user._id.toString(),
+              name: user.name,
+              phone: user.phone,
+              email: user.email,
+              role: user.role,
+            },
+          },
           {
             status: 200,
-            headers
           }
         );
       } else {

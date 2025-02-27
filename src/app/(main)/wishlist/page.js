@@ -1,19 +1,23 @@
 import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
 import Product from "@/components/modules/product/Product";
-import connectToDb from "@/configs/db";
 import styles from "@/styles/wishlist.module.css";
-import { authUser } from "@/utils/isLogin";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import WishlistModel from "@/models/Wishlist";
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const page = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/login-register");
+  }
+  const user = session.user;
+
   let wishes = [];
-  await connectToDb();
-  const user = await authUser();
+
   if (user) {
-    wishes = await WishlistModel.find({ user: user._id })
+    wishes = await WishlistModel.find({ user: user.id })
       .populate("product", "name price score")
       .lean();
   }

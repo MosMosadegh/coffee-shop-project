@@ -2,18 +2,21 @@ import React from "react";
 import styles from "./userPanelLayout.module.css";
 import Sidebar from "@/components/modules/p-user/Sidebar";
 import Topbar from "@/components/modules/p-user/Topbar";
-import { authUser } from "@/utils/isLogin";
 import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
 import NavbarWithUser from "../modules/navbar/NavbarWithUser";
 import Footer from "../modules/footer/Footer";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
+
 
 const Layout = async ({ children }) => {
-  const user = await authUser();
-  if (!user) {
-    //console.log("User not authenticated");
-  } else {
-    //console.log("Authenticated user:", user);
-  }
+  const session = await getServerSession(authOptions);
+  if (!session.user.role) {
+        redirect("/login-register");
+      }
+  const user = session.user;
+
 
   return (
     <>

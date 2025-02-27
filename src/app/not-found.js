@@ -11,7 +11,7 @@ const page = () => {
       </div>
       <div className={styles.texts}>
         <p>صفحه مورد نظر یافت نشد :((</p>
-        <Link href="/">برگشت به صفحه اصلی</Link>
+        <Link href="/home">برگشت به صفحه اصلی</Link>
       </div>
     </div>
   );

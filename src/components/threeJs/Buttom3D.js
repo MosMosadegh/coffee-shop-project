@@ -1,4 +1,4 @@
-import { Float, Html, Text } from "@react-three/drei";
+import { Float, Text } from "@react-three/drei";
 import { useState } from "react";
 
 export default function Button3D({ position, onClick }) {

@@ -108,7 +108,7 @@ const Table = ({ cart, removeFromCart, increaseCount, decreaseCount }) => {
                 </td>
                 <td className={styles.product}>
                   <Image height={300} width={300} src={item.img} alt="" />
-                  <Link href={"/"}>{item.name}</Link>
+                  <Link href={"/home"}>{item.name}</Link>
                 </td>
 
                 <td>

@@ -1,8 +1,8 @@
+import { NextResponse } from "next/server";
 import connectToDb from "@/configs/db";
-import { cookies } from "next/headers";
 import UserModel from "@/models/User";
 import { verify } from "jsonwebtoken";
-import { generateAccessToken } from "@/utils/auth";
+import { generateAccessToken } from "@/utils/auth/auth";
 
 export async function POST(req) {
   //console.log("🚀 ~ POST ~ Refresh token endpoint hit")
@@ -13,14 +13,13 @@ export async function POST(req) {
     const { refreshToken } = body;
 
     if (!refreshToken) {
-      return Response.json({ message: "No refresh token" }, { status: 401 });
+      return NextResponse.json({ message: "No refresh token" }, { status: 401 });
     }
 
     const user = await UserModel.findOne({ refreshToken });
     //console.log("🚀 ~ POST ~ user:", user)
     if (!user) {
-  
-      return Response.json(
+      return NextResponse.json(
         { message: "no have refresh Token" },
         { status: 401 }
       );
@@ -29,7 +28,7 @@ export async function POST(req) {
     try {
       verify(refreshToken, process.env.RefreshTokenSecretKey);
     } catch (err) {
-      return Response.json(
+      return NextResponse.json(
         { message: "Invalid refresh token" },
         { status: 403 }
       );
@@ -38,17 +37,14 @@ export async function POST(req) {
     const payload = user.phone ? { phone: user.phone } : { email: user.email };
     const newAccessToken = generateAccessToken(payload);
 
-    return Response.json(
+    return NextResponse.json(
       { message: "New Access Token Generated Successfully ", newAccessToken },
       {
         status: 200,
-        headers: {
-          "Set-Cookie": `token=${newAccessToken}; path=/; httpOnly=true; secure;samesite=strict`,
-        },
       }
     );
   } catch (error) {
-    //console.log("Error", error);
+    console.log("Error", error);
     return Response.json({ message: error.message }, { status: 500 });
   }
 }

@@ -1,14 +1,14 @@
 import connectToDb from "@/configs/db";
 import ContactModel from "@/models/Contact";
-import Joi from 'joi';
+// import Joi from 'joi';
 
-const contactSchema = Joi.object({
-    userName: Joi.string().min(3).max(30).required(),
-    body: Joi.string().min(1).max(500).required(),
-    email: Joi.string().email().required(),
-    phone: Joi.string().pattern(/^[0-9]+$/).min(10).max(15).required(), 
-    company: Joi.string().allow('').optional()
-});
+// const contactSchema = Joi.object({
+//     userName: Joi.string().min(3).max(30).required(),
+//     body: Joi.string().min(1).max(500).required(),
+//     email: Joi.string().email().required(),
+//     phone: Joi.string().pattern(/^[0-9]+$/).min(10).max(15).required(), 
+//     company: Joi.string().allow('').optional()
+// });
 
 
 export async function POST(req) {
@@ -16,11 +16,11 @@ export async function POST(req) {
     await connectToDb();
     const regBody = await req.json();
 
-    const { error } = contactSchema.validate(regBody);
-    if (error) {
-        //console.log("Validation Error:", error.details);
-      return Response.json({ message: error.details[0].message }, { status: 400 });
-    }
+    // const { error } = contactSchema.validate(regBody);
+    // if (error) {
+    //     //console.log("Validation Error:", error.details);
+    //   return Response.json({ message: error.details[0].message }, { status: 400 });
+    // }
 
     const {
         userName,

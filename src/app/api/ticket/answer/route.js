@@ -1,15 +1,18 @@
 import connectToDb from "@/configs/db";
 import TicketModel from "@/models/Ticket";
-import { authAdmin, authUser } from "@/utils/isLogin";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
 // import validateTicket from "@/validations/tickets";
 
 export async function POST(req) {
   try {
-    const isAdmin = await authAdmin()
-    if(!isAdmin){
-      throw new Error("This Api is protected")
+    const session = await getServerSession(authOptions);
+    const user = session.user;
+
+    if (session.user.role !== "ADMIN") {
+      throw new Error("This Api is protected");
     }
-    
+
     await connectToDb();
 
     const regBody = await req.json();
@@ -22,7 +25,6 @@ export async function POST(req) {
 
     const { title, body, department, subDepartment, priority, ticketID } =
       regBody;
-    const user = await authUser();
 
     await TicketModel.create({
       title,
@@ -30,7 +32,7 @@ export async function POST(req) {
       department,
       subDepartment,
       priority,
-      user: user._id,
+      user: user.id,
       hasAnswer: false,
       isAnswer: true,
       mainTicket: ticketID,
