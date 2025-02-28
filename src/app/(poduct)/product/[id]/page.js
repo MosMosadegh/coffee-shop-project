@@ -29,7 +29,7 @@ export async function generateMetadata({ params }) {
       title: product.name,
       description: product.shortDescription,
       images: product.img,
-      url: `${process.env.BASE_URL}/product/${productID}`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/product/${productID}`,
       // type: "product",
       siteName: "فروشگاه ما",
     },

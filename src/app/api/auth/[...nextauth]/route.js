@@ -80,7 +80,7 @@ export const authOptions = {
 
         if (phone && code) {
           const response = await fetch(
-            `${process.env.API_URL}/auth/sms/verify`,
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/sms/verify`,
             {
               method: "POST",
               headers: {

@@ -87,31 +87,31 @@ export async function POST(req) {
       );
     }
     
-    //     request.post({
-    //       url: 'http://ippanel.com/api/select',
-    //       body: {
-    // "op":"pattern",
-    // "user":process.env.SMS_API_USER,
-    // "pass":process.env.SMS_API_PASS,
-    // "fromNum": process.env.SMS_API_FROM_NUM,
-    // "toNum":phone,
-    // "patternCode":process.env.SMS_API_PATTERN_CODE,
-    // "inputData":[
-    // { "verification-code": code }
-    // ]
-    // },
-    //         json: true,
-    //       },
-    //        function (error, response, body) {
-    //         if (!error && response.statusCode === 200) {
-    //           //YOU‌ CAN‌ CHECK‌ THE‌ RESPONSE‌ AND SEE‌ ERROR‌ OR‌ SUCCESS‌ MESSAGE
+        request.post({
+          url: 'http://ippanel.com/api/select',
+          body: {
+    "op":"pattern",
+    "user":process.env.SMS_API_USER,
+    "pass":process.env.SMS_API_PASS,
+    "fromNum": process.env.SMS_API_FROM_NUM,
+    "toNum":phone,
+    "patternCode":process.env.SMS_API_PATTERN_CODE,
+    "inputData":[
+    { "verification-code": code }
+    ]
+    },
+            json: true,
+          },
+           function (error, response, body) {
+            if (!error && response.statusCode === 200) {
+              //YOU‌ CAN‌ CHECK‌ THE‌ RESPONSE‌ AND SEE‌ ERROR‌ OR‌ SUCCESS‌ MESSAGE
    
-    //           //console.log(response.body);
-    //         } else {
-    //           //console.log("whatever you want");
-    //         }
-    //       }
-    //     );
+              //console.log(response.body);
+            } else {
+              //console.log("whatever you want");
+            }
+          }
+        );
 
     return Response.json(
       { message: "Code sent successfully :))" },
