@@ -43,7 +43,7 @@ function AddToShoppingBasket({product, count}) {
 
   return (
     <>
-      <button onClick={addToCard}>افزودن به سبد خرید</button>
+      <button onClick={addToCard} className="">افزودن به سبد خرید</button>
     </>
   );
 }

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FaRegMoon } from "react-icons/fa";
+import { IoSunnySharp } from "react-icons/io5";
 
 export default function ThemeToggle() {
   const [darkMode, setDarkMode] = useState(false);
@@ -30,8 +32,10 @@ export default function ThemeToggle() {
   };
 
   return (
-    <button onClick={toggleDarkMode}>
-      {darkMode ? <span className="text-xl">🌞</span> : <span className="text-xl">🌚</span>}
+    <button  className="flex items-center gap-x-2" onClick={toggleDarkMode}>
+      {darkMode ? <IoSunnySharp className="h-5 w-5"/> : <FaRegMoon className="h-5 w-5" />}
+      <span className="inline-block dark:hidden"> تم تیره</span>
+      <span className="hidden dark:inline-block "> تم روشن</span>
     </button>
   );
 }

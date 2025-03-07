@@ -4,6 +4,7 @@ import AOSInit from "@/utils/aos";
 import ScrollToTop from "@/utils/ScrollToTop";
 import QueryProviders from "./queryProviders";
 import ProviderSession from "./sessionPovider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,7 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   return (
     <html lang="fa">
-      <body className={`${inter.className} dark:bg-slate-500`}>
+      <body className={`${inter.className} dark:bg-slate-600`}>
         <ProviderSession>
           <QueryProviders>
             <AOSInit />

@@ -2,13 +2,14 @@ const request = require("request");
 import connectToDb from "@/configs/db";
 import OtpModel from "@/models/Otp";
 import UserModel from "@/models/User";
+import axios from "axios"
 
 export async function POST(req) {
   try {
     await connectToDb();
     const body = await req.json();
     const { phone, action } = body;
-    // console.log("🚀 ~ POST ~ body:", body)
+    console.log("🚀 ~ POST ~ body:", body);
 
     // جمع‌آوری اطلاعات IP و Device
     const ipAddress =
@@ -20,13 +21,10 @@ export async function POST(req) {
     const otpCode = Math.floor(Math.random() * 999999);
     //console.log("Generated OTP Code:", otpCode);
 
-    const isUserExist = await UserModel.findOne({
-      $or: [{ phone }],
-    });
-    //console.log("Is user exist:", isUserExist);
+    const isUserExist = await UserModel.findOne({ phone });
+    console.log("Is user exist:", isUserExist);
 
-
-    if (action === 'register'){
+    if (action === "register") {
       if (isUserExist) {
         return Response.json(
           {
@@ -48,9 +46,7 @@ export async function POST(req) {
 
       await otpEntry.save();
       //console.log('New OTP entry saved:', otpEntry);
-
-      
-    }else if(action === "login"){
+    } else if (action === "login") {
       if (!isUserExist) {
         return Response.json(
           { message: "User not found. Please register first." },
@@ -60,7 +56,7 @@ export async function POST(req) {
 
       // بررسی وجود شماره تلفن
       let otpEntry = await OtpModel.findOne({ phone });
-  
+
       if (otpEntry) {
         // اگر ورودی وجود دارد، کد جدید تولید کنید و آن را به‌روزرسانی کنید
         otpEntry.code = otpCode; // به‌روزرسانی کد
@@ -79,44 +75,29 @@ export async function POST(req) {
         });
       }
       await otpEntry.save();
-      console.log('OTP entry saved or updated:', otpEntry);
+      console.log("OTP entry saved or updated:", otpEntry);
     } else {
-      return Response.json(
-        { message: "Invalid action" },
-        { status: 400 }
-      );
+      return Response.json({ message: "Invalid action" }, { status: 400 });
     }
-    
-        request.post({
-          url: 'http://ippanel.com/api/select',
-          body: {
-    "op":"pattern",
-    "user":process.env.SMS_API_USER,
-    "pass":process.env.SMS_API_PASS,
-    "fromNum": process.env.SMS_API_FROM_NUM,
-    "toNum":phone,
-    "patternCode":process.env.SMS_API_PATTERN_CODE,
-    "inputData":[
-    { "verification-code": code }
-    ]
-    },
-            json: true,
-          },
-           function (error, response, body) {
-            if (!error && response.statusCode === 200) {
-              //YOU‌ CAN‌ CHECK‌ THE‌ RESPONSE‌ AND SEE‌ ERROR‌ OR‌ SUCCESS‌ MESSAGE
-   
-              //console.log(response.body);
-            } else {
-              //console.log("whatever you want");
-            }
-          }
-        );
 
-    return Response.json(
-      { message: "Code sent successfully :))" },
-      { status: 201 }
-    );
+    // const response = await axios.post("http://ippanel.com/api/select", {
+    //   op: "pattern",
+    //   user: process.env.SMS_API_USER,
+    //   pass: process.env.SMS_API_PASS,
+    //   fromNum: process.env.SMS_API_FROM_NUM,
+    //   toNum: phone,
+    //   patternCode: process.env.SMS_API_PATTERN_CODE,
+    //   inputData: [{ "verification-code": otpCode }], // اصلاح شده به otpCode
+    // });
+
+    // if (response.status === 200) {
+      
+      return new Response(JSON.stringify({ message: "Code sent successfully" }), { status: 201 });
+    // } else {
+    //   console.error("Error sending OTP:", response.data);
+    //   return new Response(JSON.stringify({ message: "Failed to send OTP" }), { status: 500 });
+    // }
+
   } catch (error) {
     console.error("Error while creating OTP:", error);
     return Response.json({ message: error }, { status: 500 });

@@ -19,8 +19,8 @@ const Card = ({ product }) => {
   };
 
   return (
-    <div className={styles.card}>
-      <div className={styles.details_container}>
+    <div className={`${styles.card} p-2 md:p-5`}>
+      <div className={`${styles.details_container}`}>
         <Image width={200} height={312} src={product.img} alt="Product" />
 
         <div className={styles.icons}>

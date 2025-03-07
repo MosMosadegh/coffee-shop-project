@@ -17,7 +17,7 @@ async function AdminHomePage() {
 
   return (
     <AdminPanelLayout>
-      <main>
+      <main className="container">
         <section className={styles.dashboard_contents}>
           <Box title="مجموع تیکت های دریافتی" value={tickets.length} />
           <Box title="مجموع محصولات سایت" value={products.length} />

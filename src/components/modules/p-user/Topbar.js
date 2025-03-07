@@ -31,7 +31,7 @@ const Topbar = ({userName, role}) => {
             className={styles.notification}
           >
             <IoIosNotifications />
-            <span>0</span>
+            <span>2</span>
           </div>
         </section>
       </div>

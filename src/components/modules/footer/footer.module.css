@@ -28,8 +28,10 @@
 }
 .footer {
   background-color: rgb(17, 17, 17);
-  padding-top: 20px;
- 
+  padding: 20px;
+  max-width: 1440px;
+  margin-right: auto;
+  margin-left: auto;
 }
 .footer_article div div {
   display: flex;
@@ -66,9 +68,9 @@
   margin-right: 1rem;
 }
 
-.licenses img:nth-child(4) {
+/* .licenses img:nth-child(4) {
   margin-left: 1rem;
-}
+} */
 .licenses img {
   cursor: pointer;
 }

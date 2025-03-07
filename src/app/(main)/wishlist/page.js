@@ -25,7 +25,7 @@ const page = async () => {
   return (
     <>
       <Breadcrumb route={"علاقه مندی ها"} />
-      <main className={styles.container} data-aos="fade-up">
+      <main data-aos="fade-up">
         <p className={styles.title}>محصولات مورد علاقه شما</p>
         <section>
           {wishes.length > 0 &&

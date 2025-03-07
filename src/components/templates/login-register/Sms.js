@@ -10,48 +10,6 @@ const Sms = ({ hideOtpForm, phone, name }) => {
   const router = useRouter();
   const [code, setCode] = useState("");
 
-  // const verifyCode = async () => {
-  //   //Validation todo
-  //   const body = {
-  //     phone,
-  //     code,
-  //     name: name ? name : undefined,
-  //   };
-  //   const res = await fetch("/api/auth/sms/verify", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(body),
-  //   });
-  //   if (res.status === 409) {
-  //     return showSwal("کد ورود صحیح نمیباشد", "error", "تلاش مجدد");
-  //   } else if (res.status === 403) {
-  //     return swal({
-  //       title:
-  //         "تعداد تلاشهای شما به بیش از حد مجاز رسید حساب شما تا 15 دقیقه مسدود شد",
-  //       icon: "error",
-  //       buttons: " متوجه شدم ",
-  //     });
-  //   } else if (res.status === 410) {
-  //     return swal({
-  //       title: "کد ورود منقضی شده",
-  //       icon: "error",
-  //       buttons: "تلاش مجدد",
-  //     }).then(() => {
-  //       router.replace("login-register");
-  //     });
-  //   } else if (res.status === 200) {
-  //     return swal({
-  //       title: "کد ورود با موفقیت شتاسایی شد",
-  //       icon: "success",
-  //       buttons: "  ورود به پنل کاربری",
-  //     }).then(() => {
-  //       router.replace("p-user");
-  //     });
-  //   }
-  // };
-
   const signinWithVerifyCode = async (event) => {
     event.preventDefault();
 
@@ -59,7 +17,7 @@ const Sms = ({ hideOtpForm, phone, name }) => {
       phone,
       action: "login",
       code,
-      name: name ? name : undefined,
+      name: name ? name : "کاربر کافه ما",
       redirect: false,
     });
 
@@ -101,7 +59,7 @@ const Sms = ({ hideOtpForm, phone, name }) => {
         });
 
         return swal({
-          title: "کد ورود با موفقیت شتاسایی شد",
+          title: "کد ورود با موفقیت شناسایی شد",
           icon: "success",
           buttons: "  ورود به پنل کاربری",
         }).then(() => {

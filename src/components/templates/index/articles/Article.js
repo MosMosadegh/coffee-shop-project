@@ -10,7 +10,7 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 
-const Card = () => {
+const  Card = () => {
   return (
     <div className={styles.card}>
       <Link className={styles.img_container} href={"/article/123"}>

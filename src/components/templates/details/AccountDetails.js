@@ -73,7 +73,7 @@ function AccountDetails() {
     <main>
       <div className={styles.details}>
         <h1 className={styles.title}>
-          <span className="dark:bg-slate-500"> جزئیات اکانت</span>
+          <span className="dark:bg-slate-600"> جزئیات اکانت</span>
         </h1>
         <div className={styles.details_main}>
           <section>

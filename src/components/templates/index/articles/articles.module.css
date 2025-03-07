@@ -1,5 +1,5 @@
 .title {
-  color: #114639;
+  color: #4D7C0F;;
   font-size: 36px;
 }
 
@@ -8,7 +8,7 @@
 }
 
 .container {
-  max-width: 1222px;
+  max-width: 1024px;
   margin: 0 auto;
   direction: rtl;
 }

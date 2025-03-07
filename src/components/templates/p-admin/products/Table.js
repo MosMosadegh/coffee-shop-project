@@ -29,7 +29,7 @@ export default function DataTable({ products, title }) {
       </div>
       <div className={styles.table_container}>
         <table className={styles.table}>
-          <thead className="dark:bg-slate-500">
+          <thead className="dark:bg-slate-600">
             <tr>
               <th>شناسه</th>
               <th> نام </th>
@@ -40,7 +40,7 @@ export default function DataTable({ products, title }) {
               <th>حذف</th>
             </tr>
           </thead>
-          <tbody className="dark:bg-slate-500">
+          <tbody className="dark:bg-slate-600">
             {products.map((product, index) => (
               <tr key={product._id}>
                 <td>{index + 1}</td>

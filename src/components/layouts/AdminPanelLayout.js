@@ -11,16 +11,15 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 // import { authAdmin } from "@/utils/isLogin";
 
 const Layout = async ({ children }) => {
-
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      redirect("/login-register");
-    }
-    if (session.user.role !== "ADMIN") {
-      redirect("/p-user");
-    }
-    const user = session.user;
-    console.log("🚀 ~ page-layoutAdmin ~ user:", user);
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/login-register");
+  }
+  if (session.user.role !== "ADMIN") {
+    redirect("/p-user");
+  }
+  const user = session.user;
+  console.log("🚀 ~ page-layoutAdmin ~ user:", user);
 
   // const admin = await authAdmin();
   // if (!admin) {
@@ -33,15 +32,28 @@ const Layout = async ({ children }) => {
   return (
     <>
       <NavbarWithUser />
-      <Breadcrumb route={"پنل مدیریت"} />
-      <div className={`${styles.layout}  dark:bg-slate-500`}>
-        <section className={styles.section}>
-          <Sidebar />
-          <div className={styles.contents}>
-            <Topbar adminName={user.name} />
-            {children}
-          </div>
-        </section>
+      <div className="container">
+        <Breadcrumb route={"پنل مدیریت"} />
+        <div className={`${styles.layout}  block lg:hidden dark:bg-slate-600`}>
+          <section className="">
+            <div className={styles.contents}>
+              <Topbar adminName={user.name} />
+              <Sidebar />
+            </div>
+            <div className="">{children}</div>
+          </section>
+        </div>
+        <div className={`${styles.layout}  hidden lg:block dark:bg-slate-600`}>
+          <section className={styles.section}>
+            <div className={styles.contents}>
+              <Topbar adminName={user.name} />
+              {children}
+            </div>
+            <div className="">
+              <Sidebar />
+            </div>
+          </section>
+        </div>
       </div>
       <Footer />
     </>

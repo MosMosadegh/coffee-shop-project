@@ -1,7 +1,7 @@
 .contents {
-  max-width: 1200px;
+  max-width: 1024px;
   margin: 0 auto;
-  margin-top: 160px;
+  margin-top: 20px;
   text-align: right;
   padding-top: 25px;
   color: black;
@@ -18,8 +18,18 @@
 .main {
   gap: 50px;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
 }
-.container {
+/* .container {
   overflow: auto;
+} */
+
+@media (min-width: 768px) {
+  .main {
+    gap: 50px;
+    display: flex;
+    flex-direction: row;
+  }
 }

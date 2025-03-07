@@ -13,7 +13,27 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+
+    },
+    container:{
+      "center" : true,
+      padding: {
+        DEFAULT: '1rem',
+        lg: '0.625rem',
+      }
+    },
+    screens: {
+      'xs': '480px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
     },
   },
-  plugins: [],
+  plugins: [
+    function ({addVariant}) {
+      addVariant('child', '& > *');
+      addVariant('child-hover', '& > *:hover');
+    }
+  ],
 }

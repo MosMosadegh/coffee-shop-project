@@ -4,9 +4,15 @@ import React from "react";
 
 export default async function page() {
   return (
-    <div>
-      <Breadcrumb route={"فروشگاه ما"} />
-      <AllProduct />
-     </div>
+    <>
+      <div className="container">
+        <div className="">
+          <Breadcrumb route={"فروشگاه ما"} />
+          <div className="">
+            <AllProduct />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

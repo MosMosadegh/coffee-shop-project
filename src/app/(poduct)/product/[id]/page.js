@@ -6,6 +6,7 @@ import MoreProducts from "@/components/templates/product/MoreProducts";
 import ProductModel from "@/models/Product";
 import connectToDb from "@/configs/db";
 import mongoose from "mongoose";
+import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
 
 //Start MetaData
 export async function generateMetadata({ params }) {
@@ -44,7 +45,7 @@ const product = async ({ params }) => {
 
   if (!mongoose.Types.ObjectId.isValid(productID)) {
     return (
-      <div className={styles.container}>
+      <div className="container">
         <div data-aos="fade-up" className={styles.contents}>
           Invalid product ID
         </div>
@@ -60,17 +61,21 @@ const product = async ({ params }) => {
 
   return (
     <>
-    <div className={styles.container}>
-      <div data-aos="fade-up" className={styles.contents}>
-        <div className={styles.main}>
-          <Details product={product} />
-          <Gallery productImg={product.img} />
+      <div className="container">
+        <div>
+          <Breadcrumb route={"محصولات"} />
+
+          <div data-aos="fade-up" className={styles.contents}>
+            <div className={styles.main}>
+              <Gallery productImg={product.img} />
+              <Details product={product} />
+            </div>
+            <Tabs product={product} />
+            {/* find Related Product that similar to as "Smell" */}
+            <MoreProducts smell={product.smell} productID={product._id} />
+          </div>
         </div>
-        <Tabs product={product} />
-        {/* find Related Product that similar to as "Smell" */}
-        <MoreProducts smell={product.smell} productID={product._id} />
       </div>
-    </div>
     </>
   );
 };

@@ -102,7 +102,7 @@ function SendTicket() {
   };
 
   return (
-    <main className={styles.container}>
+    <main className="container">
       <h1 className={styles.title}>
         <span>ارسال تیکت جدید</span>
         <Link href="/p-user/tickets"> همه تیکت ها</Link>

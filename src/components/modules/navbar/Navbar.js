@@ -23,7 +23,6 @@ function Navbar({ user }) {
     enabled: !!user,
   });
 
-
   useEffect(() => {
     if (user) {
       setIsUserLoggedIn(true);
@@ -46,81 +45,84 @@ function Navbar({ user }) {
   }, []);
 
   return (
-    <div className="sticky top-0 z-50">
-      <nav className={fixTop ? styles.navbar_fixed : styles.navbar}>
-        <main>
-          <div>
-            <Link href="/home">
-              <img src="/images/logo.png" alt="Logo" />
-            </Link>
-          </div>
+    <div className="container">
+      <div className="w-[100%] lg:w-[95%] left-0 right-0 mx-auto ">
+        <div className="hidden lg:block sticky top-0 z-50  ">
+          <nav className={fixTop ? styles.navbar_fixed : styles.navbar}>
+            <main className="bg-white dark:bg-zinc-700 text-zinc-900 dark:text-slate-300 ">
+              <div>
+                <Link href="/home">
+                  <img src="/images/logo.png" alt="Logo" />
+                </Link>
+              </div>
 
-          <ul className={styles.links}>
-            <li>
-              <Link href="/home">صفحه اصلی</Link>
-            </li>
-            <li>
-              <Link href="/category">فروشگاه</Link>
-            </li>
-            <li>
-              <Link href="/blog">وبلاگ</Link>
-            </li>
-            <li>
-              <Link href="/contact-us">تماس با ما</Link>
-            </li>
-            <li>
-              <Link href="/about-us">درباره ما</Link>
-            </li>
-            <li>
-              <Link href="/rules">قوانین</Link>
-            </li>
-            <li>
-              <Link href="/">3D</Link>
-            </li>
-            <li>
-              <ThemeToggle/>
-            </li>
-            {!isUserLoggedIn ? (
-              <li>
-                <Link href="/login-register">ورود / عضویت</Link>
-              </li>
-            ) : (
-              <>
-                {/* Start My-account section */}
-                <div className={styles.dropdown}>
-                  <Link href="/p-user">
-                    <IoIosArrowDown className={styles.dropdown_icons} />
-                    {user?.name} - حساب کاربری
-                    {/* حساب کاربری  */}
-                  </Link>
-                  <div className={styles.dropdown_content}>
-                    <Link href="/p-user/orders">سفارشات</Link>
-                    <Link href="/p-user/tickets">تیکت های پشتیبانی</Link>
-                    <Link href="/p-user/comments">کامنت‌ها</Link>
-                    <Link href="/p-user/wishlist">علاقه‌مندی‌ها</Link>
-                    <Link href="/p-user/account-details">جزئیات اکانت</Link>
-                  </div>
-                </div>
+              <ul className={styles.links}>
+                <li>
+                  <Link href="/home">صفحه اصلی</Link>
+                </li>
+                <li>
+                  <Link href="/category">فروشگاه</Link>
+                </li>
+                <li>
+                  <Link href="/blog">وبلاگ</Link>
+                </li>
+                <li>
+                  <Link href="/contact-us">تماس با ما</Link>
+                </li>
+                <li>
+                  <Link href="/about-us">درباره ما</Link>
+                </li>
+                <li>
+                  <Link href="/rules">قوانین</Link>
+                </li>
+                <li>
+                  <Link href="/">3D</Link>
+                </li>
+                <li>
+                  <ThemeToggle />
+                </li>
+                {!isUserLoggedIn ? (
+                  <li>
+                    <Link href="/login-register">ورود / عضویت</Link>
+                  </li>
+                ) : (
+                  <>
+                    {/* Start My-account section */}
+                    <div className={styles.dropdown}>
+                      <Link href="/p-user">
+                        <IoIosArrowDown className={styles.dropdown_icons} />
+                        {user?.name} - حساب کاربری
+                        {/* حساب کاربری  */}
+                      </Link>
+                      <div className={styles.dropdown_content}>
+                        <Link href="/p-user/orders">سفارشات</Link>
+                        <Link href="/p-user/tickets">تیکت های پشتیبانی</Link>
+                        <Link href="/p-user/comments">کامنت‌ها</Link>
+                        <Link href="/p-user/wishlist">علاقه‌مندی‌ها</Link>
+                        <Link href="/p-user/account-details">جزئیات اکانت</Link>
+                      </div>
+                    </div>
 
-                {/* Finish My-account section */}
-              </>
-            )}
-          </ul>
+                    {/* Finish My-account section */}
+                  </>
+                )}
+              </ul>
 
-          <div className={styles.navbar_icons}>
-            <Link href="/cart">
-              <FaShoppingCart />
-              <span>{cartItem?.length || 0}</span>
-            </Link>
-       
-       
-            <Link href={user? "/p-user/wishlist" : "/home" }>
-              <FaRegHeart />
-              <span>{wishlist?.length || 0}</span>
-            </Link>
-          </div>
-        </main>
-      </nav>
+              <div className={styles.navbar_icons}>
+                <Link href="/cart">
+                  <FaShoppingCart />
+                  <span>{cartItem?.length || 0}</span>
+                </Link>
+
+                <Link href={user ? "/p-user/wishlist" : "/home"}>
+                  <FaRegHeart />
+                  <span>{wishlist?.length || 0}</span>
+                </Link>
+              </div>
+            </main>
+          </nav>
+        </div>
+      </div>
     </div>
   );
 }

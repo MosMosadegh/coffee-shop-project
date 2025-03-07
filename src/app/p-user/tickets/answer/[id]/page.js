@@ -17,7 +17,7 @@ const page = async ({ params }) => {
 
   return (
     <Layout>
-      <main className={styles.container}>
+      <main className="container">
         <h1 className={styles.title}>
           <span>تیکت تستی</span>
           <Link href="/p-user/tickets/sendTicket">ارسال تیکت جدید</Link>

@@ -38,6 +38,7 @@ body {
 body {
   background: white;
   position: relative;
+  
 }
 
 a {
@@ -51,10 +52,12 @@ a {
   }
 }
 
-.container {
-  max-width: 1222px;
+/* .container {
+  max-width: 1024px;
+  min-width: 100vh;
+  min-height: 100vh;
   margin: 0 auto;
-}
+} */
 
 /* swiper */
 .mySwiper .swiper-button-prev:after,
@@ -72,8 +75,8 @@ a {
 }
 
 .home-slider img {
-  position: relative;
-  right: 1px;
+  /* position: relative; */
+  /* right: 1px; */
 }
 
 .gallery-slider .swiper-button-prev:after,

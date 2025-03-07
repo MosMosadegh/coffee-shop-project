@@ -3,7 +3,7 @@ import styles from "./order.module.css";
 
 const Order = () => {
   return (
-    <Link href={`/product/123`} className={`${styles.card} dark:bg-slate-500`}>
+    <Link href={`/product/123`} className={`${styles.card} dark:bg-slate-600`}>
       <div>
         <div>
           <p>قهوه عربیکا 40 درصد</p>

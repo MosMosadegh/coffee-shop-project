@@ -11,10 +11,16 @@ export default async function Home() {
 
   return (
     <>
-      <Banner />
-      <Latest product={JSON.parse(JSON.stringify(latestProduct))} />
-      <Promote />
-      <Articles />
+      <div className="">
+        <Banner />
+        <div className="container">
+          <div className="w-[100%] lg:w-[95%] left-0 right-0 mx-auto">
+            <Latest product={JSON.parse(JSON.stringify(latestProduct))} />
+            <Promote />
+            <Articles />
+          </div>
+        </div>
+      </div>
     </>
   );
 }

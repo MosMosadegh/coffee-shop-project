@@ -3,23 +3,25 @@ import styles from "./promote.module.css";
 
 const Promote = () => {
   return (
-    <div className={`${styles.readable} dark:bg-slate-500`}>
-      <div data-aos="fade-up-right" data-aos-duration="1500" className={styles.container}>
+    <div className={`${styles.readable} dark:bg-slate-600`}>
+      <div data-aos="fade-up-right" data-aos-duration="1500" className="">
         <main className={styles.main}>
-          <section  >
-            <span>خرید قهوه ، به سبک حرفه ای ها</span>
-            <p className=" text-gray-500 dark:text-white">زیبایی امروز رو با قهوه “ست” کنید</p>
+          <section>
+           <span>خرید قهوه ، به سبک حرفه ای ها</span>
+            <p className=" text-gray-500 dark:text-white">
+              زیبایی امروز رو با قهوه “ست” کنید
+            </p>
             <img data-aos="fade-left" src="/images/coffee-image-1.jpg" alt="" />
           </section>
           <section className={styles.club}>
-            <div>
+            <div className="">
               <span>باشگاه مشتریان ست</span>
-              <p >برای مشتریان وفادار قهوه ست</p>
+              <p>برای مشتریان وفادار قهوه ست</p>
             </div>
           </section>
         </main>
         <main className={styles.main}>
-          <img width={660} height={530} src="/images/Home32.jpg" alt="" />
+          <img className="w-full" width={660} height={530} src="/images/Home32.jpg" alt="" />
           <section
             data-aos="fade-up"
             data-aos-easing="linear"
@@ -38,7 +40,7 @@ const Promote = () => {
               .تجربه ای به قدمت چهار نسل و ارتباط مستمر با مصرف کنندگان قهوه
               ضامن این ویژگیها است.
             </p>
-            <div>
+            <div className="">
               <Link href="/about-us">
                 <button className={styles.red_btn}>بیشتر بخوانید</button>
               </Link>

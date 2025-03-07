@@ -33,9 +33,9 @@
 }
 .searchBox input {
   background: white;
-  padding: 10px 10px;
+  padding: 5px 5px;
   border-radius: 20px;
-  width: 300px;
+  width: 200px;
 }
 .searchBox div {
   background-color: #711d1c;
@@ -44,7 +44,8 @@
   left: 5px;
   display: flex;
   align-items: center;
-  height: 34px;
+  height: 24px;
+  width: 24px;
   font-size: 1.5rem;
   top: 4px;
   border-radius: 100%;
@@ -124,7 +125,20 @@
   z-index: 99;
 }
 .modal_text {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   text-align: center;
+}
+@media (min-width: 1024px) {
+  .searchBox input {
+    padding: 10px 10px;
+    width: 300px;
+  }
+  .searchBox div {
+    height: 34px;
+  }
+  .modal_text {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
 }

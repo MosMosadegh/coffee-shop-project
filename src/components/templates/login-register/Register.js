@@ -22,7 +22,7 @@ const Register = ({ showLoginForm }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signup = async (e) => {
+  const signupWithPassword = async (e) => {
     e.preventDefault();
     const user = {
       name,
@@ -107,7 +107,8 @@ const Register = ({ showLoginForm }) => {
     setIsRegisterWithOtp(false);
   };
 
-  const sendOtp = async () => {
+  const sendOtp = async (event) => {
+    event.preventDefault();
     const isValidPhone = validatePhone(phone);
     if (!isValidPhone) {
       return showSwal("شماره تماس صحیح نمیباشد", "error", "تلاش مجدد");
@@ -192,7 +193,7 @@ const Register = ({ showLoginForm }) => {
                 onClick={(e) => {
                   e.preventDefault()
                   if (isRegisterWithPassword) {
-                    signup(e);
+                    signupWithPassword(e);
                   } else {
                     setIsRegisterWithPassword(true);
                   }

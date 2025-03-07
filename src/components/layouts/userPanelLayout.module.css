@@ -1,6 +1,7 @@
+
 .layout {
   background: rgb(255, 255, 255);
-  width: 100%;
+  /* width: 100%; */
   direction: rtl;
   height: auto;
   color: black;
@@ -11,5 +12,11 @@
 }
 .section {
   display: flex;
+  flex-direction: column;
   height: 100%;
+}
+@media (min-width: 768px) {
+  .section {
+    flex-direction: row-reverse;
+  }
 }

@@ -6,7 +6,6 @@ import { useState } from "react";
 import { authTypes } from "@/utils/constants";
 import Breadcrumb from "@/components/modules/breadcrumb/Breadcrumb";
 
-
 const login_register = () => {
   const [authType, setAuthType] = useState(authTypes.LOGIN);
 
@@ -19,25 +18,28 @@ const login_register = () => {
 
   return (
     <>
-    <Breadcrumb route={"ورود و عضویت"} />
-     <div className={styles.login_register}>
-      <div className={styles.form_bg} data-aos="fade-up">
-        {authType === authTypes.LOGIN ? (
-          <Login showRegisterForm={showRegisterForm} />
-        ) : (
-          <Register showLoginForm={showLoginForm} />
-        )}
+      <div className="container">
+        <div className="w-[100%] lg:w-[95%] left-0 right-0 mx-auto  ">
+          <Breadcrumb route={"ورود و عضویت"} />
+          <div className={`${styles.login_register} flex justify-center `}>
+            <div className={styles.form_bg}>
+              {authType === authTypes.LOGIN ? (
+                <Login showRegisterForm={showRegisterForm} />
+              ) : (
+                <Register showLoginForm={showLoginForm} />
+              )}
+            </div>
+            <section className="hidden md:block h-full">
+              <img
+                className=" object-contain"
+                src="https://neurosciencenews.com/files/2023/06/coffee-brain-caffeine-neuroscincces.jpg"
+                alt=""
+              />
+            </section>
+          </div>
+        </div>
       </div>
-      <section>
-        <img
-          className="max-w-7xl"
-          src="https://neurosciencenews.com/files/2023/06/coffee-brain-caffeine-neuroscincces.jpg"
-          alt=""
-        />
-      </section>
-    </div>
     </>
-   
   );
 };
 

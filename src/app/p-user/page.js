@@ -32,7 +32,7 @@ const page = async () => {
   return (
     <>
       <Layout>
-        <main>
+        <main className="">
           <section className={styles.boxes}>
             <Box title="مجموع تیکت ها " value={allTicket.length} />
             <Box title="مجموع کامنت ها " value={allComment.length} />

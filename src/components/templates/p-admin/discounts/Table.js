@@ -36,7 +36,7 @@ function Table({ discounts }) {
   };
   return (
     <table className={styles.table}>
-      <thead className="dark:bg-slate-500">
+      <thead className="dark:bg-slate-600">
         <tr>
           <th>شناسه</th>
           <th>کد</th>
@@ -48,7 +48,7 @@ function Table({ discounts }) {
           <th>حذف</th>
         </tr>
       </thead>
-      <tbody className="dark:bg-slate-500">
+      <tbody className="dark:bg-slate-600">
         {discounts.map((discount, index) => (
           <tr key={discount._id} className="border">
             <td className={discount.uses < discount.maxUse ? "bg-green-600" : "bg-red-500"}>{index + 1}</td>
