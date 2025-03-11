@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
-    console.log("🚀 ~ page ~ session:", session)
+    // console.log("🚀 ~ page ~ session:", session)
     const accessToken = session.user.accessToken;
     // console.log("🚀 ~ page ~ userId:", accessToken)
 

@@ -1,4 +1,4 @@
-const request = require("request");
+
 import connectToDb from "@/configs/db";
 import OtpModel from "@/models/Otp";
 import UserModel from "@/models/User";
@@ -9,7 +9,7 @@ export async function POST(req) {
     await connectToDb();
     const body = await req.json();
     const { phone, action } = body;
-    console.log("🚀 ~ POST ~ body:", body);
+    // console.log("🚀 ~ POST ~ body:", body);
 
     // جمع‌آوری اطلاعات IP و Device
     const ipAddress =
@@ -80,23 +80,23 @@ export async function POST(req) {
       return Response.json({ message: "Invalid action" }, { status: 400 });
     }
 
-    // const response = await axios.post("http://ippanel.com/api/select", {
-    //   op: "pattern",
-    //   user: process.env.SMS_API_USER,
-    //   pass: process.env.SMS_API_PASS,
-    //   fromNum: process.env.SMS_API_FROM_NUM,
-    //   toNum: phone,
-    //   patternCode: process.env.SMS_API_PATTERN_CODE,
-    //   inputData: [{ "verification-code": otpCode }], // اصلاح شده به otpCode
-    // });
+    const response = await axios.post("http://ippanel.com/api/select", {
+      op: "pattern",
+      user: process.env.SMS_API_USER,
+      pass: process.env.SMS_API_PASS,
+      fromNum: process.env.SMS_API_FROM_NUM,
+      toNum: phone,
+      patternCode: process.env.SMS_API_PATTERN_CODE,
+      inputData: [{ "verification-code": otpCode }], // اصلاح شده به otpCode
+    });
 
-    // if (response.status === 200) {
+    if (response.status === 200) {
       
       return new Response(JSON.stringify({ message: "Code sent successfully" }), { status: 201 });
-    // } else {
-    //   console.error("Error sending OTP:", response.data);
-    //   return new Response(JSON.stringify({ message: "Failed to send OTP" }), { status: 500 });
-    // }
+    } else {
+      console.error("Error sending OTP:", response.data);
+      return new Response(JSON.stringify({ message: "Failed to send OTP" }), { status: 500 });
+    }
 
   } catch (error) {
     console.error("Error while creating OTP:", error);

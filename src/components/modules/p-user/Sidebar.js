@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { refresh } from "aos";
 import { signOut } from "next-auth/react";
 
-const Sidebar = ({ user }) => {
+const Sidebar = ({ user, role }) => {
   const path = usePathname();
   const router = useRouter();
 
@@ -72,6 +72,12 @@ const Sidebar = ({ user }) => {
               <TbListDetails />
               جزئیات اکانت
             </Link>
+            {role === "ADMIN" && (
+              <Link href={"/p-admin"}>
+              <TbListDetails />
+              پنل ادمین
+            </Link>
+            )}
           </>
         ) : (
           <>

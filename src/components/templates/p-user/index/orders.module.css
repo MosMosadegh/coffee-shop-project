@@ -8,7 +8,7 @@
 .content {
   overflow: scroll;
   background-color: #711d1c0f;
-  width: 50%;
+  width: 100%;
   height: 450px;
   color: rgb(0, 0, 0);
   padding: 0px 15px;
@@ -39,4 +39,10 @@
   font-size: 2rem;
   width: 100%;
   padding: 9rem 0 12.5rem 0;
+}
+
+@media (min-width: 1024px) {
+  .content {
+    width: 50%;
+  }
 }

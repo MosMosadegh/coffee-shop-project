@@ -1,6 +1,7 @@
 .card {
   text-align: center;
   color: black;
+  padding: 15px;
 }
 
 .card svg {

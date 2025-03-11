@@ -1,9 +1,9 @@
-import Link from "next/link";
+import { AuthProvider } from "@/context/AuthContext";
 
 export default function ThreeLayout({ children }) {
   return (
     <div>
-      {children}
+      <AuthProvider>{children}</AuthProvider>
     </div>
   );
 }

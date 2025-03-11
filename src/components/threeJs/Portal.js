@@ -41,6 +41,7 @@ export default function Portal() {
   return (
     <>
       <group scale={[60, 60, 60]} position={[1, 45, -85]}>
+        
         <Center>
           <mesh geometry={nodes.baked.geometry}>
             <meshBasicMaterial map={bakedTexture} />

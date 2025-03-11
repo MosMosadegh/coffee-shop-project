@@ -19,7 +19,7 @@ const page = async () => {
         <h1 className={styles.title}>
           <span className="dark:bg-slate-600">علاقه مندی ها</span>
         </h1>
-        <div className="container">
+        <div className="mb-5 px-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-5 child:bg-white child:dark:bg-zinc-700 child:rounded-2xl child:shadow-normal">
           {wishlist.length &&
             wishlist.map((wish) => (
               <Product

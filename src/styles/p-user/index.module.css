@@ -6,8 +6,19 @@
   flex-wrap: wrap;
 }
 
+
 .contents {
   display: flex;
-  padding: 40px;
-  gap: 10px;
+  flex-direction: column;
+  padding: 0px;
+  gap: 0px;
+}
+
+@media (min-width: 768px) {
+  .contents {
+    display: flex;
+    flex-direction: row;
+    padding: 40px;
+    gap: 10px;
+  }
 }

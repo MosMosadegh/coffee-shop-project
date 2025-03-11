@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ContactShadows,
   Environment,
@@ -7,11 +7,13 @@ import {
   PresentationControls,
   useGLTF,
 } from "@react-three/drei";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Laptob() {
   const computer = useGLTF(
     "https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf"
   );
+  const { isLoggedIn } = useAuth();
 
   return (
     <>
@@ -26,7 +28,7 @@ export default function Laptob() {
             snap={{ mass: 4, tension: 400 }}
           > */}
       {/* <Float rotationIntensity={0.4}> */}
-     
+
       <primitive object={computer.scene} position-y={-1.2}>
         <Html
           transform
@@ -38,7 +40,10 @@ export default function Laptob() {
           position={[0, 1.56, -1.4]}
           rotation-x={-0.256}
         >
-          <iframe src="/home" />
+          <iframe
+            key={isLoggedIn ? "home" : "passPage"}
+            src={isLoggedIn ? "/home" : "/passPage"}
+          />
         </Html>
       </primitive>
       {/* </Float> */}

@@ -14,7 +14,7 @@ const Topbar = ({userName, role}) => {
       <div className={styles.topbar}>
         <div className={styles.profile}>
           <div>
-            <p>{userName}</p>
+            <p className="hidden md:block">{userName}</p>
             <span>{role === "USER" ? "کاربر" : "ادمین"}</span>
           </div>
           <img src="/images/shahin.jpg" alt="" />

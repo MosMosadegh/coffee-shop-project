@@ -57,11 +57,11 @@ const Login = ({ showRegisterForm }) => {
       password,
       redirect: false,
     });
-    console.log("🚀 ~ signin ~ res:", res);
+    // console.log("🚀 ~ signin ~ res:", res);
 
     if (res.status == 200) {
       const session = await getSession();
-      console.log("🚀 ~ handleLogin ~ session:", session);
+      // console.log("🚀 ~ handleLogin ~ session:", session);
 
       setCookie("accessToken", session.accessToken, {
         maxAge: 15 * 60, // 15 دقیقه

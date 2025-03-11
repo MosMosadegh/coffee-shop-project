@@ -19,7 +19,7 @@ export const authOptions = {
       name: "Credentials",
 
       async authorize(credentials) {
-        console.log("🚀 ~ authorize ~ credentials:", credentials);
+        // console.log("🚀 ~ authorize ~ credentials:", credentials);
 
         await connectToDb();
         const { email, phone, password, code, name } = credentials;
@@ -39,7 +39,7 @@ export const authOptions = {
           }
           const user = await UserModel.findOne({ email }).lean();
 
-          console.log("🚀 ~ authorize ~ user:", user);
+          console.log(" authorize ~ user:", user);
           if (!user) {
             throw new Error("User not found !!");
           }
@@ -96,7 +96,7 @@ export const authOptions = {
 
           const data = await response.json();
           const user = data.user;
-          console.log("🚀 ~ authorize-otp ~ user:", user);
+          // console.log("🚀 ~ authorize-otp ~ user:", user);
 
           if (!user) {
             throw new Error("User not found after OTP verification");

@@ -19,7 +19,7 @@ const Layout = async ({ children }) => {
     redirect("/p-user");
   }
   const user = session.user;
-  console.log("🚀 ~ page-layoutAdmin ~ user:", user);
+  // console.log("🚀 ~ page-layoutAdmin ~ user:", user);
 
   // const admin = await authAdmin();
   // if (!admin) {

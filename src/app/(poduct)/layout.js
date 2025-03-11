@@ -6,7 +6,7 @@ export default function ProductLayout({ children }) {
     return (
       <div>
         <NavbarWithUser />
-        <main>{children}</main>
+        <main className="text-sm md:text-base lg:text-lg">{children}</main>
         <Footer />
       </div>
     );

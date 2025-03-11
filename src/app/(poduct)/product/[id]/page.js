@@ -63,9 +63,11 @@ const product = async ({ params }) => {
     <>
       <div className="container">
         <div>
-          <Breadcrumb route={"محصولات"} />
+          <div className="leading-snug">
+            <Breadcrumb route={"محصولات"} />
+          </div>
 
-          <div data-aos="fade-up" className={styles.contents}>
+          <div data-aos="fade-up" className={`${styles.contents} `}>
             <div className={styles.main}>
               <Gallery productImg={product.img} />
               <Details product={product} />

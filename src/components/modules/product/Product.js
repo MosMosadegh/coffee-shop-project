@@ -19,7 +19,7 @@ const Card = ({ product }) => {
   };
 
   return (
-    <div className={`${styles.card} p-2 md:p-5`}>
+    <div className={`${styles.card} p-2 text-sm md:text-base md:p-5`}>
       <div className={`${styles.details_container}`}>
         <Image width={200} height={312} src={product.img} alt="Product" />
 

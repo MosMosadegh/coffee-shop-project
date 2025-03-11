@@ -1,10 +1,9 @@
+"use client";
 import { IoMdStar } from "react-icons/io";
 import styles from "./commentForm.module.css";
 import { useEffect, useState } from "react";
 import { showSwal } from "@/utils/helpers";
 const CommentForm = ({ productID }) => {
-
-
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [body, setBody] = useState("");
@@ -17,11 +16,13 @@ const CommentForm = ({ productID }) => {
   };
 
   useEffect(() => {
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"))
-    setUserName(userInfo.userName)
-    setEmail(userInfo.email)
-  }, [])
-  
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      const parsedUserInfo = JSON.parse(userInfo);
+      setUserName(parsedUserInfo.userName);
+      setEmail(parsedUserInfo.email);
+    }
+  }, []);
 
   const submitComment = async () => {
     if (isSaveUserInfo) {
@@ -55,7 +56,7 @@ const CommentForm = ({ productID }) => {
       setScore(5);
       showSwal("نظر شما با موفقیت ثبت شد", "success", "ادامه");
     } else {
-      const errorData = await res.json(); 
+      const errorData = await res.json();
       showSwal("خطا در ثبت نظر: " + errorData.message, "error", "تلاش مجدد");
     }
   };

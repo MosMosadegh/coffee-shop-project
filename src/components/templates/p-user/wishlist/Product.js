@@ -35,7 +35,7 @@ const Card = ({ price, score, name, productID, img }) => {
       <Link href={`/product/${productID}`}>
         <Image width={283} height={283} src={img} alt="" />
       </Link>
-      <p dir="rtl">{name}</p>
+      <p dir="rtl" className="line-clamp-2">{name}</p>
       <div>
         <div>
           {new Array(score).fill(0).map((item, index) => (

@@ -5,6 +5,7 @@
 .details_main {
   align-items: end;
   display: flex;
+  flex-direction: column;
   width: 100%;
   gap: 30px;
 }
@@ -41,12 +42,13 @@
   opacity: 0.5;
 }
 .password_group button {
-  width: 120px !important;
+  width: 190px !important;
 }
 .password_group {
   display: flex;
   gap: 10px;
-  align-items: baseline;
+  align-items: center;
+  justify-items: center;
 }
 .details input {
   padding: 10px;
@@ -122,6 +124,7 @@
   gap: 30px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .uploader::after {
   content: "";
@@ -205,7 +208,7 @@
 .submit_btn {
   background-color: #711d1c;
   color: white;
-  padding: 0.4rem;
+  padding: 0.7rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -213,13 +216,20 @@
   flex-direction: row-reverse;
   outline: 0;
   cursor: pointer;
-  width: 30%;
+  width: 50%;
   border-radius: 7px;
   margin: 90px auto;
   border: 0;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
+  line-height: normal;
 }
 .submit_btn:disabled {
   opacity: 0.5;
   cursor: none;
+}
+
+@media (min-width: 768px) {
+  .details_main {
+    flex-direction: row;
+  }
 }

@@ -122,7 +122,7 @@ function AccountDetails() {
                 </button>
               </div>
             </div>
-            <div>
+            <div className="mt-10 ">
               <label>رمز عبور</label>
               <div className={styles.password_group}>
                 <input
@@ -130,7 +130,7 @@ function AccountDetails() {
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                 />
-                <button>تغییر رمز عبور</button>
+                <button className="lg:text-sm xl:text-lg">تغییر رمز عبور</button>
               </div>
             </div>
           </section>

@@ -8,7 +8,7 @@ import Comments from "./Comments";
 const Tabs = ({ product }) => {
   const [tab, setTab] = useState("description");
   return (
-    <div data-aos="fade-left" className={styles.tabs}>
+    <div  className={styles.tabs}>
       <input
         onChange={() => setTab("description")}
         type="radio"

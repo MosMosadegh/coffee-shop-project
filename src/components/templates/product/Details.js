@@ -14,7 +14,7 @@ const Details = ({ product }) => {
   const [count, setCount] = useState(1);
 
   return (
-    <main style={{ width: "63%" }}>
+    <main className="w-full md:w-[63%]">
       <Breadcrumb title={product.name} />
       <h2>{product.name}</h2>
 

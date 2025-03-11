@@ -26,7 +26,7 @@ const MoreProducts = ({ smell, productID }) => {
   if (isError) return <div>Error loading related products</div>;
 
   return (
-    <div data-aos="fade-right" >
+    <div data-aos="fade-right" className="text-xs md:text-base lg:text-lg" >
       <section>
         <h2>محصولات مرتبط</h2>
         <div
@@ -39,13 +39,21 @@ const MoreProducts = ({ smell, productID }) => {
         ></div>
       </section>
       <Swiper
-        slidesPerView={4}
+        slidesPerView={2}
         spaceBetween={30}
         dir="rtl"
         rewind={true}
         navigation={true}
         modules={[Navigation]}
-        className="mySwiper "
+        className="mySwiper"
+        breakpoints={{
+          768: {
+            slidesPerView: 3,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+        }}
       >
         {relatedProduct?.length > 0 ? (
           relatedProduct.map((product) => (

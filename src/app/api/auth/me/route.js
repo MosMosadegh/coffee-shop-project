@@ -28,7 +28,7 @@ export async function GET(request) {
         data: null,
         message: "Invalid Token !!",
       },
-      { status: 401 }
+      { status: 402 }
     );
   }
 
