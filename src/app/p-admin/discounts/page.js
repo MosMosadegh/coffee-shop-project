@@ -14,7 +14,7 @@ const Discounts = async () => {
 
   return (
     <Layout>
-      <main>
+      <main className="container">
         <AddDiscount/>
 
         {discounts.length === 0 ? (

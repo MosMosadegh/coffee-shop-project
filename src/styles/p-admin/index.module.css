@@ -7,17 +7,32 @@
 }
 .dashboard_charts {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  /* gap: 10px;
   padding: 0px 42px;
-  margin-top: 2rem;
+  margin-top: 2rem; */
 }
 .dashboard_charts section p {
   margin-bottom: 10px;
 }
 .dashboard_charts section {
+  margin-top: 20px;
   background: #711d1c0f;
   padding: 20px;
   border-radius: 4px;
   text-align: right;
-  width: 50%;
+  width: 100%;
+  height: 400px;
+}
+@media (min-width: 1024px) {
+  .dashboard_charts {
+    flex-direction: row;
+    gap: 10px;
+    padding: 0px 42px;
+    margin-top: 2rem;
+  }
+  .dashboard_charts section {
+    padding: 20px;
+    width: 50%;
+  }
 }

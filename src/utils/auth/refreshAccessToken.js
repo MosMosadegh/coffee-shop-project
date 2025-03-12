@@ -3,6 +3,7 @@ import { verifyAccessToken } from "./auth";
 
 const refreshAccessToken = async () => {
   const refreshToken = getCookie("refreshToken");
+  console.log("🚀 ~ refreshAccessToken ~ refreshToken:", refreshToken)
 
   const response = await fetch("/api/auth/refresh", {
     method: "POST",
@@ -58,3 +59,5 @@ const fetchProtectedData = async () => {
     console.error("Failed to fetch data");
   }
 };
+
+export {fetchProtectedData}

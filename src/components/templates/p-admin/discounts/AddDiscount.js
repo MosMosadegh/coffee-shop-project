@@ -10,7 +10,7 @@ function AddDiscount() {
   const [percent, setPercent] = useState("");
   const [maxUse, setMaxUse] = useState("");
   const [products, setProducts] = useState([]);
-  const [productID, setProductID] = useState(-1);
+  const [productID, setProductID] = useState("");
   const [isGlobal, setIsGlobal] = useState(false);
 
   useEffect(() => {
@@ -23,16 +23,14 @@ function AddDiscount() {
     getProduct();
   }, []);
 
-
   const submitHandler = async () => {
-
     if (!code || !percent || !maxUse) {
       swal({
         title: "لطفا همه فیلدها را پر کنید.",
         icon: "error",
         buttons: "فهمیدم",
       });
-      return; 
+      return;
     }
 
     if (products.length === 0) {
@@ -44,14 +42,13 @@ function AddDiscount() {
       return;
     }
 
-    
     if (productID === -1) {
       swal({
         title: "لطفا محصول را انتخاب کنید.",
         icon: "error",
         buttons: "فهمیدم",
       });
-      return; 
+      return;
     }
 
     const discount = {
@@ -59,9 +56,9 @@ function AddDiscount() {
       percent,
       maxUse,
       product: productID === "All" ? undefined : productID,
-      isGlobal
+      isGlobal,
     };
-   
+
     //validation with Zod 👈✍
 
     const res = await fetch("/api/discount", {
@@ -82,14 +79,14 @@ function AddDiscount() {
         setPercent("");
         setMaxUse("");
         setProductID(-1);
-        setIsGlobal(false)
+        setIsGlobal(false);
         router.refresh();
       });
     }
   };
 
   return (
-    <section className={styles.discount}>
+    <section className={`${styles.discount} text-xs md:text-sm lg:text-base`}>
       <p>افزودن کد تخفیف جدید</p>
       <div className={styles.discount_main}>
         <div>
@@ -119,27 +116,27 @@ function AddDiscount() {
             type="text"
           />
         </div>
-        <div>
+        <div className="text-xs md:text-sm lg:text-base ">
           <label>محصول</label>
-          <select
-          value={productID}
+          <input
+            value={productID}
             onChange={(e) => {
               setProductID(e.target.value);
-              if (e.target.value === "All"){
-                setIsGlobal(true)
-              }else{setIsGlobal(false)}
+              if (e.target.value === "All") {
+                setIsGlobal(true);
+              } else {
+                setIsGlobal(false);
+              }
             }}
-            name=""
-            id=""
-          >
-            <option value={-1}>لطفا محصول را انتخاب کنید </option>
-            <option value={"All"}>کل محصولات</option>
+            list="products"
+            placeholder="لطفا محصول را انتخاب کنید"
+          />
+          <datalist id="products">
+            <option value="All">کل محصولات</option>
             {products.map((item) => (
-              <option key={item._id} value={item._id}>
-                {item.name}
-              </option>
+              <option key={item._id} value={item.name} />
             ))}
-          </select>
+          </datalist>
         </div>
       </div>
       <button onClick={submitHandler}>افزودن</button>

@@ -16,20 +16,20 @@ const Layout = async ({ children }) => {
     redirect("/login-register");
   }
   const user = session.user;
+  const useRole = user.role;
   const userName = user.name ? user.name : user.phone;
-  // console.log("🚀 ~ Layout ~ userName:", userName);
 
   return (
     <>
       <NavbarWithUser />
       <div className="container">
         <Breadcrumb route={"پنل کاربری"} />
-        <div className="text-sm md:text-base lg:text-lg">
+        <div className="text-xs md:text-sm lg:text-base">
           <div className={`${styles.layout} block lg:hidden dark:bg-slate-600`}>
             <section className="">
               <div className={styles.contents}>
-                <Topbar userName={user.name} role={user.role} />
-                <Sidebar user={userName} role={user.role} />
+                <Topbar userName={user.name} role={useRole} />
+                <Sidebar user={userName} roleCheck={useRole} />
                 <div className="">{children}</div>
               </div>
             </section>
@@ -37,11 +37,11 @@ const Layout = async ({ children }) => {
           <div className={`${styles.layout} hidden lg:block dark:bg-slate-600`}>
             <section className={`${styles.section}  `}>
               <div className={styles.contents}>
-                <Topbar userName={user.name} role={user.role} />
+                <Topbar userName={user.name} role={useRole} />
                 {children}
               </div>
               <div className="">
-                <Sidebar user={userName} />
+                <Sidebar user={userName} roleCheck={useRole} />
               </div>
             </section>
           </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import styles from "./topbar.module.css";
 import { IoIosSearch, IoIosNotifications } from "react-icons/io";
 import Modal from "./Modal";
-const Topbar = ({userName, role}) => {
+const Topbar = ({ userName, role }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showModal, setShowModal] = useState(false);
 

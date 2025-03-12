@@ -14,7 +14,7 @@ const page = async () => {
         <Breadcrumb route={"قوانین"} />
         <div style={{ direction: "rtl" }}>
           <div
-            className=" text-justify p-6 lg:p-8 child:text-gray-500 child:dark:text-gray-300  "
+            className="text-xs md:text-sm lg:text-base text-justify p-6 lg:p-8 child:text-gray-500 child:dark:text-gray-300  "
             data-aos="fade-up"
           >
             <p>

@@ -12,10 +12,14 @@ import swal from "sweetalert";
 import { useRouter } from "next/navigation";
 import { refresh } from "aos";
 import { signOut } from "next-auth/react";
+import { useEffect, useState } from "react";
 
-const Sidebar = ({ user, role }) => {
+const Sidebar = ({ user, roleCheck }) => {
+
+
   const path = usePathname();
   const router = useRouter();
+
 
   const logoutHandler = () => {
     swal({
@@ -72,7 +76,7 @@ const Sidebar = ({ user, role }) => {
               <TbListDetails />
               جزئیات اکانت
             </Link>
-            {role === "ADMIN" && (
+            {roleCheck === "ADMIN" && (
               <Link href={"/p-admin"}>
               <TbListDetails />
               پنل ادمین
@@ -103,9 +107,13 @@ const Sidebar = ({ user, role }) => {
               <MdSms />
               تیکت ها
             </Link>
-            <Link href={"/p-admin/discount"}>
+            <Link href={"/p-admin/discounts"}>
               <MdOutlineAttachMoney />
               تخفیفات
+            </Link>
+            <Link href={"/p-user"}>
+              <TbListDetails />
+              پنل کاربری
             </Link>
           </>
         )}

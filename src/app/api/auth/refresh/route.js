@@ -5,11 +5,11 @@ import { verify } from "jsonwebtoken";
 import { generateAccessToken } from "@/utils/auth/auth";
 
 export async function POST(req) {
-  //console.log("🚀 ~ POST ~ Refresh token endpoint hit")
+  console.log("🚀 ~ POST ~ Refresh token endpoint hit")
   try {
     await connectToDb();
     const body = await req.json();
-    //console.log("🚀 ~ POST ~ body:", body)
+    console.log("🚀 ~ POST ~ body:", body)
     const { refreshToken } = body;
 
     if (!refreshToken) {
@@ -17,7 +17,7 @@ export async function POST(req) {
     }
 
     const user = await UserModel.findOne({ refreshToken });
-    //console.log("🚀 ~ POST ~ user:", user)
+    console.log("🚀 ~ POST ~ user:", user)
     if (!user) {
       return NextResponse.json(
         { message: "no have refresh Token" },

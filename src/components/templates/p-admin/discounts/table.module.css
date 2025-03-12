@@ -5,7 +5,7 @@
 .discount_main {
   display: grid;
   gap: 30px;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
 }
 .discount_main div {
   display: flex;
@@ -39,8 +39,17 @@
   position: relative;
   z-index: 1;
 }
-.discount label {
+/* .discount label {
   font-size: 20px;
+} */
+
+@media (min-width: 1024px) {
+  .discount_main {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: auto auto;
+  }
+  
 }
 
 

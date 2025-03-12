@@ -6,7 +6,7 @@ const page = async () => {
     <>
       <div className="container">
         <Breadcrumb route={"درباره ما"} />
-        <div className={`p-6 ${styles.containerUs}`}>
+        <div className={`p-6 text-xs md:text-sm lg:text-base ${styles.containerUs}`}>
           <section>
             <div>
               <span>درباره ما</span>

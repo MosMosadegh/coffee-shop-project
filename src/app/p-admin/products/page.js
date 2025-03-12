@@ -14,7 +14,7 @@ const page = async () => {
 
   return (
     <Layout>
-      <main>
+      <main className="container">
         <AddProduct/>
         {products.length === 0 ? (
           <p className={styles.empty}>محصولی وجود ندارد</p>

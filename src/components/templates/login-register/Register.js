@@ -60,7 +60,6 @@ const Register = ({ showLoginForm }) => {
 
     const data = await response.json();
     if (response.ok) {
-      // ثبت‌نام موفق، کاربر را وارد سیستم کنید
       const result = await signIn("credentials", {
         email: data.user.email,
         password,
@@ -68,7 +67,6 @@ const Register = ({ showLoginForm }) => {
       });
 
       if (result.ok) {
-        // هدایت کاربر به صفحه پنل کاربری
         router.replace("p-user");
       } else {
         alert("Login failed after signup!");

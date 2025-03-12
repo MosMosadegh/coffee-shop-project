@@ -14,7 +14,7 @@ const verifyPassword = async (password, hashedPassword) => {
 const generateAccessToken = (data) => {
   const token = sign({ ...data }, process.env.AccessTokenSecretKey, {
     // algorithm: ''
-    expiresIn: "1800s",
+    expiresIn: "120s",
   });
   return token;
 };
@@ -24,7 +24,7 @@ const verifyAccessToken = (token) => {
     const tokenPayload = verify(token, process.env.AccessTokenSecretKey);
     return tokenPayload;
   } catch (err) {
-    //console.log("Verify Access Token Error =>", err);
+    console.log("Verify Access Token Error =>", err);
     return false;
   }
 };
