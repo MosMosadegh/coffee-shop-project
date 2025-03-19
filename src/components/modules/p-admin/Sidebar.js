@@ -4,36 +4,16 @@ import { ImReply } from "react-icons/im";
 import { FaComments, FaHeart, FaShoppingBag, FaUsers } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { MdSms, MdLogout } from "react-icons/md";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { TbListDetails } from "react-icons/tb";
 import Link from "next/link";
-import swal from "sweetalert";
+import logout from "@/utils/auth/logout";
 
-const Sidebar = ({adminName}) => {
+const Sidebar = ({ adminName }) => {
   const path = usePathname();
-  const router = useRouter()
 
   const logoutHandler = () => {
-    swal({
-      title: "آیا از خروج اطمینان دارید؟",
-      icon: "warning",
-      buttons: ["نه", "آره"],
-    }).then(async(result) => {
-      if(result){
-        const res = await fetch('/api/auth/signout', {
-          method: "POST"
-        })
-        if(res.status === 200){
-          swal({
-            title: "شما با موفقیت از حساب کاربری خو خارج شدید.",
-            icon: "warning",
-            buttons: "متوجه شدم",
-          }).then(()=>{
-            router.replace('/home')
-          })
-        }
-      }
-    });
+    logout();
   };
   return (
     <aside className={styles.sidebar}>

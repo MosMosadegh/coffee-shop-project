@@ -68,7 +68,7 @@ export default function NavMobile({ isShowNavMobile, setIsShowNavMobile,isUserLo
           </div>
           <div>
             {isShowSubmenu && (
-              <div className="submenu">
+              <div className="submenu flex flex-col">
                 <a href="#">قهوه ویژه</a>
                 <a href="#">ویژه در سطح جهانی</a>
                 <a href="#">قهوه درجه یک</a>

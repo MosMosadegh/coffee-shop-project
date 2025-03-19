@@ -8,40 +8,13 @@ import { MdSms, MdLogout } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import { TbListDetails } from "react-icons/tb";
 import Link from "next/link";
-import swal from "sweetalert";
-import { useRouter } from "next/navigation";
-import { refresh } from "aos";
-import { signOut } from "next-auth/react";
-import { useEffect, useState } from "react";
+import logout from "@/utils/auth/logout";
 
 const Sidebar = ({ user, roleCheck }) => {
-
-
   const path = usePathname();
-  const router = useRouter();
-
 
   const logoutHandler = () => {
-    swal({
-      title: "آیا از خروج اطمینان دارید؟",
-      icon: "warning",
-      buttons: ["نه", "آره"],
-    }).then(async (result) => {
-      if (result) {
-        const res = await fetch("/api/auth/signout", {
-          method: "POST",
-        });
-        if (res.status === 200) {
-          swal({
-            title: "شما با موفقیت از حساب کاربری خود خارج شدید.",
-            icon: "warning",
-            buttons: "متوجه شدم",
-          }).then(() => {
-            router.replace("/home");
-          });
-        }
-      }
-    });
+    logout();
   };
 
   return (
@@ -78,9 +51,9 @@ const Sidebar = ({ user, roleCheck }) => {
             </Link>
             {roleCheck === "ADMIN" && (
               <Link href={"/p-admin"}>
-              <TbListDetails />
-              پنل ادمین
-            </Link>
+                <TbListDetails />
+                پنل ادمین
+              </Link>
             )}
           </>
         ) : (

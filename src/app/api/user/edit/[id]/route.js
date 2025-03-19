@@ -1,13 +1,14 @@
 import connectToDb from "@/configs/db";
 import UserModel from "@/models/User";
-import { authAdmin } from "@/utils/isLogin";
 import validateUser from "@/validations/user";
 
 export async function PUT(req, { params }) {
   try {
-    const isAdmin = await authAdmin()
-    if(!isAdmin){
-      throw new Error("This Api is protected")
+    const session = await getServerSession(authOptions);
+    if (session?.user?.role !== "ADMIN") {
+      return new Response(JSON.stringify({ message: "This API is protected" }), {
+        status: 403,
+      });
     }
     
     await connectToDb();

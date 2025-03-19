@@ -11,12 +11,12 @@ import { redirect } from "next/navigation";
 
 const Layout = async ({ children }) => {
   const session = await getServerSession(authOptions);
-  // console.log("🚀 ~ Layout ~ session:", session);
+  console.log("🚀 ~ Layout ~ session:", session)
   if (!session.user.role) {
     redirect("/login-register");
   }
+
   const user = session.user;
-  const useRole = user.role;
   const userName = user.name ? user.name : user.phone;
 
   return (
@@ -28,8 +28,8 @@ const Layout = async ({ children }) => {
           <div className={`${styles.layout} block lg:hidden dark:bg-slate-600`}>
             <section className="">
               <div className={styles.contents}>
-                <Topbar userName={user.name} role={useRole} />
-                <Sidebar user={userName} roleCheck={useRole} />
+                <Topbar userName={userName} role={user.role} />
+                <Sidebar user={userName} roleCheck={user.role} />
                 <div className="">{children}</div>
               </div>
             </section>
@@ -37,11 +37,11 @@ const Layout = async ({ children }) => {
           <div className={`${styles.layout} hidden lg:block dark:bg-slate-600`}>
             <section className={`${styles.section}  `}>
               <div className={styles.contents}>
-                <Topbar userName={user.name} role={useRole} />
+                <Topbar userName={userName} role={user.role} />
                 {children}
               </div>
               <div className="">
-                <Sidebar user={userName} roleCheck={useRole} />
+                <Sidebar user={userName} roleCheck={user.role} />
               </div>
             </section>
           </div>

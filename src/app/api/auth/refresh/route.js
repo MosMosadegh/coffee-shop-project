@@ -5,12 +5,10 @@ import { verify } from "jsonwebtoken";
 import { generateAccessToken } from "@/utils/auth/auth";
 
 export async function POST(req) {
-  console.log("🚀 ~ POST ~ Refresh token endpoint hit")
+  // console.log("🚀 ~ POST ~ Refresh token endpoint hit")
   try {
     await connectToDb();
-    const body = await req.json();
-    console.log("🚀 ~ POST ~ body:", body)
-    const { refreshToken } = body;
+    const { refreshToken } = await req.json();
 
     if (!refreshToken) {
       return NextResponse.json({ message: "No refresh token" }, { status: 401 });

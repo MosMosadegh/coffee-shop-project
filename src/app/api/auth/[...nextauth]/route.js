@@ -8,6 +8,7 @@ import {
   validatePhone,
   verifyPassword,
 } from "@/utils/auth/auth";
+import { sign, verify } from "jsonwebtoken";
 import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
@@ -157,17 +158,23 @@ export const authOptions = {
       if (token.accessToken) {
         try {
           verify(token.accessToken, process.env.AccessTokenSecretKey);
+          console.log("Verify  ...............")
         } catch (err) {
           if (err.name === "TokenExpiredError") {
-            const user = await UserModel.findOne({
-              refreshToken: token.refreshToken,
-            }).lean();
+            console.log("Start Refreshing..............")
+            const response = await fetch(
+              `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ refreshToken: token.refreshToken }),
+              }
+            );
 
-            if (user) {
-              const payload = user.phone
-                ? { phone: user.phone }
-                : { email: user.email };
-              const newAccessToken = generateAccessToken(payload);
+            if (response.ok) {
+              const { newAccessToken } = await response.json();
               token.accessToken = newAccessToken;
             }
           }

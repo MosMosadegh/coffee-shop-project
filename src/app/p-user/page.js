@@ -13,9 +13,9 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
-  if (!session) {
-    redirect("/login-register");
-  }
+  // if (!session) {
+  //   redirect("/login-register");
+  // }
   const user = session.user;
 
   const ticket = await TicketModel.find({ user: user.id })

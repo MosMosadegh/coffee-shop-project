@@ -11,26 +11,10 @@ function AccountDetails() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
-
   useEffect(() => {
     const getUser = async () => {
       let res = await fetch("/api/auth/me");
 
-      // if (res.status === 401) {
-      //   const response = await fetch("/api/auth/refresh", {
-      //     method: "POST",
-      //     credentials: "include",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({ refreshToken }),
-      //   });
-      //   if (!response.ok) {
-      //     console.error("Failed to refresh token");
-      //     return null; // در صورت ناموفق بودن تولید Access Token جدید
-      //   }
-      //   res = await fetch("/api/auth/me");
-      // }
       if (res.status === 200) {
         const data = await res.json();
         setName(data.name);
@@ -38,6 +22,7 @@ function AccountDetails() {
         setPhone(data.phone);
       }
     };
+
     getUser();
   }, []);
 
@@ -130,7 +115,9 @@ function AccountDetails() {
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                 />
-                <button className="lg:text-sm xl:text-lg">تغییر رمز عبور</button>
+                <button className="lg:text-sm xl:text-lg">
+                  تغییر رمز عبور
+                </button>
               </div>
             </div>
           </section>

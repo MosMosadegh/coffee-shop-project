@@ -17,18 +17,7 @@ export async function POST(req) {
     if (!result.success) {
       return res.status(400).send(result.error.errors[0].message);
     }
-
     const { name, email, phone } = body;
-
-    const payload = phone ? { phone: user.phone } : { email: user.email };
-    const accessToken = generateAccessToken(payload);
-    const refreshToken = generateRefreshToken(payload);
-
-    await UserModel.findOneAndUpdate(payload, {
-      $set: {
-        refreshToken,
-      },
-    }).lean();
 
     await UserModel.findOneAndUpdate(
       { _id: user.id },

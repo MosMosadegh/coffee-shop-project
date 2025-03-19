@@ -6,6 +6,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FaShoppingCart, FaRegHeart } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import ThemeToggle from "../theme/ThemeToggle";
+import logout from "@/utils/auth/logout";
 
 function Navbar({ user }) {
   const [fixTop, setFixTop] = useState(false);
@@ -43,6 +44,10 @@ function Navbar({ user }) {
     window.addEventListener("scroll", fixNavbarToTop);
     return () => window.removeEventListener("scroll", fixNavbarToTop);
   }, []);
+
+  const logoutHandler = () => {
+    logout()
+ }
 
   return (
     <div className="container">
@@ -100,6 +105,7 @@ function Navbar({ user }) {
                         <Link href="/p-user/comments">کامنت‌ها</Link>
                         <Link href="/p-user/wishlist">علاقه‌مندی‌ها</Link>
                         <Link href="/p-user/account-details">جزئیات اکانت</Link>
+                        <button onClick={logoutHandler}>خروج</button>
                       </div>
                     </div>
 
